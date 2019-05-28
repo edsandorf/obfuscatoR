@@ -1,0 +1,11 @@
+Package: obfuscatoR
+Type: Package
+Title: Creates Designs for the Obfuscation Game
+Version: 0.1.1
+Author: Erlend Dancke Sandorf
+Maintainer: Erlend Dancke Sandorf <e.d.sandorf@stir.ac.uk>
+Description: This package creates designs for the obfuscation game. It has a simple interface where you specify the number of strategies and outcomes. Given a set of constraints, feasible designs are provided that can be readily implemented to replicate results or extend the game to test new types of behavior.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
