@@ -3,6 +3,7 @@
 #' This function is used to calculate Shannon's Entropy. The objective of the decision maker is to maximize the entropy of the observer.
 #' @param rule_action_matrix A matrix with rows equal to the number of rules and columns equal to the number of actions
 #' @param priors A vector of priors. Defaults to NULL and uninformative priors 1/R is used.
+#' @export
 
 calculate_entropy <- function(rule_action_matrix, priors = NULL){
     if(is.null(rule_action_matrix)) stop("The matrix with rules must be supplied!")
@@ -47,3 +48,52 @@ calculate_entropy <- function(rule_action_matrix, priors = NULL){
                 prob_rule_action = prob_rule_action,
                 entropy = entropy))
 }
+
+#' Function for calculaton the pay to the observer
+#' 
+#' This function is used to calculate the expected pay to the observer
+#' @param prob_rule_action A matrix containing the conditional probability of a rule given an observed action.
+#'  This matrix is an output from \code{\link{calculate_entropy}}. 
+#' @param pay_observer The pay to the observer for guessing correctly. Usually passed through design_opt 
+#' @return A vector of expected pays for each possible guess
+
+calculate_pay_observer <- function(prob_rule_action, pay_observer){
+    tmp <- Rfast::rowMaxs(prob_rule_action, value = TRUE) * pay_observer
+    names(tmp) <- str_c("E[Pay|", seq_len(ncol(prob_rule_action)), "]", sep = "")
+    return(tmp)
+}
+
+#' Function for calculaton the pay to the decision maker
+#' 
+#' This function is used to calculate the expected pay to the decision maker
+#' @param prob_guessing The probability that the observer will make a guess. This vector is passed from \code{\link{calculate_prob_guess}}.
+#' @param pay_decision_maker The pay to the decision maker if the observer does not make a guess.
+#' @return A vector of expected pays for each possible guess
+
+calculate_pay_decision_maker <- function(prob_guessing, pay_decision_maker){
+    tmp <- (1 - prob_guessing) * pay_decision_maker
+    names(tmp) <- str_c("E[Pay|", seq_len(length(prob_guessing)), "]", sep = "")
+    return(tmp)
+}
+
+#' Function for calculating the probability of guessing
+#' 
+#' This function is used to calculate the probability that the observer will make a guess 
+#' as to what rule governs a decision maker's action.
+#' 
+#' @param expected_pay_observer Vectro of expected pay calculated by \code{\link{calculate_pay_observer}}.
+#' @param pay_observer_no_guess The payout to the observer if she refrains from guessing
+#' @param design_opt A list of design options that govern the creation of the obfuscation games. 
+
+calculate_prob_guess <- function(expected_pay_observer, pay_observer_no_guess, design_opt){
+    pay_diff <- expected_pay_observer - pay_observer_no_guess
+    if(design_opt$deterministic){
+        tmp <- as.numeric(pay_diff > 0) + as.numeric(pay_diff == 0) * 0.5
+    } else {
+        tmp <- 1 / (1 + exp(-(pay_diff)))
+    }
+    
+    names(tmp) <- str_c("Pr[G|", seq_len(length(expected_pay_observer)), "]", sep = "")
+    return(tmp)
+}
+
