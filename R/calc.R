@@ -1,65 +1,128 @@
-#' Function for calculating Shannon's Entropy
+#' Calculate Pr(a_j|r_k)
+#' 
+#' The function calculates the probability of an action conditional on a given
+#' rule. The function is for internal use only and cannot be called externally.
+#' The resulting matrix will be supplied as an attribute to the entropy measure
+#' see \code{\link{calc_entropy}}. 
+#' 
+#' @references 
+#' Equation X in Chorus et al. (xxxx)
 #'
-#' This function is used to calculate Shannon's Entropy. The objective of the decision maker is to maximize the entropy of the observer.
-#' @param rule_action_matrix A matrix with rows equal to the number of rules and columns equal to the number of actions
-#' @param priors A vector of priors. Defaults to NULL and uninformative priors 1/R is used.
+#' @inheritParams calc_entropy
+#' 
+#' @return An r x a matrix of probabilities 
+
+calc_pr_aj_rk <- function(ra_mat) {
+    rows <- nrow(ra_mat)
+    cols <- ncol(ra_mat)
+    
+    pr_aj_rk <- matrix(ra_mat >= 0) +
+        (matrix(ra_mat == 0) * (1 / Rfast::rowsums(ra_mat >= 0)))
+    
+    rownames(pr_aj_rk) <- paste0("R", seq_len(rows))
+    colnames(pr_aj_rk) <- paste0("A", seq_len(cols))
+    return(pr_aj_rk)
+}
+
+#' Calculate Pr(r_k|a_j)
+#' 
+#' The function calculates the probability of a rule conditional on observing
+#' a given action. The function is for internal use only and cananot be called
+#' externally. The resulting matrix will be supplied as an attribute to the 
+#' entropy measure see \code{\link{calc_entropy}}. 
+#' 
+#' @references 
+#' Equation X in Chorus et al. (xxxx)
+#'
+#' @param pr_aj_rk A matrix with the probabilities of actions conditional on a
+#' given rule. Calculated using \code{\link{calc_pr_aj_rk}}
+#' @inheritParams calc_entropy
+#' 
+#' @return An r x a matrix of probabilities 
+
+calc_pr_rk_aj <- function(pr_aj_rk, priors) {
+    rows <- nrow(pr_aj_rk)
+    cols <- ncol(pr_aj_rk)
+    
+    tmp <- pr_aj_rk * priors
+    pr_rk_aj <- t(t(tmp) / Rfast::colsums(tmp))
+    
+    rownames(pr_rk_aj) <- paste0("R", seq_len(rows))
+    colnames(pr_rk_aj) <- paste0("A", seq_len(cols))
+    return(pr_rk_aj)
+}
+
+#' Calculate Shannon's Entropy
+#' 
+#' This function is used to calculate Shannon's Entropy. The objective of the 
+#' decision maker is to maximize the entropy of the observer. 
+#'
+#' @param ra_mat A matrix with rows equal to the number of rules and columns
+#'  equal to the number of actions
+#' @param priors A vector of prior probabilities. Defaults to NULL.
+#' 
+#' @return Returns a vector of entropies for each possible action with the
+#' following attributes:
+#' \enumerate{
+#'   \item ra_mat
+#'   \item priors
+#'   \item pr_aj_rk
+#'   \item pr_rk_aj
+#' }
+#' 
+#' 
 #' @export
 
-calculate_entropy <- function(rule_action_matrix, priors = NULL){
-    if(is.null(rule_action_matrix)) stop("The matrix with rules must be supplied!")
-    if(length(priors) != nrow(rule_action_matrix)) stop("The length of the vector of priors is not equal to the number of rules!")
-
-    rows <- nrow(rule_action_matrix)
-    columns <- ncol(rule_action_matrix)
-
-    names_rows <- str_c("R", seq_len(rows), sep = "")
-    names_cols <- str_c("A", seq_len(columns), sep = "")
-    rownames(rule_action_matrix) <- names_rows
-    colnames(rule_action_matrix) <- names_cols
-
-
-    #   Calculate Pr(a_j|r_k)
-    prob_action_rule <- matrix(rule_action_matrix >= 0, nrow = rows) + (matrix(rule_action_matrix == 0, nrow = rows) * (1 / Rfast::rowsums(rule_action_matrix >= 0)))
-    rownames(prob_action_rule) <- names_rows
-    colnames(prob_action_rule) <- names_cols
-
-    #   Check if Pr(r_k) is supplied, if not use uninformed priors
-    if(is.null(priors)){
-        priors <- rep((1 / rows), times = rows)
-        names(priors) <- names_rows
+calc_entropy <- function(ra_mat, priors = NULL) {
+    if (is.null(ra_mat)) stop("You must supply a matrix of rules and actions.")
+    if (priors != NULL && length(priors) != nrow(ra_mat)) {
+        stop("The length of priors is not equal to the number of rules.")
     }
-
+    
+    #   Define the dimensions of ra_mat
+    rows <- nrow(ra_mat)
+    cols <- ncol(ra_mat)
+    
+    #   Calculate the Pr(a_j|r_k)
+    pr_aj_rk <- calc_pr_aj_rk(ra_mat)
+    
+    #   Check priors
+    if (is.null(priors)) {
+        priors <- rep((1 / rows), times = rows)
+        names(priors) <- paste0("R", seq_len(rows))
+    }
+    
     #   Calculate Pr(r_k|a_j)
-    tmp_matrix <- prob_action_rule * priors
-    prob_rule_action <- t(t(tmp_matrix) / Rfast::colsums(tmp_matrix))
-    rownames(prob_rule_action) <- names_rows
-    colnames(prob_rule_action) <- names_cols
-
+    pr_rk_aj <- calc_pr_rk_aj(pr_aj_rk, priors)
+    
     #   Calculate Shannon's Entropy
-    tmp_matrix <- prob_rule_action * log(prob_rule_action, base = 10)
-    tmp_matrix[is.nan(tmp_matrix)] <- 0
-    entropy <- -Rfast::colsums(tmp_matrix)
-    names(entropy) <- names_cols
-
-    #   Place in a list and return
-    return(list(rule_action_matrix = rule_action_matrix,
-                prob_action_rule = prob_action_rule,
-                priors = priors,
-                prob_rule_action = prob_rule_action,
-                entropy = entropy))
+    tmp <- pr_rk_aj * log(pr_rk_aj, base = 10)
+    tmp[is.nan(tmp)] <- 0
+    entropy <- -Rfast::colsums(tmp)
+    names(entropy) <- paste0("A", seq_len(cols))
+    
+    #   Attache attributes
+    attributes(entropy) <- list(ra_mat = ra_mat,
+                                priors = priors,
+                                pr_aj_rk = pr_aj_rk,
+                                pr_rk_aj = pr_rk_aj)
+    
+    return(entropy)
 }
+# WRITE TEST FOR ENTROPY USING A KNOWN MATRIX!
+
 
 #' Function for calculaton the pay to the observer
 #' 
 #' This function is used to calculate the expected pay to the observer
 #' @param prob_rule_action A matrix containing the conditional probability of a rule given an observed action.
-#'  This matrix is an output from \code{\link{calculate_entropy}}. 
+#'  This matrix is an output from . 
 #' @param pay_observer The pay to the observer for guessing correctly. Usually passed through design_opt 
 #' @return A vector of expected pays for each possible guess
 
 calculate_pay_observer <- function(prob_rule_action, pay_observer){
     tmp <- Rfast::rowMaxs(prob_rule_action, value = TRUE) * pay_observer
-    names(tmp) <- str_c("E[Pay|", seq_len(ncol(prob_rule_action)), "]", sep = "")
+    names(tmp) <- paste("E[Pay|", seq_len(ncol(prob_rule_action)), "]", sep = "")
     return(tmp)
 }
 
@@ -72,7 +135,7 @@ calculate_pay_observer <- function(prob_rule_action, pay_observer){
 
 calculate_pay_decision_maker <- function(prob_guessing, pay_decision_maker){
     tmp <- (1 - prob_guessing) * pay_decision_maker
-    names(tmp) <- str_c("E[Pay|", seq_len(length(prob_guessing)), "]", sep = "")
+    names(tmp) <- paste("E[Pay|", seq_len(length(prob_guessing)), "]", sep = "")
     return(tmp)
 }
 
@@ -93,7 +156,7 @@ calculate_prob_guess <- function(expected_pay_observer, pay_observer_no_guess, d
         tmp <- 1 / (1 + exp(-(pay_diff)))
     }
     
-    names(tmp) <- str_c("Pr[G|", seq_len(length(expected_pay_observer)), "]", sep = "")
+    names(tmp) <- paste("Pr[G|", seq_len(length(expected_pay_observer)), "]", sep = "")
     return(tmp)
 }
 

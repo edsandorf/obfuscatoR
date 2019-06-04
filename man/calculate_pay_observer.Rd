@@ -8,7 +8,7 @@ calculate_pay_observer(prob_rule_action, pay_observer)
 }
 \arguments{
 \item{prob_rule_action}{A matrix containing the conditional probability of a rule given an observed action.
-This matrix is an output from \code{\link{calculate_entropy}}.}
+This matrix is an output from .}
 
 \item{pay_observer}{The pay to the observer for guessing correctly. Usually passed through design_opt}
 }

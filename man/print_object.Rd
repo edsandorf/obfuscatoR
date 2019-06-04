@@ -7,7 +7,11 @@
 print_object(X, row_wise = FALSE, digits = 2)
 }
 \arguments{
-\item{X}{A vector or matrix to be printed}
+\item{X}{Input matrix}
+
+\item{row_wise}{If TRUE populate something row_wise. Default FALSE}
+
+\item{digits}{Number of digits for rounding}
 }
 \description{
 Function for printing vectors and matrices
