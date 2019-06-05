@@ -120,7 +120,7 @@ calc_entropy <- function(ra_mat, priors = NULL) {
 #' @return A vector of expected pays for each possible guess
 
 calc_payout_obs <- function(pr_rk_aj, pay_obs) {
-    tmp <- Rfast::rowMaxs(pr_rk_aj, value = TRUE) * pay_obs
+    tmp <- Rfast::colMaxs(pr_rk_aj, value = TRUE) * pay_obs
     names(tmp) <- paste0("E[Pay|", seq_len(ncol(pr_rk_aj)), "]")
     return(tmp)
 }
