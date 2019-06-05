@@ -16,8 +16,10 @@ calc_pr_aj_rk <- function(ra_mat) {
     rows <- nrow(ra_mat)
     cols <- ncol(ra_mat)
     
-    pr_aj_rk <- matrix(ra_mat >= 0) +
-        (matrix(ra_mat == 0) * (1 / Rfast::rowsums(ra_mat >= 0)))
+    tmp_01 <- matrix(as.numeric(ra_mat > 0), nrow = rows)
+    tmp_02 <- matrix(as.numeric(ra_mat == 0), nrow = rows)
+    
+    pr_aj_rk <- tmp_01 + tmp_02 * (1 / Rfast::rowsums(ra_mat >= 0))
     
     rownames(pr_aj_rk) <- paste0("R", seq_len(rows))
     colnames(pr_aj_rk) <- paste0("A", seq_len(cols))
@@ -70,12 +72,11 @@ calc_pr_rk_aj <- function(pr_aj_rk, priors) {
 #'   \item pr_rk_aj
 #' }
 #' 
-#' 
 #' @export
 
 calc_entropy <- function(ra_mat, priors = NULL) {
     if (is.null(ra_mat)) stop("You must supply a matrix of rules and actions.")
-    if (priors != NULL && length(priors) != nrow(ra_mat)) {
+    if (!is.null(priors) && length(priors) != nrow(ra_mat)) {
         stop("The length of priors is not equal to the number of rules.")
     }
     
@@ -98,65 +99,75 @@ calc_entropy <- function(ra_mat, priors = NULL) {
     #   Calculate Shannon's Entropy
     tmp <- pr_rk_aj * log(pr_rk_aj, base = 10)
     tmp[is.nan(tmp)] <- 0
-    entropy <- -Rfast::colsums(tmp)
-    names(entropy) <- paste0("A", seq_len(cols))
-    
-    #   Attache attributes
-    attributes(entropy) <- list(ra_mat = ra_mat,
-                                priors = priors,
-                                pr_aj_rk = pr_aj_rk,
-                                pr_rk_aj = pr_rk_aj)
+    entropy <- structure(-Rfast::colsums(tmp),
+                         names = paste0("A", seq_len(cols)),
+                         ra_mat = ra_mat,
+                         priors = priors,
+                         pr_aj_rk = pr_aj_rk,
+                         pr_rk_aj = pr_rk_aj)
     
     return(entropy)
 }
-# WRITE TEST FOR ENTROPY USING A KNOWN MATRIX!
 
-
-#' Function for calculaton the pay to the observer
+#' Calculate expected payout to the observer
 #' 
-#' This function is used to calculate the expected pay to the observer
-#' @param prob_rule_action A matrix containing the conditional probability of a rule given an observed action.
-#'  This matrix is an output from . 
-#' @param pay_observer The pay to the observer for guessing correctly. Usually passed through design_opt 
+#' The function calculates the expected payout to the observer.
+#' 
+#' @param pr_rk_aj A matrix with the probabilities of a rule conditional on an
+#' observed action
+#' @param pay_obs The pay to the observer for guessing correctly.
+#'  
 #' @return A vector of expected pays for each possible guess
 
-calculate_pay_observer <- function(prob_rule_action, pay_observer){
-    tmp <- Rfast::rowMaxs(prob_rule_action, value = TRUE) * pay_observer
-    names(tmp) <- paste("E[Pay|", seq_len(ncol(prob_rule_action)), "]", sep = "")
+calc_payout_obs <- function(pr_rk_aj, pay_obs) {
+    tmp <- Rfast::rowMaxs(pr_rk_aj, value = TRUE) * pay_obs
+    names(tmp) <- paste0("E[Pay|", seq_len(ncol(pr_rk_aj)), "]")
     return(tmp)
 }
 
-#' Function for calculaton the pay to the decision maker
+#' Calculate expected payout to the decision maker
 #' 
-#' This function is used to calculate the expected pay to the decision maker
-#' @param prob_guessing The probability that the observer will make a guess. This vector is passed from \code{\link{calculate_prob_guess}}.
-#' @param pay_decision_maker The pay to the decision maker if the observer does not make a guess.
-#' @return A vector of expected pays for each possible guess
+#' The function calculates the expected payout to the decision maker.
+#' 
+#' @param pr_guess A vector with the probability that the observer will make a 
+#' guess. 
+#' @param pay_dm The pay to the decision maker if the observer does 
+#' not make a guess.
+#' 
+#' @return A vector of expected payouts for each possible guess made by the
+#'  observer
 
-calculate_pay_decision_maker <- function(prob_guessing, pay_decision_maker){
-    tmp <- (1 - prob_guessing) * pay_decision_maker
-    names(tmp) <- paste("E[Pay|", seq_len(length(prob_guessing)), "]", sep = "")
+calc_payout_dm <- function(pr_guess, pay_dm) {
+    tmp <- (1 - pr_guess) * pay_dm
+    names(tmp) <- paste0("E[Pay|", seq_len(length(pr_guess)), "]")
     return(tmp)
 }
 
-#' Function for calculating the probability of guessing
+#' Calculate the probability that the observer will try to guess the rule
 #' 
-#' This function is used to calculate the probability that the observer will make a guess 
-#' as to what rule governs a decision maker's action.
+#' The function calculates the probability that an observer will try to make a
+#' guess at which rule governs the decision maker's actions. 
 #' 
-#' @param expected_pay_observer Vectro of expected pay calculated by \code{\link{calculate_pay_observer}}.
-#' @param pay_observer_no_guess The payout to the observer if she refrains from guessing
-#' @param design_opt A list of design options that govern the creation of the obfuscation games. 
+#' @param expected_payout_obs Vector of expected payout to the observer from 
+#' guessing
+#' @param payout_obs_no_guess The payout to the observer from not guessing
+#' @param deterministic A boolean equal to TRUE if we treat the decision to
+#' guess as deterministic. Defaults to TRUE. 
+#' 
+#' @return A vector with the probabilities that an observer will guess
 
-calculate_prob_guess <- function(expected_pay_observer, pay_observer_no_guess, design_opt){
-    pay_diff <- expected_pay_observer - pay_observer_no_guess
-    if(design_opt$deterministic){
+calc_pr_guess <- function(expected_payout_obs, payout_obs_no_guess,
+                          deterministic){
+    
+    pay_diff <- expected_payout_obs - payout_obs_no_guess
+    
+    if (deterministic) {
         tmp <- as.numeric(pay_diff > 0) + as.numeric(pay_diff == 0) * 0.5
     } else {
         tmp <- 1 / (1 + exp(-(pay_diff)))
     }
     
-    names(tmp) <- paste("Pr[G|", seq_len(length(expected_pay_observer)), "]", sep = "")
+    names(tmp) <- paste0("Pr[G|", seq_len(length(expected_payout_obs)), "]")
     return(tmp)
 }
 
