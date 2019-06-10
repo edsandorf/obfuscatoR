@@ -130,8 +130,8 @@ construct_ra_mat <- function(design_opt) {
     
     #   Add row- and colnames prior to returning ra_mat
     ra_mat <- structure(ra_mat,
-                        rownames = paste0("R", seq_len(rules)),
-                        colnames = paste0("A", seq_len(actions)),
+                        dimnames = list(paste0("R", seq_len(rules)),
+                                        paste0("A", seq_len(actions))),
                         iter = iter_counter)
     return(ra_mat)
 }
