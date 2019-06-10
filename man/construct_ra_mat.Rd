@@ -4,10 +4,10 @@
 \alias{construct_ra_mat}
 \title{Function to create a rule-action matrix}
 \usage{
-construct_ra_mat(design_opt_input)
+construct_ra_mat(design_opt)
 }
 \arguments{
-\item{design_opt_input}{A list of user supplied design options}
+\item{design_opt}{List of design options}
 }
 \value{
 A rules-action matrix
@@ -32,6 +32,9 @@ design_opt_input <- list(rules = 5,
                          obligatory = 2,
                          sd_entropy = 0.15)
 
-construct_ra_mat(design_opt_input)
+#   Check design_opt_input
+design_opt <- check_design_opt(design_opt_input)
+
+construct_ra_mat(design_opt)
 
 }
