@@ -18,10 +18,11 @@ construct_ra_mat <- function(design_opt) {
     min_a <- design_opt$min
     max_a <- design_opt$max
     o_rules <- design_opt$obligatory
+    c_rule <- design_opt$considered_rule
     
     #   Create the full factorial of allowed and prohibited actions
     action_list <- lapply(seq_len(actions), function(a){
-        c(1, 0)
+        c(-1, 0)
     })
     action_mat <- as.matrix(expand.grid(action_list))
     
@@ -40,7 +41,7 @@ construct_ra_mat <- function(design_opt) {
     obligatory_mat <- matrix(-1, nrow = actions, ncol = actions)
     diag(obligatory_mat) <- 1
 
-    #   Evaluate and update the matrix
+    #   Evaluate and update the matrix subject to a set of restrictions
     design_conditions <- rep(FALSE, 7)
     iter_counter <- 1
     while (any(design_conditions == FALSE)) {
@@ -55,7 +56,51 @@ construct_ra_mat <- function(design_opt) {
         ra_mat <- ra_mat[sample(nrow(ra_mat)), ]
         
         #   Condition 1 - The considered rule cannot have an obligated action
+        design_conditions[1L] <- ifelse(any(ra_mat[c_rule, ] == 1), FALSE, TRUE)
         
+        #   Condition 2 - No action can be forbidden by every rule
+        tmp <- abs(Rfast::colsums(ra_mat)) == rules
+        design_conditions[2L] <- ifelse(any(tmp), FALSE, TRUE)
+        
+        #   Condition 3 - Allowable actions need to fit a min_a rules
+        tmp <- which(ra_mat[c_rule, ] == 0)
+        if (length(tmp) == 0) {
+            design_conditions[3L] <- FALSE
+        } else {
+            #   rules - forbidden = allowed < min_allowed
+            tmp <- (rules - Rfast::colsums(ra_mat[, tmp] == -1)) < min_a
+            design_conditions[3L] <- ifelse(any(tmp), FALSE, TRUE)
+        }
+        
+        #   Condition 4 - No duplicate actions allowed
+        design_conditions[4L] <- ifelse(anyDuplicated(ra_mat, MARGIN = 2),
+                                        FALSE, TRUE)
+        
+        #   Conditions 5 - 7 iff Condition 2 holdsd
+        if (design_conditions[2L]) {
+            #   Calculate the entropy
+            entropy <- calc_entropy(ra_mat)
+            i_max <- which(entropy == max(entropy))
+            
+            #   Cannot have more than one entropy max action
+            if (length(i_max) == 1) {
+                #   Condition 5 - max(entropy) must be permitted by c_rule
+                design_conditions[5L] <- ifelse(ra_mat[c_rule, i_max] == -1,
+                                                FALSE, TRUE)
+                
+                #   Condition 6 - the max entropy action has min pr_rk_aj
+                max_post <- Rfast::colMaxs(attr(entropy, "pr_rk_aj"), value = TRUE)
+                design_conditions[6L] <- ifelse(max_post[i_max] == min(max_post),
+                                                TRUE, FALSE)
+            }
+            
+            #   Condition 7 - ensure spread of the entropy measure
+            design_conditions[7L] <- ifelse(sd(entropy) < design_opt$sd_entropy,
+                                            FALSE, TRUE)
+            } else {
+                design_conditions[5L] <- FALSE
+                design_conditions[6L] <- FALSE
+        }
         
         #   Check iterations and break if exceeds
         iter_counter <- iter_counter + 1
@@ -66,7 +111,9 @@ construct_ra_mat <- function(design_opt) {
     }
     
     #   Add row- and colnames prior to returning ra_mat
-    rownames(ra_mat) <- paste0("R", seq_len(rules))
-    colnames(ra_mat) <- paste0("A", seq_len(actions))
+    ra_mat <- structure(ra_mat,
+                        rownames = paste0("R", seq_len(rules)),
+                        colnames = paste0("A", seq_len(actions)),
+                        iter = iter_counter)
     return(ra_mat)
 }

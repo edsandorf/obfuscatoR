@@ -170,4 +170,3 @@ calc_pr_guess <- function(expected_payout_obs, payout_obs_no_guess,
     names(tmp) <- paste0("Pr[G|", seq_len(length(expected_payout_obs)), "]")
     return(tmp)
 }
-
