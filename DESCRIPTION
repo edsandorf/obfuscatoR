@@ -11,7 +11,8 @@ LazyData: true
 Imports:
     Rfast,
     stats,
-    matrixStats
+    matrixStats,
+    stringr
 Suggests:
     testthat
 RoxygenNote: 6.1.1
