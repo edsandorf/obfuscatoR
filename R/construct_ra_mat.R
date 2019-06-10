@@ -8,11 +8,28 @@
 #' 
 #' The function is for internal use only and not exported
 #' 
-#' @param design_opt A list of design options 
+#' @inheritParams check_design_opt
+#' 
+#' @examples 
+#' design_opt_input <- list(rules = 5,
+#'                          actions = 5,
+#'                          considered_rule = 5,
+#'                          min = 2, 
+#'                          max = 3,
+#'                          min_fit = 2,
+#'                          obligatory = 2,
+#'                          sd_entropy = 0.15)
+#' 
+#' construct_ra_mat(design_opt_input)
 #' 
 #' @return A rules-action matrix
+#' 
+#' @export
 
-construct_ra_mat <- function(design_opt) {
+construct_ra_mat <- function(design_opt_input) {
+    #   Check design_opt_input
+    design_opt <- check_design_opt(design_opt_input)
+    
     rules <- design_opt$rules
     actions <- design_opt$actions
     min_a <- design_opt$min
@@ -76,7 +93,7 @@ construct_ra_mat <- function(design_opt) {
         design_conditions[4L] <- ifelse(anyDuplicated(ra_mat, MARGIN = 2),
                                         FALSE, TRUE)
         
-        #   Conditions 5 - 7 iff Condition 2 holdsd
+        #   Conditions 5 - 7 iff Condition 2 holds
         if (design_conditions[2L]) {
             #   Calculate the entropy
             entropy <- calc_entropy(ra_mat)
@@ -95,7 +112,7 @@ construct_ra_mat <- function(design_opt) {
             }
             
             #   Condition 7 - ensure spread of the entropy measure
-            design_conditions[7L] <- ifelse(sd(entropy) < design_opt$sd_entropy,
+            design_conditions[7L] <- ifelse(stats::sd(entropy) < design_opt$sd_entropy,
                                             FALSE, TRUE)
             } else {
                 design_conditions[5L] <- FALSE
