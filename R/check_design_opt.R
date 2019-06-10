@@ -25,7 +25,7 @@
 #'   replicability}
 #' }
 #' 
-#' @param design_opt_input A list of user supplied design options
+#' @inheritParams generate_designs
 #' 
 #' @return 
 #' Returns a list of design options with the missing from input replaced by

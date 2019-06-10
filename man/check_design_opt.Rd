@@ -7,7 +7,8 @@
 check_design_opt(design_opt_input)
 }
 \arguments{
-\item{design_opt_input}{A list of user supplied design options}
+\item{design_opt_input}{A list of user supplied design options. The default
+value is an empty list.}
 }
 \value{
 Returns a list of design options with the missing from input replaced by
