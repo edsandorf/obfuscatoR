@@ -8,6 +8,7 @@ Description: This package creates designs for the obfuscation game. It has a sim
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
+Depends: R (>= 3.1.0)
 Imports:
     Rfast,
     stats,
