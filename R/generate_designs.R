@@ -43,7 +43,7 @@ generate_designs <- function(design_opt_input = list()) {
     
     lst_ra_mat <- lapply(seq_len(design_opt$designs), function(i) {
         #   Set seed to ensure different designs
-        set.seed(floor(number_tmp * stats::runif(1)))
+        set.seed(floor(number_tmp * runif(1)))
         construct_ra_mat(design_opt)
     })
     
