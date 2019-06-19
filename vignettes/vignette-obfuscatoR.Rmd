@@ -17,3 +17,33 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(obfuscatoR)
 ```
+
+
+
+
+
+# Examples
+In this section, we will present two examples of the obfuscation game to illustrate the subtleties of obfuscation behavior. We are using a simple game with four rules and five possible actions. For details on how to generate such a design, please see above. 
+
+## Example 1
+
+
+```{r}
+ra_mat <- matrix(c(-1, -1, -1, -1,  1,
+                   -1,  0,  0, -1,  0,
+                   -1,  0, -1,  0,  0,
+                    0,  0, -1,  0, -1), nrow = 4, byrow = TRUE)
+
+entropy <- calc_entropy(ra_mat)
+```
+
+## Example 2
+
+
+```{r}
+ra_mat <- matrix(c(-1, -1, -1, -1,  1,
+                   -1,  0,  0, -1, -1,
+                   -1, -1,  0,  0,  0,
+                    0,  0, -1, -1, -1), nrow = 4L, byrow = TRUE)
+```
+
