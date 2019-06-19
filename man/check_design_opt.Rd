@@ -7,8 +7,8 @@
 check_design_opt(design_opt_input)
 }
 \arguments{
-\item{design_opt_input}{A list of user supplied design options. The default
-value is an empty list.}
+\item{design_opt_input}{A list of user supplied design options. Must at a 
+minimum specify the number of rules, actions and the considered rule.}
 }
 \value{
 Returns a list of design options with the missing from input replaced by
@@ -44,12 +44,7 @@ specified by the user.
 \examples{
 design_opt_input <- list(rules = 5,
                          actions = 5,
-                         considered_rule = 5,
-                         min = 2, 
-                         max = 3,
-                         min_fit = 2,
-                         obligatory = 2,
-                         sd_entropy = 0.15)
+                         considered_rule = 5)
                          
 check_design_opt(design_opt_input)
 

@@ -4,25 +4,19 @@
 #' list of design options as its only argument. See 
 #' \code{\link{check_design_opt}} for default values. 
 #' 
-#' @param design_opt_input A list of user supplied design options. The default
-#' value is an empty list. 
+#' At the very minimum, the number of rules, actions and the considered rule
+#' has to be supplied
+#' 
+#' @param design_opt_input A list of user supplied design options. Must at a 
+#' minimum specify the number of rules, actions and the considered rule.
 #' 
 #' @return 
-#' A list of matrices with rules and actions
+#' A matrix or list of matrices with rules and actions
 #' 
 #' @examples
-#' #   Example 1 - Using only default values
-#' generate_designs()
-#' 
-#' #   Example 2 - Using some user supplied values
-#' design_opt_input <- list(rules = 5,
+#' design_opt_input <- list(rules = 4,
 #'                          actions = 5,
-#'                          considered_rule = 5,
-#'                          min = 2, 
-#'                          max = 3,
-#'                          min_fit = 2,
-#'                          obligatory = 2,
-#'                          sd_entropy = 0.15)
+#'                          considered_rule = 3)
 #' 
 #' 
 #' generate_designs(design_opt_input)
@@ -46,6 +40,10 @@ generate_designs <- function(design_opt_input = list()) {
         set.seed(floor(number_tmp * runif(1)))
         construct_ra_mat(design_opt)
     })
+    
+    if (length(lst_ra_mat) == 1) {
+        lst_ra_mat <- lst_ra_mat[[1]]
+    }
     
     return(lst_ra_mat)
 }

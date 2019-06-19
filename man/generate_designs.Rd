@@ -7,30 +7,25 @@
 generate_designs(design_opt_input = list())
 }
 \arguments{
-\item{design_opt_input}{A list of user supplied design options. The default
-value is an empty list.}
+\item{design_opt_input}{A list of user supplied design options. Must at a 
+minimum specify the number of rules, actions and the considered rule.}
 }
 \value{
-A list of matrices with rules and actions
+A matrix or list of matrices with rules and actions
 }
 \description{
 This is the main function to generate the obfuscation designs. It takes a 
 list of design options as its only argument. See 
 \code{\link{check_design_opt}} for default values.
 }
+\details{
+At the very minimum, the number of rules, actions and the considered rule
+has to be supplied
+}
 \examples{
-#   Example 1 - Using only default values
-generate_designs()
-
-#   Example 2 - Using some user supplied values
-design_opt_input <- list(rules = 5,
+design_opt_input <- list(rules = 4,
                          actions = 5,
-                         considered_rule = 5,
-                         min = 2, 
-                         max = 3,
-                         min_fit = 2,
-                         obligatory = 2,
-                         sd_entropy = 0.15)
+                         considered_rule = 3)
 
 
 generate_designs(design_opt_input)

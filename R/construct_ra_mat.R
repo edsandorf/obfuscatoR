@@ -13,12 +13,7 @@
 #' @examples 
 #' design_opt_input <- list(rules = 5,
 #'                          actions = 5,
-#'                          considered_rule = 5,
-#'                          min = 2, 
-#'                          max = 3,
-#'                          min_fit = 2,
-#'                          obligatory = 2,
-#'                          sd_entropy = 0.15)
+#'                          considered_rule = 5)
 #' 
 #' #   Check design_opt_input
 #' design_opt <- check_design_opt(design_opt_input)
@@ -33,9 +28,6 @@ construct_ra_mat <- function(design_opt) {
 
     rules <- design_opt$rules
     actions <- design_opt$actions
-    min_a <- design_opt$min
-    max_a <- design_opt$max
-    o_rules <- design_opt$obligatory
     c_rule <- design_opt$considered_rule
     
     #   Create the full factorial of allowed and prohibited actions
@@ -44,10 +36,17 @@ construct_ra_mat <- function(design_opt) {
     })
     action_mat <- as.matrix(expand.grid(action_list))
     
-    #   Exclude actions outside the permitted range
-    excluded_rows <- c(which(matrixStats::rowCounts(action_mat, value = 0) < min_a),
-                       which(matrixStats::rowCounts(action_mat, value = 0) > max_a))
-    action_mat <- action_mat[-c(excluded_rows), ]
+    # Check whether min or max number of rules have been specified
+    if (!is.na(design_opt$min)) {
+        excluded_rows <- which(matrixStats::rowCounts(action_mat, value = 0) < design_opt$min)
+        action_mat <- action_mat[-c(excluded_rows), ]       
+    }
+    
+    if (!is.na(design_opt$max)) {
+        excluded_rows <- which(matrixStats::rowCounts(action_mat, value = 0) > design_opt$max)
+        action_mat <- action_mat[-c(excluded_rows), ]
+    }
+
     rows <- nrow(action_mat)
     
     max_rules <- rows + actions
@@ -64,13 +63,17 @@ construct_ra_mat <- function(design_opt) {
     iter_counter <- 1
     while (any(design_conditions == FALSE)) {
         #   Randomly generate a design matrix
-        ra_mat_tmp_1 <- action_mat[sample(rows,
-                                          size = rules - o_rules,
-                                          replace = FALSE), ]
-        ra_mat_tmp_2 <- obligatory_mat[sample(actions,
-                                          size = o_rules,
-                                          replace = FALSE), ]
-        ra_mat <- rbind(ra_mat_tmp_1, ra_mat_tmp_2)
+        ra_mat <- action_mat[sample(rows, size = rules - design_opt$obligatory,
+                                    replace = FALSE), ]
+        
+        #   Check if we are enforcing obligatory rules.
+        if (design_opt$obligatory > 0) {
+            ra_mat_oblig <- obligatory_mat[sample(actions,
+                                                  size = design_opt$obligatory,
+                                                  replace = FALSE), ]
+            ra_mat <- rbind(ra_mat, ra_mat_oblig)
+        }
+
         ra_mat <- ra_mat[sample(nrow(ra_mat)), ]
         
         #   Condition 1 - The considered rule cannot have an obligated action
@@ -80,13 +83,13 @@ construct_ra_mat <- function(design_opt) {
         tmp <- abs(Rfast::colsums(ra_mat)) == rules
         design_conditions[2L] <- ifelse(any(tmp), FALSE, TRUE)
         
-        #   Condition 3 - Allowable actions need to fit a min_a rules
+        #   Condition 3 - Allowable actions need to fit a min_fit rules
         tmp <- which(ra_mat[c_rule, ] == 0)
         if (length(tmp) == 0) {
             design_conditions[3L] <- FALSE
         } else {
             #   rules - forbidden = allowed < min_allowed
-            tmp <- (rules - Rfast::colsums(ra_mat[, tmp] == -1)) < min_a
+            tmp <- (rules - Rfast::colsums(ra_mat[, tmp, drop = FALSE] == -1)) < design_opt$min_fit
             design_conditions[3L] <- ifelse(any(tmp), FALSE, TRUE)
         }
         
@@ -113,11 +116,16 @@ construct_ra_mat <- function(design_opt) {
             }
             
             #   Condition 7 - ensure spread of the entropy measure
-            design_conditions[7L] <- ifelse(stats::sd(entropy) < design_opt$sd_entropy,
-                                            FALSE, TRUE)
+            if (!is.na(design_opt$sd_entropy)) {
+                design_conditions[7L] <- ifelse(stats::sd(entropy) < design_opt$sd_entropy,
+                                                FALSE, TRUE)
             } else {
-                design_conditions[5L] <- FALSE
-                design_conditions[6L] <- FALSE
+                design_conditions[7L] <- TRUE
+            }
+
+        } else {
+            design_conditions[5L] <- FALSE
+            design_conditions[6L] <- FALSE
         }
         
         #   Check iterations and break if exceeds
@@ -132,6 +140,7 @@ construct_ra_mat <- function(design_opt) {
     ra_mat <- structure(ra_mat,
                         dimnames = list(paste0("R", seq_len(rules)),
                                         paste0("A", seq_len(actions))),
-                        iter = iter_counter)
+                        iter = iter_counter,
+                        design_conditions = design_conditions)
     return(ra_mat)
 }

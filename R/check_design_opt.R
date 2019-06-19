@@ -34,30 +34,25 @@
 #' @examples 
 #' design_opt_input <- list(rules = 5,
 #'                          actions = 5,
-#'                          considered_rule = 5,
-#'                          min = 2, 
-#'                          max = 3,
-#'                          min_fit = 2,
-#'                          obligatory = 2,
-#'                          sd_entropy = 0.15)
+#'                          considered_rule = 5)
 #'                          
 #' check_design_opt(design_opt_input)
 #' 
 #' @export
 
 check_design_opt <- function(design_opt_input) {
-    design_opt <- list(rules = 5,
-                       actions = 5,
-                       considered_rule = 5,
-                       min = 2, 
-                       max = 3,
-                       min_fit = 2,
-                       obligatory = 2,
-                       sd_entropy = 0.15,
-                       pay_obs = 10,
-                       pay_obs_no_guess = 5,
+    design_opt <- list(rules = NULL,
+                       actions = NULL,
+                       considered_rule = NULL,
+                       min = NA, 
+                       max = NA,
+                       min_fit = 0,
+                       obligatory = 0,
+                       sd_entropy = NA,
+                       pay_obs = NA,
+                       pay_obs_no_guess = NA,
                        deterministic = FALSE,
-                       pay_dm = 5,
+                       pay_dm = NA,
                        designs = 1,
                        max_iter = 1e5,
                        print_all = TRUE,

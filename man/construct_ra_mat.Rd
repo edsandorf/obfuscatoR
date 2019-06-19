@@ -25,12 +25,7 @@ The function is for internal use only and not exported
 \examples{
 design_opt_input <- list(rules = 5,
                          actions = 5,
-                         considered_rule = 5,
-                         min = 2, 
-                         max = 3,
-                         min_fit = 2,
-                         obligatory = 2,
-                         sd_entropy = 0.15)
+                         considered_rule = 5)
 
 #   Check design_opt_input
 design_opt <- check_design_opt(design_opt_input)
