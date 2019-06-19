@@ -18,8 +18,33 @@ knitr::opts_chunk$set(
 library(obfuscatoR)
 ```
 
+# Introduction
 
 
+## A one shot obfuscation game
+To create a design for the obfuscation game, we start by specifying the parameters of the game. These are given by the list `design_opt`. For a full list of the design options and their default values, please see `?check_design_opt`. Note that this function is only called internally to set the defaults for any parameter not specified by the user. 
+
+Let us create a simple one shot obfuscation game. Assume that there are 4 rules, 5 actions and that the considered rule is number 3. This is the minimum information necessary to generate a game design.
+
+```{r}
+design_opt_input <- list(rules = 4,
+                         actions = 5,
+                         considered_rule = 3)
+
+design_1 <- generate_designs(design_opt_input)
+```
+
+We can calculate the entropy.
+
+```{r}
+calc_entropy(design_1)
+```
+
+
+
+## Placing restrictions on the game
+
+The simple game where we only specify the number of rules, actions and which rule is considered may produce games that are less than desirable. obfuscatoR has several options to place restrictions on the design to create games that are more tailored to your needs. 
 
 
 # Examples
