@@ -13,7 +13,8 @@ Imports:
     Rfast,
     stats,
     matrixStats,
-    stringr
+    stringr,
+    crayon
 Suggests:
     testthat,
     knitr,
