@@ -4,15 +4,16 @@
 \alias{print_ra_mat}
 \title{Prints the ra_matrix}
 \usage{
-print_ra_mat(ra_mat, c_rule = NULL)
+print_ra_mat(ra_mat, c_rule = NULL, all_info = FALSE)
 }
 \arguments{
 \item{ra_mat}{A matrix with rows equal to the number of rules and columns
 equal to the number of actions}
 
-\item{c_rule}{Defaults to the rule specified in design_opt. NOTE: If you are only 
-evaluating a rules and action matrix, you must remember to set the c_rule or
-it will automatically default to 5.}
+\item{c_rule}{Defaults to the rule specified in design_opt.}
+
+\item{all_info}{If TRUE prints informatino on the number of iterations and 
+and whether all design conditions have been met. Default is FALSE}
 }
 \description{
 Prints the ra_matrix with the considered rule highlighted
