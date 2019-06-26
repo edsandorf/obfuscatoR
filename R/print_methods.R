@@ -1,18 +1,29 @@
-#' Prints the ra_matrix 
+#' Prints the rules-action matrix
 #' 
-#' Prints the ra_matrix with the considered rule highlighted
+#' Prints the rule and action matrix. Depending on options, additional text is 
+#' provided with information on the considered rule and/or the design generation 
+#' process.
 #' 
 #' @param ra_mat A matrix with rows equal to the number of rules and columns
 #' equal to the number of actions
-#' @param c_rule Defaults to the rule specified in design_opt.
-#' @param all_info If TRUE prints informatino on the number of iterations and 
-#' and whether all design conditions have been met. Default is FALSE
+#' @param c_rule The considered rule.
+#' @param all_info If TRUE prints information on the number of iterations and 
+#' and whether all design conditions were met. Default is FALSE
 #' 
-#' @output A nicely printed and formated matrix
+#' @examples 
+#' design_opt_input <- list(rules = 4, 
+#'                          actions = 5,
+#'                          considered_rule = 3)
+#'
+#' design <- generate_designs(design_opt_input)
+#' 
+#' print_ra(design)
+#' print_ra(design, 3)
+#' print_ra(design, 3, TRUE)
 #' 
 #' @export
 
-print_ra_mat <- function(ra_mat, c_rule = NULL, all_info = FALSE) {
+print_ra <- function(ra_mat, c_rule = NULL, all_info = FALSE) {
   cat(crayon::blue(crayon::bold("The rules-action matrix \n\n")))
   cat(crayon::blue("Rows: Rules \n"))
   cat(crayon::blue("Columns: Actions \n\n"))
@@ -24,9 +35,9 @@ print_ra_mat <- function(ra_mat, c_rule = NULL, all_info = FALSE) {
     design_conditions <- attr(ra_mat, "design_conditions")
   }
   attributes(ra_mat) <- NULL
-  ra_mat <- matrix(ra_mat, nrow = rows, ncol = cols)
-  rownames(ra_mat) <- paste0("R", seq_len(rows))
-  colnames(ra_mat) <- paste0("A", seq_len(cols))
+  ra_mat <- matrix(ra_mat, nrow = rows, ncol = cols,
+                   dimnames = list(paste0("R", seq_len(rows)),
+                                   paste0("A", seq_len(cols))))
   
   print(ra_mat)
   cat("\n")
@@ -41,4 +52,69 @@ print_ra_mat <- function(ra_mat, c_rule = NULL, all_info = FALSE) {
     cat(crayon::green(paste0("All the design conditions were met: ",
                          crayon::bold(all(design_conditions)))))
   }  
+}
+
+#' Prints the entropy of the different actions 
+#'
+#' \code{print_entropy()} prints the entropy of the different actions and if 
+#' desirable, will print all intermediary calculatations.
+#' 
+#' @param entropy The entropy measure from \code{calculate_entropy}
+#' @param digits The number of digits to round to. Default 3. 
+#' @param all_info If TRUE will print all information on intermediary 
+#' calculations
+#' 
+#' @examples
+#' ra_mat <- matrix(c(-1, -1, -1, -1,  1,
+#'                    -1,  0,  0, -1,  0,
+#'                    -1,  0, -1,  0,  0,
+#'                     0,  0, -1,  0, -1), nrow = 4, byrow = TRUE)
+#'
+#' entropy <- calc_entropy(ra_mat)
+#'
+#' print_entropy(entropy)
+#' print_entropy(entropy, digits = 4)
+#' print_entropy(entropy, all_info = TRUE)
+#'
+#' @export
+
+print_entropy <- function(entropy, digits = 3, all_info = FALSE) {
+  cols <- length(entropy)
+  
+  # Need to get all the attributes before stripping them if print all
+  if (all_info) {
+    ra_mat <- attr(entropy, "ra_mat")
+    priors <- attr(entropy, "priors")
+    pr_aj_rk <- attr(entropy, "pr_aj_rk")
+    pr_rk_aj <- attr(entropy, "pr_rk_aj")
+    rows <- nrow(ra_mat)
+  }
+  
+  # Clear all attributes prior to printing
+  attributes(entropy) <- NULL
+  cat(crayon::blue(crayon::bold("Shannon's entropy \n\n")))
+  entropy <- matrix(as.numeric(entropy), nrow = 1L, ncol = cols,
+                    dimnames = list(c(""),
+                                    paste0("A", seq_len(cols))))
+  print(entropy, digits = digits)
+  cat("\n")
+  
+  if (all_info) {
+    print_ra(ra_mat, all_info = FALSE)
+    
+    cat(crayon::blue(crayon::bold("The vector of prior probabilities \n\n")))
+    priors <- matrix(as.numeric(priors), nrow = 1L, ncol = rows,
+                     dimnames = list(c(""),
+                                     paste0("R", seq_len(rows))))
+    print(priors, digits = digits)
+    cat("\n")
+    
+    cat(crayon::blue(crayon::bold("The probability of an action conditional on a rule \n\n")))
+    print(pr_aj_rk, digits = digits)
+    cat("\n")
+    
+    cat(crayon::blue(crayon::bold("The probability of a rule conditional on observing an action, i.e. the posterior \n\n")))
+    print(pr_rk_aj, digits = digits)
+  }
+  
 }
