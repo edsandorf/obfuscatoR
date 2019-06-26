@@ -31,13 +31,34 @@ design_opt_input <- list(rules = 4,
                          actions = 5,
                          considered_rule = 3)
 
-design_1 <- generate_designs(design_opt_input)
+design <- generate_designs(design_opt_input)
 ```
 
-We can calculate the entropy.
+We can take a look at the generated design
 
 ```{r}
-calc_entropy(design_1)
+print_ra(design, design_opt_input$considered_rule, FALSE)
+```
+
+If we want to print some extra information about the process of finding a design, we can set `print_all = TRUE`. 
+
+```{r}
+print_ra(design, design_opt_input$considered_rule, TRUE)
+```
+
+It is poosible to see the exact design conditions that were met or not by extracting the relevant attribute of the rules-action matrix with `attr(design, "design_conditions")`. 
+
+To identify the entropy maximizing action, we need to calculate the entropy.
+
+```{r}
+entropy <- calc_entropy(design)
+print_entropy(entropy)
+```
+
+We can inspect all the calculations by setting `print_all = TRUE`. 
+
+```{r}
+print_entropy(entropy, print_all = TRUE)
 ```
 
 
