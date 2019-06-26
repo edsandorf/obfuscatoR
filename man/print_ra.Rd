@@ -4,7 +4,7 @@
 \alias{print_ra}
 \title{Prints the rules-action matrix}
 \usage{
-print_ra(ra_mat, c_rule = NULL, all_info = FALSE)
+print_ra(ra_mat, c_rule = NULL, print_all = FALSE)
 }
 \arguments{
 \item{ra_mat}{A matrix with rows equal to the number of rules and columns
@@ -12,7 +12,7 @@ equal to the number of actions}
 
 \item{c_rule}{The considered rule.}
 
-\item{all_info}{If TRUE prints information on the number of iterations and 
+\item{print_all}{If TRUE prints information on the number of iterations and 
 and whether all design conditions were met. Default is FALSE}
 }
 \description{

@@ -7,7 +7,7 @@
 #' @param ra_mat A matrix with rows equal to the number of rules and columns
 #' equal to the number of actions
 #' @param c_rule The considered rule.
-#' @param all_info If TRUE prints information on the number of iterations and 
+#' @param print_all If TRUE prints information on the number of iterations and 
 #' and whether all design conditions were met. Default is FALSE
 #' 
 #' @examples 
@@ -23,14 +23,14 @@
 #' 
 #' @export
 
-print_ra <- function(ra_mat, c_rule = NULL, all_info = FALSE) {
+print_ra <- function(ra_mat, c_rule = NULL, print_all = FALSE) {
   cat(crayon::blue(crayon::bold("The rules-action matrix \n\n")))
   cat(crayon::blue("Rows: Rules \n"))
   cat(crayon::blue("Columns: Actions \n\n"))
   # Extract information before setting all attributes to NULL
   rows <- nrow(ra_mat)
   cols <- ncol(ra_mat)
-  if (all_info) {
+  if (print_all) {
     iter <- attr(ra_mat, "iter")
     design_conditions <- attr(ra_mat, "design_conditions")
   }
@@ -45,7 +45,7 @@ print_ra <- function(ra_mat, c_rule = NULL, all_info = FALSE) {
                            ifelse(is.null(c_rule), "N/A",
                                   crayon::bold(c_rule)), ".\n\n")))
 
-  if (all_info) {
+  if (print_all) {
     cat(crayon::green(paste0("The design was found in ",
                              crayon::bold(iter),
                              " iterations. \n\n")))
@@ -61,7 +61,7 @@ print_ra <- function(ra_mat, c_rule = NULL, all_info = FALSE) {
 #' 
 #' @param entropy The entropy measure from \code{calculate_entropy}
 #' @param digits The number of digits to round to. Default 3. 
-#' @param all_info If TRUE will print all information on intermediary 
+#' @param print_all If TRUE will print all information on intermediary 
 #' calculations
 #' 
 #' @examples
@@ -74,15 +74,15 @@ print_ra <- function(ra_mat, c_rule = NULL, all_info = FALSE) {
 #'
 #' print_entropy(entropy)
 #' print_entropy(entropy, digits = 4)
-#' print_entropy(entropy, all_info = TRUE)
+#' print_entropy(entropy, print_all = TRUE)
 #'
 #' @export
 
-print_entropy <- function(entropy, digits = 3, all_info = FALSE) {
+print_entropy <- function(entropy, digits = 3, print_all = FALSE) {
   cols <- length(entropy)
   
   # Need to get all the attributes before stripping them if print all
-  if (all_info) {
+  if (print_all) {
     ra_mat <- attr(entropy, "ra_mat")
     priors <- attr(entropy, "priors")
     pr_aj_rk <- attr(entropy, "pr_aj_rk")
@@ -99,8 +99,8 @@ print_entropy <- function(entropy, digits = 3, all_info = FALSE) {
   print(entropy, digits = digits)
   cat("\n")
   
-  if (all_info) {
-    print_ra(ra_mat, all_info = FALSE)
+  if (print_all) {
+    print_ra(ra_mat, print_all = FALSE)
     
     cat(crayon::blue(crayon::bold("The vector of prior probabilities \n\n")))
     priors <- matrix(as.numeric(priors), nrow = 1L, ncol = rows,
