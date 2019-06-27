@@ -9,12 +9,11 @@ save_design(x, x_name, path = getwd())
 \arguments{
 \item{x}{A design or list of designs}
 
-\item{x_name}{A character string with the name and extension of the file to 
-to be stored. If file extension is not provided the default is .csv}
+\item{x_name}{A character string with the name of the file}
 
 \item{path}{A string giving the path to where the designs are stored. The 
 default is the current working directory}
 }
 \description{
-Function for storing designs.
+Writes the designs to separate .csv files.
 }
