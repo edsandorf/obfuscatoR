@@ -22,7 +22,6 @@ specified by the user.
 \describe{
   \item{rules}{Number of rules (i.e. rows)}
   \item{actions}{Number of actions (i.e. columns)}
-  \item{considered_rule}{The considered rule, i.e. specifies the row}
   \item{min}{Minimum number of actions available for the considered rule}
   \item{max}{Maximum number of actions available for the considered rule}
   \item{min_fit}{Minimum number of rules fitting each permitted action

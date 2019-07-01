@@ -28,7 +28,7 @@ construct_ra_mat <- function(design_opt) {
 
     rules <- design_opt$rules
     actions <- design_opt$actions
-    c_rule <- design_opt$considered_rule
+    c_rule <- sample(seq_len(rules), 1L)
     
     #   Create the full factorial of allowed and prohibited actions
     action_list <- lapply(seq_len(actions), function(a){
@@ -141,6 +141,7 @@ construct_ra_mat <- function(design_opt) {
                         dimnames = list(paste0("R", seq_len(rules)),
                                         paste0("A", seq_len(actions))),
                         iter = iter_counter,
-                        design_conditions = design_conditions)
+                        design_conditions = design_conditions,
+                        c_rule = c_rule)
     return(ra_mat)
 }
