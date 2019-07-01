@@ -76,10 +76,7 @@ calc_pr_rk_aj <- function(pr_aj_rk, priors) {
 
 calc_entropy <- function(ra_mat, priors = NULL) {
     if (is.null(ra_mat)) stop("You must supply a matrix of rules and actions.")
-    if (!is.null(priors) && length(priors) != nrow(ra_mat)) {
-        stop("The length of priors is not equal to the number of rules.")
-    }
-    
+
     #   Define the dimensions of ra_mat
     rows <- nrow(ra_mat)
     cols <- ncol(ra_mat)
@@ -107,6 +104,64 @@ calc_entropy <- function(ra_mat, priors = NULL) {
                          pr_rk_aj = pr_rk_aj)
     
     return(entropy)
+}
+
+#' Calculate the entropy
+#' 
+#' This function is a wrapper for calc_entropy.
+#'
+#' @param ra_mat A matrix with rows equal to the number of rules and columns
+#'  equal to the number of actions or a list of such matrices.
+#' @param priors A vector of prior values. If ra_mat is a list of matrices,
+#' priors can be a matrix with rows equal to the length of ra_mat and columns
+#' equal to the number of rules.
+#'
+#' @return A list of of vectors of entropies for each possible action with the
+#' following attributes:
+#' \enumerate{
+#'   \item ra_mat
+#'   \item priors
+#'   \item pr_aj_rk
+#'   \item pr_rk_aj
+#' }
+#'
+#' @export
+
+calculate_entropy <- function(ra_mat, priors = NULL) {
+    if (is.null(ra_mat)) {
+        stop("ra_mat is not supplied!")
+    }
+    
+    if (!is.matrix(ra_mat) && !is.list(ra_mat)) {
+        stop("ra_mat must be a matrix or a list of matrices")
+    }
+    
+    if (is.list(ra_mat)) {
+        if (!is.null(priors)) {
+            if (is.matrix(priors)) {
+                if (nrow(priors) != length(ra_mat) || nrow(ra_mat) != ncol(priors)) {
+                    warning("The matrix of priors has incorrect dimensions. Using uninformative priors. \n\n")
+                    priors <- NULL
+                }
+            } else if (!is.null(priors) && length(priors) != nrow(ra_mat)) {
+                warning("The length of priors is not equal to the number of rules. Using uninformative priors.\n\n")
+                priors <- NULL
+            }
+        }
+        
+        all_matrices <- all(unlist(lapply(ra_mat, function(x) is.matrix(x))) == TRUE)
+        if (!all_matrices) {
+            stop("Not all elements of ra_mat are matrices.")
+        }
+    }
+    
+    if (is.matrix(ra_mat)) {
+        ra_mat <- list(ra_mat)
+    }
+    
+    lapply(ra_mat, function(x) {
+        calc_entropy(x, priors = priors)
+    })
 }
 
 #' Calculate expected payout to the observer
