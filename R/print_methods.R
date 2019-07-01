@@ -61,6 +61,7 @@ print_ra <- function(ra_mat, c_rule = NULL, print_all = FALSE) {
 #' 
 #' @param entropy The entropy measure from \code{calculate_entropy}
 #' @param digits The number of digits to round to. Default 3. 
+#' @param c_rule The considered rule. This defaults to NULL.
 #' @param print_all If TRUE will print all information on intermediary 
 #' calculations
 #' 
@@ -78,9 +79,9 @@ print_ra <- function(ra_mat, c_rule = NULL, print_all = FALSE) {
 #'
 #' @export
 
-print_entropy <- function(entropy, digits = 3, print_all = FALSE) {
+print_entropy <- function(entropy, digits = 3, c_rule = NULL, print_all = FALSE) {
   cols <- length(entropy)
-  
+
   # Need to get all the attributes before stripping them if print all
   if (print_all) {
     ra_mat <- attr(entropy, "ra_mat")
@@ -93,19 +94,15 @@ print_entropy <- function(entropy, digits = 3, print_all = FALSE) {
   # Clear all attributes prior to printing
   attributes(entropy) <- NULL
   cat(crayon::blue(crayon::bold("Shannon's entropy \n\n")))
-  entropy <- matrix(as.numeric(entropy), nrow = 1L, ncol = cols,
-                    dimnames = list(c(""),
-                                    paste0("A", seq_len(cols))))
+  names(entropy) <-  paste0("A", seq_len(cols))
   print(entropy, digits = digits)
   cat("\n")
   
   if (print_all) {
-    print_ra(ra_mat, print_all = FALSE)
+    print_ra(ra_mat, c_rule = c_rule, print_all = FALSE)
     
     cat(crayon::blue(crayon::bold("The vector of prior probabilities \n\n")))
-    priors <- matrix(as.numeric(priors), nrow = 1L, ncol = rows,
-                     dimnames = list(c(""),
-                                     paste0("R", seq_len(rows))))
+    names(priors) <- paste0("R", seq_len(rows))
     print(priors, digits = digits)
     cat("\n")
     

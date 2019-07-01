@@ -4,12 +4,14 @@
 \alias{print_entropy}
 \title{Prints the entropy of the different actions}
 \usage{
-print_entropy(entropy, digits = 3, print_all = FALSE)
+print_entropy(entropy, digits = 3, c_rule = NULL, print_all = FALSE)
 }
 \arguments{
 \item{entropy}{The entropy measure from \code{calculate_entropy}}
 
 \item{digits}{The number of digits to round to. Default 3.}
+
+\item{c_rule}{The considered rule. This defaults to NULL.}
 
 \item{print_all}{If TRUE will print all information on intermediary 
 calculations}
