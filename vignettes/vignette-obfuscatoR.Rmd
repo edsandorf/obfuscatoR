@@ -21,54 +21,177 @@ library(obfuscatoR)
 # Introduction
 
 
-## A one shot obfuscation game
+## Generating a simple design
 To create a design for the obfuscation game, we start by specifying the parameters of the game. These are given by the list `design_opt`. For a full list of the design options and their default values, please see `?check_design_opt`. Note that this function is only called internally to set the defaults for any parameter not specified by the user. 
 
-Let us create a simple one shot obfuscation game. Assume that there are 4 rules, 5 actions and that the considered rule is number 3. This is the minimum information necessary to generate a game design.
+Let us create a simple one shot obfuscation game. Assume that there are 4 rules and 5 actions. This is the minimum information necessary to generate a game design.
 
 ```{r}
 design_opt_input <- list(rules = 4,
-                         actions = 5,
-                         considered_rule = 3)
+                         actions = 5)
 
 design <- generate_designs(design_opt_input)
 ```
 
-We can take a look at the generated design
+We can print generated rules and action matrix using the `print_ra()` function. We provide a few examples of how to interpret the game in @ref{examples}.
 
 ```{r}
-print_ra(design, design_opt_input$considered_rule, FALSE)
+print_ra(design)
 ```
 
-If we want to print some extra information about the process of finding a design, we can set `print_all = TRUE`. 
+We can specify `print_all = TRUE` to print extra information about the design process. 
 
 ```{r}
-print_ra(design, design_opt_input$considered_rule, TRUE)
+print_ra(design, TRUE)
 ```
 
 It is poosible to see the exact design conditions that were met or not by extracting the relevant attribute of the rules-action matrix with `attr(design, "design_conditions")`. 
 
-To identify the entropy maximizing action, we need to calculate the entropy.
+## Calculate the entropy of each action
+
+To identify which action would leave the observer as clueless as possible as to which rule governs the decision makers choices, we need to calculate the entropy of each action. 
 
 ```{r}
-entropy <- calc_entropy(design)
+entropy <- calculate_entropy(design)
+```
+
+We can print the the results of the entropy calculation using the `print_entropy()` function. An obfuscating decision maker will choose the action with the highest entropy. 
+
+```{r}
 print_entropy(entropy)
 ```
 
-We can inspect all the calculations by setting `print_all = TRUE`. 
+If we wish to inspect all the intermediary calculations, we can set the option `print_all = TRUE`. Notice that we have also specified `c_rule`. This is the same as when we printed the information about the rules and action matrix. In fact, it calls the same function with `print_all = FALSE` to avoid unnecessary output.
+
+**NOTE:** There is a restriction in the design procedure that any valid design must include only one entropy maximizing action conditional on the considered rule. 
+
 
 ```{r}
 print_entropy(entropy, print_all = TRUE)
 ```
 
+# More complex designs {#complex-designs}
+
+The designs outlined above are fairly simple. We have placed no restrictions on the design with respect to the number of rules that are allowed nor have we included rules with obligatory actions. The obfuscatoR package includes several options that allow us to create designs that vary with respect to the maximum and minimum allowable actions per rule, the number of rules with obligatory actions and even ensure a given spread of the entropy among the actions available to decision makers. Let us take a closer look at the various options that are available to us. 
+
+## Introducting obligatory actions {#obligatory-actions}
+
+We can specify the number of obligatory actions through the use of the option `obligatory`. Let us continue to work with the design from above, but this time we will specify that one of the rules has an obligatory action.
+
+```{r}
+design_opt_input <- list(rules = 4,
+                         actions = 5,
+                         obligatory = 1)
+
+design <- generate_designs(design_opt_input)
+
+print_ra(design, FALSE)
+```
+
+The rule with an obligatory action is the row with only -1 and 1 in the matrix above. 
+
+**NOTE:** There is a restriction in the generation of the designs that ensures the considered rule can never have an obligatory action. This is because such a rule would force the decision maker to choose an action that has a very high posterior, i.e. almost zero entropy.
+
+## Setting minimum and maximum number of available actions for the considered rule
+
+As the size of our designs become larger, in order to keep the complexity of the choice at a reasonable level, we might want to specify a minimum and maximum number of allowed actions under the considered rule. We can easily do this through the options `min` and `max`. 
+
+```{r}
+design_opt_input <- list(rules = 4,
+                         actions = 5,
+                         min = 2, 
+                         max = 3,
+                         obligatory = 1)
+
+design <- generate_designs(design_opt_input)
+
+print_ra(design, FALSE)
+```
+
+## Setting a minimum number of rules for each permitted action
+
+Sometimes it will be desirable to exclude certain rules, for example, we may wish to specify a minimum number of rules fitting each permitted action conditional on the considered rule. This is slightly different to the specification above. Essentially, this option will increase the difficulty for the observer. Using the `min_fit` option, we can specify the minimum number of rules. 
+
+```{r}
+design_opt_input <- list(rules = 4,
+                         actions = 5,
+                         min_fit = 2,
+                         obligatory = 1)
+
+design <- generate_designs(design_opt_input)
+
+print_ra(design, FALSE)
+```
+
+We see from the output above that the permitted actions under Rule 3, i.e. here the considered rule, are permitted under a minimum of 2 rules, which is what we specified in the design options. 
+
+## Ensuring spread of entropy
+
+Given the trial and error nature of searching for obfuscation designs, by chance, we may end up in a situation where the difference between the entropy maximizing action and the second best is very small. This will make it very difficult for both decision makers and observers to identify the entropy maximizing action. The `generate_designs()` function includes an option that allow us to specify the "spread" of entropy. 
+
+```{r}
+design_opt_input <- list(rules = 4,
+                         actions = 5,
+                         considered_rule = 3,
+                         sd_entropy = 0.15)
+
+design <- generate_designs(design_opt_input)
+
+print_ra(design, FALSE)
+```
+
+Compared to the designs above, we see that we have a much larger spread of entropy for each action.
+
+```{r}
+entropy <- calculate_entropy(design)
+
+print_entropy(entropy)
+```
+
+## Creating multiple designs
+
+Above, we have focused on one shot games, i.e. we have generated a single design. Often, researchers may want to play repeated games. The obfuscatoR package makes it easy to create multiple designs. Let us create a series of 5 designs by setting `designs = 5`.
+
+```{r}
+design_opt_input <- list(rules = 4,
+                         actions = 5,
+                         considered_rule = 3,
+                         designs = 5)
+
+design <- generate_designs(design_opt_input)
+
+print_ra(design, TRUE)
+```
+
+```{r}
+entropy <- calculate_entropy(design)
+
+print_entropy(entropy)
+```
+
+```{r}
+print_entropy(entropy, print_all = TRUE)
+```
+
+## A cautionary note
+
+The search for new designs is one of trial and error. If you set too many or too tight restrictions on your designs, you may not be able to valid designs and the search algorith will continue until it is stopped. 
+
+It is good practice to manually inspect all designs prior to use to ensure that they are indeed of the form you want. 
+
+# Saving the designs {#saving}
 
 
-## Placing restrictions on the game
 
-The simple game where we only specify the number of rules, actions and which rule is considered may produce games that are less than desirable. obfuscatoR has several options to place restrictions on the design to create games that are more tailored to your needs. 
+# Calculating the payouts {#payout}
+
+## Decision makers {#payout-dm}
+
+## Observers {#payout-obs}
 
 
-# Examples
+
+# Examples {#examples}
 In this section, we will present two examples of the obfuscation game to illustrate the subtleties of obfuscation behavior. We are using a simple game with four rules and five possible actions. For details on how to generate such a design, please see above. 
 
 ## Example 1
@@ -80,7 +203,7 @@ ra_mat <- matrix(c(-1, -1, -1, -1,  1,
                    -1,  0, -1,  0,  0,
                     0,  0, -1,  0, -1), nrow = 4, byrow = TRUE)
 
-entropy <- calc_entropy(ra_mat)
+entropy <- calculate_entropy(ra_mat)
 ```
 
 ## Example 2
