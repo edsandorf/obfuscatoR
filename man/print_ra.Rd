@@ -4,13 +4,11 @@
 \alias{print_ra}
 \title{Prints the rules-action matrix}
 \usage{
-print_ra(ra_mat, c_rule = NULL, print_all = FALSE)
+print_ra(ra_mat, print_all = FALSE)
 }
 \arguments{
 \item{ra_mat}{A matrix with rows equal to the number of rules and columns
 equal to the number of actions}
-
-\item{c_rule}{The considered rule.}
 
 \item{print_all}{If TRUE prints information on the number of iterations and 
 and whether all design conditions were met. Default is FALSE}
@@ -22,13 +20,11 @@ process.
 }
 \examples{
 design_opt_input <- list(rules = 4, 
-                         actions = 5,
-                         considered_rule = 3)
+                         actions = 5)
 
 design <- generate_designs(design_opt_input)
 
 print_ra(design)
-print_ra(design, 3)
-print_ra(design, 3, TRUE)
+print_ra(design, TRUE)
 
 }

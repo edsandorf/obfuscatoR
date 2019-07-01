@@ -11,7 +11,7 @@ generate_designs(design_opt_input = list())
 minimum specify the number of rules, actions and the considered rule.}
 }
 \value{
-A matrix or list of matrices with rules and actions
+A list of matrices with rules and actions
 }
 \description{
 This is the main function to generate the obfuscation designs. It takes a 

@@ -11,7 +11,7 @@
 #' minimum specify the number of rules, actions and the considered rule.
 #' 
 #' @return 
-#' A matrix or list of matrices with rules and actions
+#' A list of matrices with rules and actions
 #' 
 #' @examples
 #' design_opt_input <- list(rules = 4,
@@ -40,10 +40,6 @@ generate_designs <- function(design_opt_input = list()) {
         set.seed(floor(number_tmp * runif(1)))
         construct_ra_mat(design_opt)
     })
-    
-    if (length(lst_ra_mat) == 1) {
-        lst_ra_mat <- lst_ra_mat[[1]]
-    }
     
     return(lst_ra_mat)
 }
