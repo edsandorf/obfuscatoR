@@ -15,6 +15,7 @@ Imports:
     matrixStats,
     stringr,
     readr,
+    tibble,
     crayon
 Suggests:
     testthat,
