@@ -173,6 +173,8 @@ calculate_entropy <- function(ra_mat, priors = NULL) {
 #' @param pay_obs The pay to the observer for guessing correctly.
 #'  
 #' @return A vector of expected pays for each possible guess
+#' 
+#' @export
 
 calc_payout_obs <- function(pr_rk_aj, pay_obs) {
     tmp <- Rfast::colMaxs(pr_rk_aj, value = TRUE) * pay_obs
@@ -191,6 +193,8 @@ calc_payout_obs <- function(pr_rk_aj, pay_obs) {
 #' 
 #' @return A vector of expected payouts for each possible guess made by the
 #'  observer
+#'  
+#'  @export
 
 calc_payout_dm <- function(pr_guess, pay_dm) {
     tmp <- (1 - pr_guess) * pay_dm
@@ -210,6 +214,8 @@ calc_payout_dm <- function(pr_guess, pay_dm) {
 #' guess as deterministic. Defaults to TRUE. 
 #' 
 #' @return A vector with the probabilities that an observer will guess
+#' 
+#' @export
 
 calc_pr_guess <- function(expected_payout_obs, payout_obs_no_guess,
                           deterministic){
