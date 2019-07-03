@@ -163,13 +163,16 @@ design <- generate_designs(design_opt_input)
 print_ra(design, TRUE)
 ```
 
+To calculate the entropy associated with each action in the designs, we can run the calculate entropy function, but this time we supply a list of designs. 
+
 ```{r}
 entropy <- calculate_entropy(design)
 
 print_entropy(entropy)
 ```
+If you wish to print all the information about all designs, as above, you can set `print_all = TRUE` as shown below. We leave the user to run that code on their own machine given the rather large output. 
 
-```{r}
+```{r, eval = FALSE}
 print_entropy(entropy, print_all = TRUE)
 ```
 
@@ -181,15 +184,41 @@ It is good practice to manually inspect all designs prior to use to ensure that 
 
 # Saving the designs {#saving}
 
+Once you have created your designs, you might want to save them. We can do this using the `save_design()` function. The function stores the designs in a .csv file or multiple .csv files if you have generated multiple designs. 
 
+```{r}
+save_design(design, "my_designs")
+```
 
 # Calculating the payouts {#payout}
 
-## Decision makers {#payout-dm}
 
 ## Observers {#payout-obs}
 
+We can calculate the expected payout to the observer by weighting it with the highest posterior probabilities for each action. We can get the posterior probabilities from our design: 
 
+The expected payout to the decision maker depends on the probability that the observer will try and guess the rule govering their actions. The probability of guessing depends on the expected payout to the observer (calculated above) and the payout to the observer should she refrain from guessing. 
+
+
+```{r}
+design_opt_input <- list(rules = 4,
+                         actions = 5)
+
+design <- generate_designs(design_opt_input)
+entropy <- calculate_entropy(design)
+
+payout <- calculate_payouts(entropy,
+                            pay_obs = 10,
+                            pay_no_guess = 5,
+                            pay_dm = 5,
+                            deterministic = FALSE)
+```
+
+
+
+```{r}
+print_payout(payout, print_all = TRUE)
+```
 
 # Examples {#examples}
 In this section, we will present two examples of the obfuscation game to illustrate the subtleties of obfuscation behavior. We are using a simple game with four rules and five possible actions. For details on how to generate such a design, please see above. 
