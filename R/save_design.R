@@ -23,20 +23,24 @@ save_design <- function(x, x_name,  path = getwd()) {
   }
   
   # Check if extension is part of x_name
-  file_path <- unlist(stringr::str_split(x, "\\."))
-  file_extension <- last(file_path)
+  file_name <- unlist(stringr::str_split(x_name, "\\."))
+  file_extension <- last(file_name)
   if (file_extension == "csv") {
-    file_path <- file_path[-c(length(file_path))]
+    file_name <- file_name[-c(length(file_name))]
   }
   
   # Check for list of designs
   if (is.list(x)) {
     lapply(seq_along(x), function (i) {
-      path <- stringr::str_c(file_path, "-design-", i, ".csv")
-      readr::write_csv(x[[i]], path = path)
+      file_name <- stringr::str_c(file_name, "-design-", i, ".csv")
+      path <- file.path(path, file_name)
+      design_tmp <- tibble::as_tibble(x[[i]], rownames = NA)
+      readr::write_csv(design_tmp, path = path)
     })
   } else {
-    path <- stringr::str_c(file_path, ".csv")
-    readr::write_csv(x, path = path)
+    file_name <- stringr::str_c(file_name, ".csv")
+    path <- file.path(path, file_name)
+    design_tmp <- tibble::as_tibble(x, rownames = NA)
+    readr::write_csv(design_tmp, path = path)
   }
 }
