@@ -173,8 +173,6 @@ calculate_entropy <- function(ra_mat, priors = NULL) {
 #' @param pay_obs The pay to the observer for guessing correctly.
 #'  
 #' @return A vector of expected pays for each possible guess
-#' 
-#' @export
 
 calc_payout_obs <- function(pr_rk_aj, pay_obs) {
     tmp <- Rfast::colMaxs(pr_rk_aj, value = TRUE) * pay_obs
@@ -193,11 +191,9 @@ calc_payout_obs <- function(pr_rk_aj, pay_obs) {
 #' 
 #' @return A vector of expected payouts for each possible guess made by the
 #'  observer
-#'  
-#'  @export
 
 calc_payout_dm <- function(pr_guess, pay_dm) {
-    tmp <- (1 - pr_guess) * pay_dm
+    tmp <- as.vector((1 - pr_guess) * pay_dm)
     names(tmp) <- paste0("E[Pay|", seq_len(length(pr_guess)), "]")
     return(tmp)
 }
@@ -214,8 +210,6 @@ calc_payout_dm <- function(pr_guess, pay_dm) {
 #' guess as deterministic. Defaults to TRUE. 
 #' 
 #' @return A vector with the probabilities that an observer will guess
-#' 
-#' @export
 
 calc_pr_guess <- function(expected_payout_obs, payout_obs_no_guess,
                           deterministic){
@@ -230,4 +224,51 @@ calc_pr_guess <- function(expected_payout_obs, payout_obs_no_guess,
     
     names(tmp) <- paste0("Pr[G|", seq_len(length(expected_payout_obs)), "]")
     return(tmp)
+}
+
+#' Calculate payouts
+#' 
+#' @param entropy A list containing the entropy
+#' @param pay_obs A numeric with pay to the observer for guessing correctly
+#' @param pay_no_guess A numeric with pay to the observer for not guessing
+#' @param pay_dm A numeric with pay to the decision maker if the observer does 
+#' not guess
+#' @param deterministic If TRUE a deterministic procedure is used to determine 
+#' whether the observer tries to guess. Default is FALSE and the probability is
+#' calculated using a logit expression
+#' 
+#' @return A list or list of lists where each list contains the payout to the 
+#' observer and decision maker. 
+#' 
+#' @export
+
+calculate_payouts <- function (entropy, pay_obs, pay_dm, pay_no_guess,
+                               deterministic = FALSE) {
+    
+    if (!is.matrix(entropy) && !is.list(entropy)) {
+        stop("ra_mat must be a matrix or a list of matrices")
+    }
+    
+    if (is.list(entropy)) {
+
+        payout <- lapply(entropy, function(x) {
+            posterior <- attr(x, "pr_rk_aj")
+            payout_obs <- calc_payout_obs(posterior, pay_obs)
+            pr_guess <- calc_pr_guess(payout_obs, pay_no_guess, deterministic)
+            payout_dm <- calc_payout_dm(pr_guess, pay_dm)
+            return(list(payout_obs = payout_obs,
+                        payout_dm = payout_dm,
+                        pr_guess = pr_guess))
+        })
+        
+    } else {
+        posteriors <- attr(entropy, "pr_rk_aj")
+        payout_obs <- calc_payout_obs(posteriors, pay_obs)
+        pr_guess <- calc_pr_guess(payout_obs, pay_no_guess, deterministic)
+        payout_dm <- calc_payout_dm(pr_guess, pay_dm)
+        payout <- list(list(payout_obs = payout_obs,
+                            payout_dm = payout_dm,
+                            pr_guess = pr_guess))
+    }
+    return(payout)
 }

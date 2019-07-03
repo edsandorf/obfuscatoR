@@ -124,3 +124,31 @@ print_entropy <- function(entropy, digits = 3, print_all = FALSE) {
     }
   }
 }
+ 
+#' Print the payouts
+#'
+#' @param payout A list of calculated payouts
+#' @param digits The number of digits to round to. Default 3. 
+#' @param print_all If TRUE will print the probabilities of guessing
+#'
+#' @export
+
+print_payout <- function (payout, digits = 3, print_all = FALSE) {
+  for (i in seq_along(payout)) {
+    payout_tmp <- payout[[i]]
+    
+    cat(crayon::blue(crayon::bold("Payout to the observer -- Design ", i, "\n\n")))
+    print(payout_tmp[[1]], digits = digits)
+    cat("\n\n")
+    
+    cat(crayon::blue(crayon::bold("Payout to the decision maker -- Design ", i, "\n\n")))
+    print(payout_tmp[[2]], digits = digits)
+    cat("\n\n")
+    
+    if (print_all) {
+      cat(crayon::blue(crayon::bold("Probabilities of guessing -- Design ", i, "\n\n")))
+      print(payout_tmp[[3]], digits = digits)
+      cat("\n\n")
+    }
+  }
+}
