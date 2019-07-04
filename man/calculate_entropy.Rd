@@ -27,3 +27,12 @@ following attributes:
 \description{
 This function is a wrapper for calc_entropy.
 }
+\examples{
+    ra_mat <- matrix(c(-1, -1, -1, -1,  1,
+                       -1,  0,  0, -1,  0,
+                       -1,  0, -1,  0,  0, 
+                        0,  0, -1,  0, -1), nrow = 4L, byrow = TRUE)
+
+calculate_entropy(ra_mat)
+
+}

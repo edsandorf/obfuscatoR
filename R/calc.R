@@ -123,6 +123,14 @@ calc_entropy <- function(ra_mat, priors = NULL) {
 #'   \item pr_rk_aj
 #' }
 #'
+#' @examples 
+#'     ra_mat <- matrix(c(-1, -1, -1, -1,  1,
+#'                        -1,  0,  0, -1,  0,
+#'                        -1,  0, -1,  0,  0, 
+#'                         0,  0, -1,  0, -1), nrow = 4L, byrow = TRUE)
+#' 
+#' calculate_entropy(ra_mat)
+#' 
 #' @export
 
 calculate_entropy <- function(ra_mat, priors = NULL) {
