@@ -1,13 +1,15 @@
 #' Save obfuscation designs
 #'
-#' Writes the designs to separate .csv files. 
+#' Writes a design to a .csv file. If supplied a list of designs, it writes
+#' the designs to separate .csv files.
 #'
 #' @param x A design or list of designs
 #' @param x_name A character string with the name of the file
 #' @param path A string giving the path to where the designs are stored. The 
 #' default is the current working directory
 #'
-#'
+#' @return The stored .csv file has a naming structure that has the number of
+#' the design and the considered rule as part of the file name.
 #' 
 #' @export
 
@@ -32,13 +34,16 @@ save_design <- function(x, x_name,  path = getwd()) {
   # Check for list of designs
   if (is.list(x)) {
     lapply(seq_along(x), function (i) {
-      file_name <- stringr::str_c(file_name, "-design-", i, ".csv")
+      x_tmp <- x[[i]]
+      rule <- attr(x_tmp, "c_rule")
+      file_name <- stringr::str_c(file_name, "-rule-", rule, "-design-", i, ".csv")
       path <- file.path(path, file_name)
-      design_tmp <- tibble::as_tibble(x[[i]], rownames = NA)
+      design_tmp <- tibble::as_tibble(x_tmp, rownames = NA)
       readr::write_csv(design_tmp, path = path)
     })
   } else {
-    file_name <- stringr::str_c(file_name, ".csv")
+    rule <- attr(x, "c_rule")
+    file_name <- stringr::str_c(file_name, "-rule-", rule, ".csv")
     path <- file.path(path, file_name)
     design_tmp <- tibble::as_tibble(x, rownames = NA)
     readr::write_csv(design_tmp, path = path)
