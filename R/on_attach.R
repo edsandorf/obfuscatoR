@@ -30,7 +30,5 @@
                           "The latest version is: ", remote_version, "\n\n",
                           "To access the latest version, please run \n",
                           "devtools::install_github('edsandorf/obfuscatoR') \n\n",
-                          "To cite this package:\n",
-                          "Chorus, C., van Cranenburgh, S., Sandorf, E.D., Sobhani, A. & Szep, T., 2019\n",
-                          "Obfuscation maximization for discrete choice analysis: Theory, methodology, and first empirical evicence, Working Paper")
+                          "To cite this package:\n")
 }
