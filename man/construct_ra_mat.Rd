@@ -22,14 +22,3 @@ will need to be manually inspected prior to implementation.
 \details{
 The function is for internal use only and not exported
 }
-\examples{
-design_opt_input <- list(rules = 5,
-                         actions = 5,
-                         considered_rule = 5)
-
-#   Check design_opt_input
-design_opt <- check_design_opt(design_opt_input)
-
-construct_ra_mat(design_opt)
-
-}

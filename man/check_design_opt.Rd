@@ -29,22 +29,10 @@ specified by the user.
   \item{obligatory}{Number of rules with obligatory actions}
   \item{sd_entropy}{Specifies the standard deviation of the entropy values}
   \item{pay_obs}{The pay to the observer for guessing}
-  \item{pay_obs_no_guess}{The pay to the observer for not guessing}
-  \item{deterministic}{Is the observer guessing deterministic}
-  \item{pay_dm}{The pay to the decision maker if the observer does not guess}
   \item{designs}{Number of designs to generate}
   \item{max_iter}{Maximum number of iterations before stopping search for
   designs}
-  \item{print_all}{Print all information about the design}
   \item{seed}{A seed for the random number generator. Useful for
   replicability}
 }
-}
-\examples{
-design_opt_input <- list(rules = 5,
-                         actions = 5,
-                         considered_rule = 5)
-                         
-check_design_opt(design_opt_input)
-
 }

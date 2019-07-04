@@ -10,16 +10,6 @@
 #' 
 #' @param  design_opt List of design options
 #' 
-#' @examples 
-#' design_opt_input <- list(rules = 5,
-#'                          actions = 5,
-#'                          considered_rule = 5)
-#' 
-#' #   Check design_opt_input
-#' design_opt <- check_design_opt(design_opt_input)
-#' 
-#' construct_ra_mat(design_opt)
-#' 
 #' @return A rules-action matrix
 
 construct_ra_mat <- function(design_opt) {

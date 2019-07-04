@@ -26,12 +26,6 @@
 #' Returns a list of design options with the missing from input replaced by
 #' default values
 #' 
-#' @examples 
-#' design_opt_input <- list(rules = 5,
-#'                          actions = 5,
-#'                          considered_rule = 5)
-#'                          
-#' check_design_opt(design_opt_input)
 
 check_design_opt <- function(design_opt_input) {
     design_opt <- list(rules = NULL,
