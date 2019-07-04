@@ -134,31 +134,42 @@ calculate_entropy <- function(ra_mat, priors = NULL) {
         stop("ra_mat must be a matrix or a list of matrices")
     }
     
-    if (is.list(ra_mat)) {
-        if (!is.null(priors)) {
-            if (is.matrix(priors)) {
-                if (nrow(priors) != length(ra_mat) || nrow(ra_mat) != ncol(priors)) {
-                    warning("The matrix of priors has incorrect dimensions. Using uninformative priors. \n\n")
-                    priors <- NULL
-                }
-            } else if (!is.null(priors) && length(priors) != nrow(ra_mat)) {
+    if (is.matrix(ra_mat)) {
+        ra_mat <- list(ra_mat)
+    }
+    
+    all_matrices <- all(unlist(lapply(ra_mat, function(x) is.matrix(x))) == TRUE)
+    if (!all_matrices) {
+        stop("Not all elements of ra_mat are matrices.")
+    }
+    
+    if (!is.null(priors)) {
+        dims <- do.call(rbind, lapply(ra_mat, function(x) {
+            dim(x)
+        }))
+        
+        if (is.matrix(priors)) {
+            dims_priors <- dim(priors)
+            if (all(dims[, 1] != dims_priors[2]) && length(ra_mat) != dims_priors[1]) {
+                warning("The matrix of priors has incorrect dimensions. Using uninformative priors. \n\n")
+                priors <- NULL
+            }
+        } else {
+            if (all(t(dims[, 1]) != length(priors))) {
                 warning("The length of priors is not equal to the number of rules. Using uninformative priors.\n\n")
                 priors <- NULL
             }
         }
         
-        all_matrices <- all(unlist(lapply(ra_mat, function(x) is.matrix(x))) == TRUE)
-        if (!all_matrices) {
-            stop("Not all elements of ra_mat are matrices.")
+    }
+    
+    lapply(seq_along(ra_mat), function(i) {
+        if (is.matrix(priors)) {
+            prior_probs = priors[i, ]
+        } else {
+            prior_probs = priors
         }
-    }
-    
-    if (is.matrix(ra_mat)) {
-        ra_mat <- list(ra_mat)
-    }
-    
-    lapply(ra_mat, function(x) {
-        calc_entropy(x, priors = priors)
+        calc_entropy(ra_mat[[i]], priors = prior_probs)
     })
 }
 
