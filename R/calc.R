@@ -71,8 +71,6 @@ calc_pr_rk_aj <- function(pr_aj_rk, priors) {
 #'   \item pr_aj_rk
 #'   \item pr_rk_aj
 #' }
-#' 
-#' @export
 
 calc_entropy <- function(ra_mat, priors = NULL) {
     if (is.null(ra_mat)) stop("You must supply a matrix of rules and actions.")

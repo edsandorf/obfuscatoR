@@ -21,8 +21,6 @@
 #' construct_ra_mat(design_opt)
 #' 
 #' @return A rules-action matrix
-#' 
-#' @export
 
 construct_ra_mat <- function(design_opt) {
 
