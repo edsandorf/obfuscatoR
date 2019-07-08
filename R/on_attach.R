@@ -18,7 +18,7 @@
         return("NA")
     })
     
-    if (description == "NA") {
+    if (length(description) == 1) {
         remote_version <- description
     } else {
         remote_version <- gsub("Version:\\s*", "", description[grep('Version:', description)])
