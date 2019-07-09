@@ -35,7 +35,7 @@ generate_designs <- function(design_opt_input = list()) {
         if (is.na(design_opt$seed)) {
             set.seed(floor(number_tmp * runif(1)))
         } else {
-            set.seed(design_opt$seed + i)
+            set.seed(design_opt$seed + (i -1))
         }
         
         construct_ra_mat(design_opt)
