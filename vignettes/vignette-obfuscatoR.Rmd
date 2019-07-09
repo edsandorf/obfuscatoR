@@ -25,6 +25,36 @@ knitr::opts_chunk$set(
 
 # Introduction
 
+Chorus et al. (2019) puts forward the idea that sometimes when people make choices they wish to hide their true motivation from a potential onlooker. The obfuscatoR package allows researchers to easily create and customize "obfuscation" games to test  the obfuscation hypothesis. 
+
+\begin{equation}\label{eqn-posterior}
+  \Pr(r_k|a_j) = \frac{\Pr(a_j|r_k)\Pr(r_k)}{\sum_{k=1}^{K}\left[\Pr(a_j|r_k)\Pr(r_k)\right]}
+\end{equation} 
+
+where the vector of prior probabilities $\Pr(r_k)$ are assume flat and equal to $1/\mathrm{K}$ with $\mathrm{K}$ being equal to the number of rules. $\Pr(a_j|r_k)$ is calculated differently depending on whether an action is obligated under a given rule or simply permitted. These are sometimes referred to as strong and weak rules and are calculated as in \autoref{eqn-strong-rule} and \autoref{eqn-weak-rule} respectively. 
+
+\begin{equation}\label{eqn-strong-rule}
+  \Pr(a_j|r_k) = \left\{\begin{array}{cl}
+  1 & \text{if } a_j \text{is obliged under } r_k\\
+  0 & \text{otherwise} \\
+  \end{array}\right.
+\end{equation}
+
+\begin{equation}\label{eqn-weak-rule}
+  \Pr(a_j|r_k) = \left\{\begin{array}{cl}
+  1/\mathrm{L} & \text{if } a_j \text{is permitted under } r_k\\
+  0 & \text{otherwise} \\
+  \end{array}\right.
+\end{equation}
+
+where $\mathrm{L}$ is the size of the subset of permitted actions under $r_k$. As such, according to \autoref{eqn-posterior} the observer is updating her beliefs about which rule governs a decision maker's actions each time she observe an action being taken. An obfuscating decision maker seeks to take an action, consistent with his rule, to leave the observer as clueless as possible as to which rule governs his actions. This is quantified in terms of Shannon's entropy. Specifically, the decision maker seeks to maximize \autoref{eqn-entropy}: 
+
+\begin{equation}\label{eqn-entropy}
+  \mathrm{H}_j = -\sum_{k=1}^{K}\left[\Pr(r_k|a_j)\log(\Pr(r_k|a_j))\right]
+\end{equation}
+
+The rest of this vignette sets out to describe how to use the package to generate simple and more complex versions of the obfuscation game. Once we have grasped the simple mechanics of the package, we will show you how to introduce additional restrictions that are useful to raise or lower the difficulty of the game for both decision makers and observers. 
+
 ## Installing the package
 If you have not already installed the package, the newest version is available from GitHub.
 
@@ -37,11 +67,8 @@ Once you have installed the package, go ahead and load it using the standard lib
 ```{r setup}
 library(obfuscatoR)
 ```
-
-This vignette sets out to describe how to use the package to generate simple and more complex versions of the obfuscation game. Once we have grasped the simple mechanics of the package, we will show you how to introduce additional restrictions that are useful to raise or lower the difficulty of the game for both decision makers and observers. 
   
 # Simple obfuscation designs {#simple-design}
-
 
 ## Generating a design
 First, let us create a very simple design. At a minimum, we need to specify the number of possible rules and actions. We specify this in a list of design options `design_opt_input` as follows (click [here](#design-options) for a full list of options): 
@@ -63,7 +90,7 @@ Our design is a matrix with rows equal to the number of rules and columns equal 
 print_design(design)
 ```
 
-Notice that this game is generated conditional on rule number 2 governing the decision maker's actions. The rule is selected as part of the design generation process, and cannot be set by the analyst. It is possible to print additional information about the design generation process by setting `print_all = TRUE`. This will provide information on the number of iterations and whether all design conditions were met. 
+The design is generated conditional on a given rule referred to as the considered rule. The considered rule is selected as part of the design generation process, and cannot be set by the analyst. It is possible to print additional information about the design generation process by setting `print_all = TRUE`. This will provide information on the number of iterations and whether all design conditions were met. 
 
 ```{r}
 print_design(design, print_all = TRUE)
@@ -115,6 +142,9 @@ To make what we consider valid designs, we have implemented a set of restriction
 5. The action that maximizes entropy has to be permitted by the considered rule.
 6. The action that maximizes entropy has to have the lowest posterior probability.
 7. To make the game easier for both decision makers and observers, the analyst can specify a [spread for the entropy](#spread-entropy) of actions. The larger the spread, the easier it should be to identify the entropy maximizing action.
+
+In addition to the 7 conditions above, there is an 8th condition not returned by `extract_attr(design, "design_conditions")`.
+
 8. There can only be one entropy maximizing action. That is, we cannot have a tie between two different actions.
 
 # Complex obfuscation designs {#complex-designs}
@@ -253,7 +283,7 @@ save_design(design, "my_designs")
 The obfuscatoR package also contains a set of functions that can aid the analyst in determining the expected payout to observers and decision makers from any given design. 
 
 ## Payout to the observer
-The expected payout to the observer consists of two parts: i) The expected payout from guessing, and ii) the expected payout from not guessing. The first expectation depends on the posterior probabilities calculated in [EQUATION REF], and is calculated using \autoref{eqn-payout-obs}:
+The expected payout to the observer consists of two parts: i) The expected payout from guessing, and ii) the expected payout from not guessing. The first expectation depends on the posterior probabilities calculated in \autoref{eqn-posterior}, and is calculated using \autoref{eqn-payout-obs}:
 
 \begin{equation}\label{eqn-payout-obs}
   \mathrm{E}\left[P\right] = \mathrm{argmax}\left\{\Pr(r_k|a_j)\right\}\pi
@@ -288,7 +318,7 @@ Using either \autoref{eqn-probabilistic} or \autoref{eqn-deterministic}, we can 
 
 ## An example
 
-Let us create a simple design with 4 rules and 5 possible actions, and calculate the entropy of each action. Now, we can use the `calculate_payouts` function to calcualte the expected payout to both the observer and decision maker. Please note that the only consequential payouts to the decision maker are for those actions permitted by the considered rule. Below, we have set the option `deterministic = FALSE`, this means that the probabilities of the observer guessing are calculated using \autoref{eqn-probabilistic}. If `deterministic = TRUE`, then the probabilities are calculated using \autoref{eqn-deterministic}. 
+Let us create a simple design with 4 rules and 5 possible actions, and calculate the entropy of each action. Now, we can use the `calculate_payouts` function to calculate the expected payout to both the observer and decision maker. Please note that the only consequential payouts to the decision maker are for those actions permitted by the considered rule. Below, we have set the option `deterministic = FALSE`, this means that the probabilities of the observer guessing are calculated using \autoref{eqn-probabilistic}. If `deterministic = TRUE`, then the probabilities are calculated using \autoref{eqn-deterministic}. 
 
 ```{r}
 design_opt_input <- list(rules = 4,
