@@ -53,16 +53,16 @@ Above, we specified that our design consists of 4 possible rules governing a dec
 design <- generate_designs(design_opt_input)
 ```
 
-Our design is a matrix with rows equal to the number of rules and columns equal to the number of possible actions. Throughout, the design will also be referred to as a rules-action matrix. We can print generated rules and action matrix using the `print_ra()` function. 
+Our design is a matrix with rows equal to the number of rules and columns equal to the number of possible actions. Throughout, the design will also be referred to as a rules-action matrix. We can print generated rules and action matrix using the `print_design()` function. 
 
 ```{r}
-print_ra(design)
+print_design(design)
 ```
 
 Notice that this game is generated conditional on rule number 2 governing the decision maker's actions. The rule is selected as part of the design generation process, and cannot be set by the analyst. It is possible to print additional information about the design generation process by setting `print_all = TRUE`. This will provide information on the number of iterations and whether all design conditions were met. 
 
 ```{r}
-print_ra(design, print_all = TRUE)
+print_design(design, print_all = TRUE)
 ```
 
 Note: It is possible to extract the vector of design conditions with `attr(design, "design_conditions")`. 
@@ -126,7 +126,7 @@ design_opt_input <- list(rules = 4,
 
 design <- generate_designs(design_opt_input)
 
-print_ra(design, FALSE)
+print_design(design, FALSE)
 ```
 
 The rule with an obligatory action is the row with only -1 and 1 in the matrix above. 
@@ -144,7 +144,7 @@ design_opt_input <- list(rules = 4,
 
 design <- generate_designs(design_opt_input)
 
-print_ra(design, FALSE)
+print_design(design, FALSE)
 ```
 
 ## Setting a minimum number of rules for each permitted action
@@ -159,7 +159,7 @@ design_opt_input <- list(rules = 4,
 
 design <- generate_designs(design_opt_input)
 
-print_ra(design, FALSE)
+print_design(design, FALSE)
 ```
 
 ## Ensuring spread of entropy
@@ -174,7 +174,7 @@ design_opt_input <- list(rules = 4,
 
 design <- generate_designs(design_opt_input)
 
-print_ra(design, FALSE)
+print_design(design, FALSE)
 ```
 
 Compared to the designs above, we see that we have a much larger spread of entropy for each action.
@@ -197,7 +197,7 @@ design_opt_input <- list(rules = 4,
 
 design <- generate_designs(design_opt_input)
 
-print_ra(design, TRUE)
+print_design(design, TRUE)
 ```
 
 To calculate the entropy associated with each action in the designs, we can run the calculate entropy function, but this time we supply a list of designs. 

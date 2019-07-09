@@ -15,12 +15,12 @@
 #'
 #' design <- generate_designs(design_opt_input)
 #' 
-#' print_ra(design)
-#' print_ra(design, TRUE)
+#' print_design(design)
+#' print_design(design, TRUE)
 #' 
 #' @export
 
-print_ra <- function(ra_mat, print_all = FALSE) {
+print_design <- function(ra_mat, print_all = FALSE) {
   cat(crayon::blue(crayon::bold("The rules-action matrix \n\n")))
   cat(crayon::blue("Rows: Rules \n"))
   cat(crayon::blue("Columns: Actions \n\n"))
@@ -107,7 +107,7 @@ print_entropy <- function(entropy, digits = 3, print_all = FALSE) {
     cat("\n\n")
     
     if (print_all) {
-      print_ra(ra_mat, print_all = FALSE)
+      print_design(ra_mat, print_all = FALSE)
       
       cat(crayon::blue(crayon::bold("The vector of prior probabilities \n\n")))
       names(priors) <- paste0("R", seq_len(rows))
