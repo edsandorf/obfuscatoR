@@ -1,15 +1,13 @@
 ---
 title: "An introduction to the obfuscatoR package"
 author:
-  - name: Erlend Dancke Sandorf
-    affiliation: University of Stirling, Stirling Management School, Economics Division
-    email: e.d.sandorf@stir.ac.uk
-  - name: Caspar Chorus
-    affiliation: Delft University of Technology, Department of Engineering Systems and Services
+  - Erlend Dancke Sandorf^[University of Stirling, Stirling Management School, Economics Division, e.d.sandorf@stir.ac.uk]
+  - Caspar Chorus^[Delft University of Technology, Department of Engineering Systems and Services]
+  - Sander van Cranenburgh^[Delft University of Technology, Department of Engineering Systems and Services]
 package: obfuscatoR
 abstract: >
-  Chorus et al. (2019) puts forward the idea that sometimes when people make choices  they wish to hide their true motivation from a potential onlooker. The obfuscatoR  package allows researchers to easily create and customize "obfuscation" games to test  the obfuscatio hypothesis.
-output: pdf_document
+  Chorus et al. (2019) puts forward the idea that sometimes when people make choices  they wish to hide their true motivation from a potential onlooker. The obfuscatoR  package allows researchers to easily create and customize "obfuscation" games to test  the obfuscation hypothesis.
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{vignette-obfuscatoR}
   %\VignetteEngine{knitr::rmarkdown}
@@ -37,7 +35,7 @@ Once you have installed the package, go ahead and load it using the standard lib
 library(obfuscatoR)
 ```
 
-This vignette sets out to describe how to use the package to generate simple and more complex versions of the obfuscation game. Once we have grasped the simple mechanics of the packaga, we will show you how to introduce additional restrictions that are useful to raise or lower the difficulty of the game for both decision makers and observers. 
+This vignette sets out to describe how to use the package to generate simple and more complex versions of the obfuscation game. Once we have grasped the simple mechanics of the package, we will show you how to introduce additional restrictions that are useful to raise or lower the difficulty of the game for both decision makers and observers. 
   
 ## Generating a simple design
 First, let us create a very simple design. At a minimum, we need to specify the number of possible rules and actions. We specify this in a list of design options `design_opt_input` as follows (click [here](#design-options) for a full list of options): 
@@ -75,13 +73,13 @@ The obfuscatoR package also includes a set of functions to evaluate the designs 
 entropy <- calculate_entropy(design)
 ```
 
-An obfuscating decisio maker will choose an action, conditional on his rule, that will leave the observer as clueless as possible, i.e. with the highest entropy. We can print the the results of the entropy calculation using the `print_entropy()` function. 
+An obfuscating decision maker will choose an action, conditional on his rule, that will leave the observer as clueless as possible, i.e. with the highest entropy. We can print the the results of the entropy calculation using the `print_entropy()` function. 
 
 ```{r}
 print_entropy(entropy)
 ```
 
-To calculate the entropy of the action we also need to calculate the probability of an action conditional on a rule and the probaiblity of a rule conditional on an action. We can print the results of these calculations by setting `print_all = TRUE`.
+To calculate the entropy of the action we also need to calculate the probability of an action conditional on a rule and the probability of a rule conditional on an action. We can print the results of these calculations by setting `print_all = TRUE`.
 
 ```{r}
 print_entropy(entropy, print_all = TRUE)
@@ -115,7 +113,7 @@ To make what we consider valid designs, we have implemented a set of restriction
 
 The designs outlined above are fairly simple. We have placed no restrictions on the design with respect to the number of rules that are allowed nor have we included rules with obligatory actions. The obfuscatoR package includes several options that allow us to create designs that vary with respect to the maximum and minimum allowable actions per rule, the number of rules with obligatory actions and even ensure a given spread of the entropy among the actions available to decision makers. Let us take a closer look at the various options that are available to us. 
 
-## Introducting obligatory actions {#obligatory-actions}
+## Introducing obligatory actions {#obligatory-actions}
 
 We can specify the number of obligatory actions through the use of the option `obligatory`. Let us continue to work with the design from above, but this time we will specify that one of the rules has an obligatory action.
 
@@ -230,7 +228,7 @@ print_entropy(entropy, print_all = TRUE)
 
 ## A cautionary note
 
-The search for new designs is one of trial and error. If you set too many or too tight restrictions on your designs, you may not be able to find valid designs in a reasonable time and the search algorith will continue until it is stopped. 
+The search for new designs is one of trial and error. If you set too many or too tight restrictions on your designs, you may not be able to find valid designs in a reasonable time and the search algorithm will continue until it is stopped. 
 
 It is good practice to manually inspect all designs prior to use to ensure that they are indeed of the form you want. 
 
