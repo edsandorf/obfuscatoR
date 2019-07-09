@@ -27,17 +27,19 @@ generate_designs <- function(design_opt_input = list()) {
     #   Check the design options
     design_opt <- check_design_opt(design_opt_input)
     
-    #   Set the seed for the RNG
-    set.seed(design_opt$seed)
-    
     #   Create a list of valid rule action matrices
     str_tmp <- stringr::str_split(Sys.time(), " ")[[1L]][2L]
     str_tmp <- unlist(stringr::str_split(str_tmp, ":"))
     number_tmp <- as.integer(stringr::str_c(str_tmp, collapse = ""))
     
     lst_ra_mat <- lapply(seq_len(design_opt$designs), function(i) {
-        #   Set seed to ensure different designs
-        set.seed(floor(number_tmp * runif(1)))
+        #   Set seed to ensure different designs or set for replicability
+        if (is.na(design_opt$seed)) {
+            set.seed(floor(number_tmp * runif(1)))
+        } else {
+            set.seed(design_opt$seed + i)
+        }
+        
         construct_ra_mat(design_opt)
     })
     

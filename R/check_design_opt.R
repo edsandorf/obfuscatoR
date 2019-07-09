@@ -37,7 +37,7 @@ check_design_opt <- function(design_opt_input) {
                        sd_entropy = NA,
                        designs = 1,
                        max_iter = 1e5,
-                       seed = 3539)
+                       seed = NA)
     
     #   Fill in the user input
     design_opt[names(design_opt_input)] <- design_opt_input
