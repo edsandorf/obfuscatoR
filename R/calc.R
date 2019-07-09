@@ -270,9 +270,13 @@ calculate_payouts <- function (entropy, pay_obs, pay_dm, pay_no_guess,
 
         payout <- lapply(entropy, function(x) {
             posterior <- attr(x, "pr_rk_aj")
+            ra_mat <- attr(x, "ra_mat")
+            c_rule <- attr(ra_mat, "c_rule")
+            tmp <- ra_mat[c_rule, ]
+            tmp <- ifelse(tmp == 0 | tmp == 1, 1, 0)
             payout_obs <- calc_payout_obs(posterior, pay_obs)
             pr_guess <- calc_pr_guess(payout_obs, pay_no_guess, deterministic)
-            payout_dm <- calc_payout_dm(pr_guess, pay_dm)
+            payout_dm <- calc_payout_dm(pr_guess, pay_dm) * tmp
             return(list(payout_obs = payout_obs,
                         payout_dm = payout_dm,
                         pr_guess = pr_guess))
@@ -280,9 +284,13 @@ calculate_payouts <- function (entropy, pay_obs, pay_dm, pay_no_guess,
         
     } else {
         posteriors <- attr(entropy, "pr_rk_aj")
+        ra_mat <- attr(entropy, "ra_mat")
+        c_rule <- attr(ra_mat, "c_rule")
+        tmp <- ra_mat[c_rule, ]
+        tmp <- ifelse(tmp == 0 | tmp == 1, 1, 0)
         payout_obs <- calc_payout_obs(posteriors, pay_obs)
         pr_guess <- calc_pr_guess(payout_obs, pay_no_guess, deterministic)
-        payout_dm <- calc_payout_dm(pr_guess, pay_dm)
+        payout_dm <- calc_payout_dm(pr_guess, pay_dm) * tmp
         payout <- list(list(payout_obs = payout_obs,
                             payout_dm = payout_dm,
                             pr_guess = pr_guess))
