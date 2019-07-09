@@ -37,7 +37,7 @@ library(obfuscatoR)
 
 This vignette sets out to describe how to use the package to generate simple and more complex versions of the obfuscation game. Once we have grasped the simple mechanics of the package, we will show you how to introduce additional restrictions that are useful to raise or lower the difficulty of the game for both decision makers and observers. 
   
-## Generating a simple design
+## Generating a simple design {#simple-design}
 First, let us create a very simple design. At a minimum, we need to specify the number of possible rules and actions. We specify this in a list of design options `design_opt_input` as follows (click [here](#design-options) for a full list of options): 
 
 ```{r}
@@ -64,6 +64,9 @@ print_design(design, print_all = TRUE)
 ```
 
 Note: It is possible to extract the vector of design conditions with `extract_attr(design, "design_conditions")`. 
+
+### Controlling replicability {#set-seed}
+The default behavior of the obfuscatoR package is to set a random seed each time you generate a design. This is to minimize the possibility of always generating the same designs. However, sometimes it may be required to generate the same design, e.g. to ensure replicability or for teaching purposes. It is possible to set the seed for the random number generator using the `seed` option. For example: `design_opt_input <- list(seed = 10)`. Here, we have set the initial seed to 10. If we are generating [multiple designs](#multiple-designs), then the seed will increment by 1 for each design. That is, if the initial seed is 10 and we generate two designs, then the first design will be generated with seed set to 10 and the second with seed set to 11.
 
 ## Calculate the entropy of each action
 
@@ -129,7 +132,7 @@ print_design(design, FALSE)
 
 The rule with an obligatory action is the row with only -1 and 1 in the matrix above. 
 
-## Setting minimum and maximum number of available actions for the considered rule
+## Setting minimum and maximum number of available actions for the considered rule {#min-max}
 
 As the size of our designs become larger, in order to keep the complexity of the choice at a reasonable level, we might want to specify a minimum and maximum number of allowed actions under the considered rule. We can easily do this through the options `min` and `max`. 
 
@@ -145,7 +148,7 @@ design <- generate_designs(design_opt_input)
 print_design(design, FALSE)
 ```
 
-## Setting a minimum number of rules for each permitted action
+## Setting a minimum number of rules for each permitted action {#min-fit}
 
 Sometimes it will be desirable to exclude certain rules, for example, we may wish to specify a minimum number of rules fitting each permitted action conditional on the considered rule. This is slightly different to the specification above. Essentially, this option will increase the difficulty for the observer. Using the `min_fit` option, we can specify the minimum number of rules. 
 
@@ -160,7 +163,7 @@ design <- generate_designs(design_opt_input)
 print_design(design, FALSE)
 ```
 
-## Ensuring spread of entropy
+## Ensuring spread of entropy {#spread-entropy}
 
 Given the trial and error nature of searching for obfuscation designs, by chance, we may end up in a situation where the difference between the entropy maximizing action and the second best is very small. This will make it very difficult for both decision makers and observers to identify the entropy maximizing action. The `generate_designs()` function includes an option that allow us to specify the "spread" of entropy. 
 
@@ -183,7 +186,7 @@ entropy <- calculate_entropy(design)
 print_entropy(entropy)
 ```
 
-## Creating multiple designs
+## Creating multiple designs {#multiple-designs}
 
 Above, we have focused on one shot games, i.e. we have generated a single design. Often, researchers may want to play repeated games. The obfuscatoR package makes it easy to create multiple designs. Let us create a series of 2 designs by setting `designs = 2`. We are only using 2 designs here to save space when printing the output.
 
@@ -215,16 +218,16 @@ print_entropy(entropy, print_all = TRUE)
 
 | Option | Description | Default | Must be specified |
 |--------|-------------|---------| ------------------|
-| rules  | The number of rules | NULL | Yes |
-| actions | The number of actions | NULL | Yes |
-| min | Minimum number of actions available for the considered rule | NA | No |
-| max | Maximum number of actions available for the considered rule | NA | No |
-| min_fit | Minimum number of rules fitting each permitted action conditional on the rule | 0 | No |
-| obligatory | Number of rules with obligatory actions | 0 | No |
-| sd_entropy | Specifies the standard deviation of the entropy values | NA | No |
-| designs | Number of designs to generate | 1 | No |
+| [rules](#simple-design)  | The number of rules | NULL | Yes |
+| [actions](#simple-design) | The number of actions | NULL | Yes |
+| [min](#min-max) | Minimum number of actions available for the considered rule | NA | No |
+| [max](#min-max) | Maximum number of actions available for the considered rule | NA | No |
+| [min_fit](#min-fit) | Minimum number of rules fitting each permitted action conditional on the rule | 0 | No |
+| [obligatory](#obligatory-actions) | Number of rules with obligatory actions | 0 | No |
+| [sd_entropy](#spread-entropy) | Specifies the standard deviation of the entropy values | NA | No |
+| [designs](#multiple-designs) | Number of designs to generate | 1 | No |
 | max_iter | Maximum number of iterations before stopping the search for designs | 1e5 | No |
-| seed | A seed for the random number generator | NA | No |
+| [seed](#set-seed) | A seed for the random number generator | NA | No |
 
 ## A cautionary note
 
