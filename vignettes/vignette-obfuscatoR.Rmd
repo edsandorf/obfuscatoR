@@ -40,7 +40,7 @@ library(obfuscatoR)
 This vignette sets out to describe how to use the package to generate simple and more complex versions of the obfuscation game. Once we have grasped the simple mechanics of the packaga, we will show you how to introduce additional restrictions that are useful to raise or lower the difficulty of the game for both decision makers and observers. 
   
 ## Generating a simple design
-First, let us create a very simple design. At a minimum, we need to specify the number of possible rules and actions. We specify this in a list of design options `design_opt_input` as follows (for a full list of design options and their default values, please see `?check_design_opt`): 
+First, let us create a very simple design. At a minimum, we need to specify the number of possible rules and actions. We specify this in a list of design options `design_opt_input` as follows (click [here](#design-options) for a full list of options): 
 
 ```{r}
 design_opt_input <- list(rules = 4,
@@ -212,6 +212,21 @@ If you wish to print all the information about all designs, as above, you can se
 ```{r, eval = FALSE}
 print_entropy(entropy, print_all = TRUE)
 ```
+
+## The full list of design_options {#design-options}
+
+| Option | Description | Default | Must be specified |
+|--------|-------------|---------| ------------------|
+| rules  | The number of rules | NULL | Yes |
+| actions | The number of actions | NULL | Yes |
+| min | Minimum number of actions available for the considered rule | NA | No |
+| max | Maximum number of actions available for the considered rule | NA | No |
+| min_fit | Minimum number of rules fitting each permitted action conditional on the rule | 0 | No |
+| obligatory | Number of rules with obligatory actions | 0 | No |
+| sd_entropy | Specifies the standard deviation of the entropy values | NA | No |
+| designs | Number of designs to generate | 1 | No |
+| max_iter | Maximum number of iterations before stopping the search for designs | 1e5 | No |
+| seed | A seed for the random number generator | NA | No |
 
 ## A cautionary note
 
