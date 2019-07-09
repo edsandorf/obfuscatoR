@@ -1,7 +1,7 @@
 #' Check and set design_options
 #' 
 #' This function is run internally to set default design options when none are
-#' specified by the user.
+#' specified by the user. The user should not run this function.
 #' 
 #' \describe{
 #'   \item{rules}{Number of rules (i.e. rows)}
@@ -12,7 +12,6 @@
 #'   conditional on the rule}
 #'   \item{obligatory}{Number of rules with obligatory actions}
 #'   \item{sd_entropy}{Specifies the standard deviation of the entropy values}
-#'   \item{pay_obs}{The pay to the observer for guessing}
 #'   \item{designs}{Number of designs to generate}
 #'   \item{max_iter}{Maximum number of iterations before stopping search for
 #'   designs}
