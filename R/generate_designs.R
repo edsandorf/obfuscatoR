@@ -15,9 +15,7 @@
 #' 
 #' @examples
 #' design_opt_input <- list(rules = 4,
-#'                          actions = 5,
-#'                          considered_rule = 3)
-#' 
+#'                          actions = 5)
 #' 
 #' generate_designs(design_opt_input)
 #' 
