@@ -65,7 +65,7 @@ Notice that this game is generated conditional on rule number 2 governing the de
 print_design(design, print_all = TRUE)
 ```
 
-Note: It is possible to extract the vector of design conditions with `attr(design, "design_conditions")`. 
+Note: It is possible to extract the vector of design conditions with `extract_attr(design, "design_conditions")`. 
 
 ## Calculate the entropy of each action
 
@@ -99,7 +99,7 @@ print_entropy(entropy, print_all = TRUE)
 
 ## Restrictions in the design 
 
-To make what we consider valid designs, we have implemented a set of restrictions, some of which can be changed by the user. This list is ordered to match the output vector from: `attr(design, "design_conditions")`.
+To make what we consider valid designs, we have implemented a set of restrictions, some of which can be changed by the user. This list is ordered to match the output vector from: `extract_attr(design, "design_conditions")`.
 
 1. The considered rule cannot have an obligated action. If it did, then the decision maker would only have one choice and the observer would be able to guess the rule with a high degree of accuracy. 
 2. No action can be forbidden by every rule.

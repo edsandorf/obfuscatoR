@@ -2,6 +2,7 @@
 
 export(calculate_entropy)
 export(calculate_payouts)
+export(extract_attr)
 export(generate_designs)
 export(last)
 export(print_design)
