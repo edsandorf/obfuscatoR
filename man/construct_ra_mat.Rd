@@ -13,12 +13,11 @@ construct_ra_mat(design_opt)
 A rules-action matrix
 }
 \description{
-The function takes as an input a list of design options and given a set of 
-pre-programmed restrictions outputs one rule-action matrix. This matrix
-is the design for one period of the obfuscation game. The package comes with
-several other functions that are useful to evaluate the ra-matrix. The games 
-will need to be manually inspected prior to implementation.
-}
-\details{
-The function is for internal use only and not exported
+The function creates a rule-action matrix (i.e. an obfuscation design)
+subject to a list of pre-programmed restrictions. These restrictions are in
+place to ensure that no invalid designs are created. Some of these restrictions
+can be changed by the user by appropriately specificying the 
+\code{design_opt_input}. Each matrix is a design for one period of the 
+the obfuscation game. This function is for internal use only. To create
+an obfuscation design, the user should use \code{\link{generate_designs}}.
 }

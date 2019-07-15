@@ -1,14 +1,13 @@
 #' Generate obfuscation designs
 #' 
-#' This is the main function to generate the obfuscation designs. It takes a 
-#' list of design options as its only argument. See 
-#' \code{\link{check_design_opt}} for default values. 
+#' The function takes the list of design options \code{design_opt_input} and 
+#' generates one or more obfuscation designs subject to the specified 
+#' restrictions. A full specification of all the options available can be found
+#' in the manual along with detailed examples of different designs. At a minimum
+#' the user must supply the number of rules and actions, i.e. the dimensions of
+#' the design problem. 
 #' 
-#' At the very minimum, the number of rules, actions and the considered rule
-#' has to be supplied
-#' 
-#' @param design_opt_input A list of user supplied design options. Must at a 
-#' minimum specify the number of rules, actions and the considered rule.
+#' @param design_opt_input A list of user supplied design options.
 #' 
 #' @return 
 #' A list of matrices with rules and actions

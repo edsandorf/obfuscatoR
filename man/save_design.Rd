@@ -15,10 +15,9 @@ save_design(x, x_name, path = getwd())
 default is the current working directory}
 }
 \value{
-The stored .csv file has a naming structure that has the number of
-the design and the considered rule as part of the file name.
+Nothing is returned
 }
 \description{
-Writes a design to a .csv file. If supplied a list of designs, it writes
-the designs to separate .csv files.
+The function takes a design or a list of designs and stores them in .csv
+files in the specified folder.
 }

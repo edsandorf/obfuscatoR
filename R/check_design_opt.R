@@ -1,7 +1,13 @@
-#' Check and set design_options
+#' Check design options
 #' 
-#' This function is run internally to set default design options when none are
-#' specified by the user. The user should not run this function.
+#' The function checks the list of design options specified by the user and 
+#' sets sensible defaults where no option is specified. The function is meant
+#' for internal use only and is not exported to be used by the users. All 
+#' options can be overridden by the the user by appropriately specifying 
+#' \code{design_opt_input}. 
+#'  
+#' Below is a list defining each of the options available to be specified in 
+#' \code{design_opt_input}. 
 #' 
 #' \describe{
 #'   \item{rules}{Number of rules (i.e. rows)}
@@ -21,10 +27,8 @@
 #' 
 #' @inheritParams generate_designs
 #' 
-#' @return 
-#' Returns a list of design options with the missing from input replaced by
-#' default values
-#' 
+#' @return Returns a list of design options with the missing from input replaced
+#' by default values
 
 check_design_opt <- function(design_opt_input) {
     design_opt <- list(rules = NULL,

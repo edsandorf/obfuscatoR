@@ -1,8 +1,9 @@
-#' Prints the rules-action matrix
+#' Prints the design
 #' 
-#' Prints the rule and action matrix. Depending on options, additional text is 
-#' provided with information on the considered rule and/or the design generation 
-#' process.
+#' Takes a design or list of designs and prints them to the console. To store a 
+#' design, please see \code{\link{save_design}}. Depending on the print options,
+#' additional text is provided with information on the considered rule and/or
+#' the design generation process.
 #' 
 #' @param ra_mat A matrix with rows equal to the number of rules and columns
 #' equal to the number of actions
@@ -61,8 +62,9 @@ print_design <- function(ra_mat, print_all = FALSE) {
 
 #' Prints the entropy of the different actions 
 #'
-#' \code{print_entropy()} prints the entropy of the different actions and if 
-#' desirable, will print all intermediary calculatations.
+#' The function prints the vector of entropies for each possible action. 
+#' Depending on printing options, additional information about the probability
+#' calculations can be provided. 
 #' 
 #' @param entropy The entropy measure from \code{calculate_entropy}
 #' @param digits The number of digits to round to. Default 3. 
@@ -127,6 +129,9 @@ print_entropy <- function(entropy, digits = 3, print_all = FALSE) {
  
 #' Print the payouts
 #'
+#' The function formats and prints the payout to the observer and deicison
+#' maker. 
+#' 
 #' @param payout A list of calculated payouts
 #' @param digits The number of digits to round to. Default 3. 
 #' @param print_all If TRUE will print the probabilities of guessing

@@ -2,21 +2,26 @@
 % Please edit documentation in R/check_design_opt.R
 \name{check_design_opt}
 \alias{check_design_opt}
-\title{Check and set design_options}
+\title{Check design options}
 \usage{
 check_design_opt(design_opt_input)
 }
 \arguments{
-\item{design_opt_input}{A list of user supplied design options. Must at a 
-minimum specify the number of rules, actions and the considered rule.}
+\item{design_opt_input}{A list of user supplied design options.}
 }
 \value{
-Returns a list of design options with the missing from input replaced by
-default values
+Returns a list of design options with the missing from input replaced
+by default values
 }
 \description{
-This function is run internally to set default design options when none are
-specified by the user. The user should not run this function.
+The function checks the list of design options specified by the user and 
+sets sensible defaults where no option is specified. The function is meant
+for internal use only and is not exported to be used by the users. All 
+options can be overridden by the the user by appropriately specifying 
+\code{design_opt_input}. 
+ 
+Below is a list defining each of the options available to be specified in 
+\code{design_opt_input}.
 }
 \details{
 \describe{

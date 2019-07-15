@@ -2,7 +2,7 @@
 % Please edit documentation in R/print_methods.R
 \name{print_design}
 \alias{print_design}
-\title{Prints the rules-action matrix}
+\title{Prints the design}
 \usage{
 print_design(ra_mat, print_all = FALSE)
 }
@@ -14,9 +14,10 @@ equal to the number of actions}
 and whether all design conditions were met. Default is FALSE}
 }
 \description{
-Prints the rule and action matrix. Depending on options, additional text is 
-provided with information on the considered rule and/or the design generation 
-process.
+Takes a design or list of designs and prints them to the console. To store a 
+design, please see \code{\link{save_design}}. Depending on the print options,
+additional text is provided with information on the considered rule and/or
+the design generation process.
 }
 \examples{
 design_opt_input <- list(rules = 4, 

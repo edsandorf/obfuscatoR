@@ -1,15 +1,14 @@
 #' Save obfuscation designs
 #'
-#' Writes a design to a .csv file. If supplied a list of designs, it writes
-#' the designs to separate .csv files.
+#' The function takes a design or a list of designs and stores them in .csv
+#' files in the specified folder. 
 #'
 #' @param x A design or list of designs
 #' @param x_name A character string with the name of the file
 #' @param path A string giving the path to where the designs are stored. The 
 #' default is the current working directory
 #'
-#' @return The stored .csv file has a naming structure that has the number of
-#' the design and the considered rule as part of the file name.
+#' @return Nothing is returned
 #' 
 #' @export
 

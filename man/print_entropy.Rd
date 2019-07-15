@@ -15,8 +15,9 @@ print_entropy(entropy, digits = 3, print_all = FALSE)
 calculations}
 }
 \description{
-\code{print_entropy()} prints the entropy of the different actions and if 
-desirable, will print all intermediary calculatations.
+The function prints the vector of entropies for each possible action. 
+Depending on printing options, additional information about the probability
+calculations can be provided.
 }
 \examples{
 ra_mat <- matrix(c(-1, -1, -1, -1,  1,
