@@ -4,21 +4,21 @@
 \alias{calculate_entropy}
 \title{Calculate the entropy of each action in the design}
 \usage{
-calculate_entropy(ra_mat, priors = NULL)
+calculate_entropy(design, priors = NULL)
 }
 \arguments{
-\item{ra_mat}{A matrix with rows equal to the number of rules and columns
+\item{design}{A matrix with rows equal to the number of rules and columns
 equal to the number of actions or a list of such matrices.}
 
-\item{priors}{A vector of prior values. If ra_mat is a list of matrices,
-priors can be a matrix with rows equal to the length of ra_mat and columns
+\item{priors}{A vector of prior values. If the design is a list of matrices,
+priors can be a matrix with rows equal to the length of the design and columns
 equal to the number of rules.}
 }
 \value{
 A list of of vectors of entropies for each possible action with the
 following attributes:
 \enumerate{
-  \item ra_mat
+  \item design
   \item priors
   \item pr_aj_rk
   \item pr_rk_aj
@@ -31,11 +31,11 @@ to choose an action such that the observer is left as clueless as possible
 as to which rule governs his actions, i.e. maximize entropy.
 }
 \examples{
-    ra_mat <- matrix(c(-1, -1, -1, -1,  1,
+    design <- matrix(c(-1, -1, -1, -1,  1,
                        -1,  0,  0, -1,  0,
                        -1,  0, -1,  0,  0, 
                         0,  0, -1,  0, -1), nrow = 4L, byrow = TRUE)
 
-calculate_entropy(ra_mat)
+calculate_entropy(design)
 
 }

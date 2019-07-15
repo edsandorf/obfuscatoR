@@ -4,10 +4,10 @@
 \alias{calc_pr_aj_rk}
 \title{Calculate Pr(a_j|r_k)}
 \usage{
-calc_pr_aj_rk(ra_mat)
+calc_pr_aj_rk(design)
 }
 \arguments{
-\item{ra_mat}{A matrix with rows equal to the number of rules and columns
+\item{design}{A matrix with rows equal to the number of rules and columns
 equal to the number of actions or a list of such matrices.}
 }
 \value{

@@ -96,16 +96,16 @@ calculate_payouts <- function (entropy, pay_obs, pay_dm, pay_no_guess,
                                deterministic = FALSE) {
   
   if (!is.matrix(entropy) && !is.list(entropy)) {
-    stop("ra_mat must be a matrix or a list of matrices")
+    stop("design must be a matrix or a list of matrices")
   }
   
   if (is.list(entropy)) {
     
     payout <- lapply(entropy, function(x) {
       posterior <- attr(x, "pr_rk_aj")
-      ra_mat <- attr(x, "ra_mat")
-      c_rule <- attr(ra_mat, "c_rule")
-      tmp <- ra_mat[c_rule, ]
+      design <- attr(x, "design")
+      c_rule <- attr(design, "c_rule")
+      tmp <- design[c_rule, ]
       tmp <- ifelse(tmp == 0 | tmp == 1, 1, 0)
       payout_obs <- calc_payout_obs(posterior, pay_obs)
       pr_guess <- calc_pr_guess(payout_obs, pay_no_guess, deterministic)
@@ -117,9 +117,9 @@ calculate_payouts <- function (entropy, pay_obs, pay_dm, pay_no_guess,
     
   } else {
     posteriors <- attr(entropy, "pr_rk_aj")
-    ra_mat <- attr(entropy, "ra_mat")
-    c_rule <- attr(ra_mat, "c_rule")
-    tmp <- ra_mat[c_rule, ]
+    design <- attr(entropy, "design")
+    c_rule <- attr(design, "c_rule")
+    tmp <- design[c_rule, ]
     tmp <- ifelse(tmp == 0 | tmp == 1, 1, 0)
     payout_obs <- calc_payout_obs(posteriors, pay_obs)
     pr_guess <- calc_pr_guess(payout_obs, pay_no_guess, deterministic)

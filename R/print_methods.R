@@ -5,7 +5,7 @@
 #' additional text is provided with information on the considered rule and/or
 #' the design generation process.
 #' 
-#' @param ra_mat A matrix with rows equal to the number of rules and columns
+#' @param design A matrix with rows equal to the number of rules and columns
 #' equal to the number of actions
 #' @param print_all If TRUE prints information on the number of iterations and 
 #' and whether all design conditions were met. Default is FALSE
@@ -21,29 +21,29 @@
 #' 
 #' @export
 
-print_design <- function(ra_mat, print_all = FALSE) {
+print_design <- function(design, print_all = FALSE) {
   cat(crayon::blue(crayon::bold("The rules-action matrix \n\n")))
   cat(crayon::blue("Rows: Rules \n"))
   cat(crayon::blue("Columns: Actions \n\n"))
   
-  for (i in seq_along(ra_mat)) {
-    ra_mat_tmp <- ra_mat[[i]]
+  for (i in seq_along(design)) {
+    design_tmp <- design[[i]]
     
     # Extract information before setting all attributes to NULL
-    rows <- nrow(ra_mat_tmp)
-    cols <- ncol(ra_mat_tmp)
-    c_rule <- attr(ra_mat_tmp, "c_rule")
+    rows <- nrow(design_tmp)
+    cols <- ncol(design_tmp)
+    c_rule <- attr(design_tmp, "c_rule")
     
     if (print_all) {
-      iter <- attr(ra_mat_tmp, "iter")
-      design_conditions <- attr(ra_mat_tmp, "design_conditions")
+      iter <- attr(design_tmp, "iter")
+      design_conditions <- attr(design_tmp, "design_conditions")
     }
-    attributes(ra_mat_tmp) <- NULL
-    ra_mat_tmp <- matrix(ra_mat_tmp, nrow = rows, ncol = cols,
+    attributes(design_tmp) <- NULL
+    design_tmp <- matrix(design_tmp, nrow = rows, ncol = cols,
                      dimnames = list(paste0("R", seq_len(rows)),
                                      paste0("A", seq_len(cols))))
     
-    print(ra_mat_tmp)
+    print(design_tmp)
     cat("\n")
     cat(crayon::green(paste0("The considered rule is ",
                              ifelse(is.null(c_rule), "N/A",
@@ -72,12 +72,12 @@ print_design <- function(ra_mat, print_all = FALSE) {
 #' calculations
 #' 
 #' @examples
-#' ra_mat <- matrix(c(-1, -1, -1, -1,  1,
+#' design <- matrix(c(-1, -1, -1, -1,  1,
 #'                    -1,  0,  0, -1,  0,
 #'                    -1,  0, -1,  0,  0,
 #'                     0,  0, -1,  0, -1), nrow = 4, byrow = TRUE)
 #'
-#' entropy <- calculate_entropy(ra_mat)
+#' entropy <- calculate_entropy(design)
 #' 
 #' print_entropy(entropy)
 #' print_entropy(entropy, digits = 4)
@@ -93,9 +93,9 @@ print_entropy <- function(entropy, digits = 3, print_all = FALSE) {
     
     # Need to get all the attributes before stripping them if print all
     if (print_all) {
-      ra_mat <- attr(entropy_tmp, "ra_mat")
-      rows <- nrow(ra_mat)
-      ra_mat <- list(ra_mat)
+      design <- attr(entropy_tmp, "design")
+      rows <- nrow(design)
+      design <- list(design)
       priors <- attr(entropy_tmp, "priors")
       pr_aj_rk <- attr(entropy_tmp, "pr_aj_rk")
       pr_rk_aj <- attr(entropy_tmp, "pr_rk_aj")
@@ -109,7 +109,7 @@ print_entropy <- function(entropy, digits = 3, print_all = FALSE) {
     cat("\n\n")
     
     if (print_all) {
-      print_design(ra_mat, print_all = FALSE)
+      print_design(design, print_all = FALSE)
       
       cat(crayon::blue(crayon::bold("The vector of prior probabilities \n\n")))
       names(priors) <- paste0("R", seq_len(rows))

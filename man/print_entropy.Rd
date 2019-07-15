@@ -20,12 +20,12 @@ Depending on printing options, additional information about the probability
 calculations can be provided.
 }
 \examples{
-ra_mat <- matrix(c(-1, -1, -1, -1,  1,
+design <- matrix(c(-1, -1, -1, -1,  1,
                    -1,  0,  0, -1,  0,
                    -1,  0, -1,  0,  0,
                     0,  0, -1,  0, -1), nrow = 4, byrow = TRUE)
 
-entropy <- calculate_entropy(ra_mat)
+entropy <- calculate_entropy(design)
 
 print_entropy(entropy)
 print_entropy(entropy, digits = 4)

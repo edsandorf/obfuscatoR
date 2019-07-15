@@ -4,21 +4,21 @@
 \alias{calc_entropy}
 \title{Calculate Shannon's Entropy}
 \usage{
-calc_entropy(ra_mat, priors = NULL)
+calc_entropy(design, priors = NULL)
 }
 \arguments{
-\item{ra_mat}{A matrix with rows equal to the number of rules and columns
+\item{design}{A matrix with rows equal to the number of rules and columns
 equal to the number of actions or a list of such matrices.}
 
-\item{priors}{A vector of prior values. If ra_mat is a list of matrices,
-priors can be a matrix with rows equal to the length of ra_mat and columns
+\item{priors}{A vector of prior values. If the design is a list of matrices,
+priors can be a matrix with rows equal to the length of the design and columns
 equal to the number of rules.}
 }
 \value{
 Returns a vector of entropies for each possible action with the
 following attributes:
 \enumerate{
-  \item ra_mat
+  \item design
   \item priors
   \item pr_aj_rk
   \item pr_rk_aj

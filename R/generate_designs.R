@@ -29,7 +29,7 @@ generate_designs <- function(design_opt_input = list()) {
     str_tmp <- unlist(stringr::str_split(str_tmp, ":"))
     number_tmp <- as.integer(stringr::str_c(str_tmp, collapse = ""))
     
-    lst_ra_mat <- lapply(seq_len(design_opt$designs), function(i) {
+    lst_design <- lapply(seq_len(design_opt$designs), function(i) {
         #   Set seed to ensure different designs or set for replicability
         if (is.na(design_opt$seed)) {
             set.seed(floor(number_tmp * runif(1)))
@@ -37,8 +37,8 @@ generate_designs <- function(design_opt_input = list()) {
             set.seed(design_opt$seed + (i -1))
         }
         
-        construct_ra_mat(design_opt)
+        construct_design(design_opt)
     })
     
-    return(lst_ra_mat)
+    return(lst_design)
 }

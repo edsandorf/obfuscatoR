@@ -4,10 +4,10 @@
 \alias{print_design}
 \title{Prints the design}
 \usage{
-print_design(ra_mat, print_all = FALSE)
+print_design(design, print_all = FALSE)
 }
 \arguments{
-\item{ra_mat}{A matrix with rows equal to the number of rules and columns
+\item{design}{A matrix with rows equal to the number of rules and columns
 equal to the number of actions}
 
 \item{print_all}{If TRUE prints information on the number of iterations and 

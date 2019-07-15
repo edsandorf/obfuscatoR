@@ -8,14 +8,14 @@
 #' 
 #' @return An r x a matrix of probabilities 
 
-calc_pr_aj_rk <- function(ra_mat) {
-    rows <- nrow(ra_mat)
-    cols <- ncol(ra_mat)
+calc_pr_aj_rk <- function(design) {
+    rows <- nrow(design)
+    cols <- ncol(design)
     
-    tmp_01 <- matrix(as.numeric(ra_mat > 0), nrow = rows)
-    tmp_02 <- matrix(as.numeric(ra_mat == 0), nrow = rows)
+    tmp_01 <- matrix(as.numeric(design > 0), nrow = rows)
+    tmp_02 <- matrix(as.numeric(design == 0), nrow = rows)
     
-    pr_aj_rk <- tmp_01 + tmp_02 * (1 / Rfast::rowsums(ra_mat >= 0))
+    pr_aj_rk <- tmp_01 + tmp_02 * (1 / Rfast::rowsums(design >= 0))
     
     rownames(pr_aj_rk) <- paste0("R", seq_len(rows))
     colnames(pr_aj_rk) <- paste0("A", seq_len(cols))
@@ -58,21 +58,21 @@ calc_pr_rk_aj <- function(pr_aj_rk, priors) {
 #' @return Returns a vector of entropies for each possible action with the
 #' following attributes:
 #' \enumerate{
-#'   \item ra_mat
+#'   \item design
 #'   \item priors
 #'   \item pr_aj_rk
 #'   \item pr_rk_aj
 #' }
 
-calc_entropy <- function(ra_mat, priors = NULL) {
-    if (is.null(ra_mat)) stop("You must supply a matrix of rules and actions.")
+calc_entropy <- function(design, priors = NULL) {
+    if (is.null(design)) stop("You must supply a matrix of rules and actions.")
 
-    #   Define the dimensions of ra_mat
-    rows <- nrow(ra_mat)
-    cols <- ncol(ra_mat)
+    #   Define the dimensions of design
+    rows <- nrow(design)
+    cols <- ncol(design)
     
     #   Calculate the Pr(a_j|r_k)
-    pr_aj_rk <- calc_pr_aj_rk(ra_mat)
+    pr_aj_rk <- calc_pr_aj_rk(design)
     
     #   Check priors
     if (is.null(priors)) {
@@ -88,7 +88,7 @@ calc_entropy <- function(ra_mat, priors = NULL) {
     tmp[is.nan(tmp)] <- 0
     entropy <- structure(-Rfast::colsums(tmp),
                          names = paste0("A", seq_len(cols)),
-                         ra_mat = ra_mat,
+                         design = design,
                          priors = priors,
                          pr_aj_rk = pr_aj_rk,
                          pr_rk_aj = pr_rk_aj)
@@ -103,57 +103,57 @@ calc_entropy <- function(ra_mat, priors = NULL) {
 #' to choose an action such that the observer is left as clueless as possible 
 #' as to which rule governs his actions, i.e. maximize entropy.
 #'
-#' @param ra_mat A matrix with rows equal to the number of rules and columns
+#' @param design A matrix with rows equal to the number of rules and columns
 #'  equal to the number of actions or a list of such matrices.
-#' @param priors A vector of prior values. If ra_mat is a list of matrices,
-#' priors can be a matrix with rows equal to the length of ra_mat and columns
+#' @param priors A vector of prior values. If the design is a list of matrices,
+#' priors can be a matrix with rows equal to the length of the design and columns
 #' equal to the number of rules.
 #'
 #' @return A list of of vectors of entropies for each possible action with the
 #' following attributes:
 #' \enumerate{
-#'   \item ra_mat
+#'   \item design
 #'   \item priors
 #'   \item pr_aj_rk
 #'   \item pr_rk_aj
 #' }
 #'
 #' @examples 
-#'     ra_mat <- matrix(c(-1, -1, -1, -1,  1,
+#'     design <- matrix(c(-1, -1, -1, -1,  1,
 #'                        -1,  0,  0, -1,  0,
 #'                        -1,  0, -1,  0,  0, 
 #'                         0,  0, -1,  0, -1), nrow = 4L, byrow = TRUE)
 #' 
-#' calculate_entropy(ra_mat)
+#' calculate_entropy(design)
 #' 
 #' @export
 
-calculate_entropy <- function(ra_mat, priors = NULL) {
-    if (is.null(ra_mat)) {
-        stop("ra_mat is not supplied!")
+calculate_entropy <- function(design, priors = NULL) {
+    if (is.null(design)) {
+        stop("design is not supplied!")
     }
     
-    if (!is.matrix(ra_mat) && !is.list(ra_mat)) {
-        stop("ra_mat must be a matrix or a list of matrices")
+    if (!is.matrix(design) && !is.list(design)) {
+        stop("design must be a matrix or a list of matrices")
     }
     
-    if (is.matrix(ra_mat)) {
-        ra_mat <- list(ra_mat)
+    if (is.matrix(design)) {
+        design <- list(design)
     }
     
-    all_matrices <- all(unlist(lapply(ra_mat, function(x) is.matrix(x))) == TRUE)
+    all_matrices <- all(unlist(lapply(design, function(x) is.matrix(x))) == TRUE)
     if (!all_matrices) {
-        stop("Not all elements of ra_mat are matrices.")
+        stop("Not all elements of design are matrices.")
     }
     
     if (!is.null(priors)) {
-        dims <- do.call(rbind, lapply(ra_mat, function(x) {
+        dims <- do.call(rbind, lapply(design, function(x) {
             dim(x)
         }))
         
         if (is.matrix(priors)) {
             dims_priors <- dim(priors)
-            if (all(dims[, 1] != dims_priors[2]) && length(ra_mat) != dims_priors[1]) {
+            if (all(dims[, 1] != dims_priors[2]) && length(design) != dims_priors[1]) {
                 warning("The matrix of priors has incorrect dimensions. Using uninformative priors. \n\n")
                 priors <- NULL
             }
@@ -166,12 +166,12 @@ calculate_entropy <- function(ra_mat, priors = NULL) {
         
     }
     
-    lapply(seq_along(ra_mat), function(i) {
+    lapply(seq_along(design), function(i) {
         if (is.matrix(priors)) {
             prior_probs = priors[i, ]
         } else {
             prior_probs = priors
         }
-        calc_entropy(ra_mat[[i]], priors = prior_probs)
+        calc_entropy(design[[i]], priors = prior_probs)
     })
 }

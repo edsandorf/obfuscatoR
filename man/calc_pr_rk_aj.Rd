@@ -10,8 +10,8 @@ calc_pr_rk_aj(pr_aj_rk, priors)
 \item{pr_aj_rk}{A matrix with the probabilities of actions conditional on a
 given rule.}
 
-\item{priors}{A vector of prior values. If ra_mat is a list of matrices,
-priors can be a matrix with rows equal to the length of ra_mat and columns
+\item{priors}{A vector of prior values. If the design is a list of matrices,
+priors can be a matrix with rows equal to the length of the design and columns
 equal to the number of rules.}
 }
 \value{

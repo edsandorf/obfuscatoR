@@ -12,7 +12,7 @@
 #' 
 #' @return A rules-action matrix
 
-construct_ra_mat <- function(design_opt) {
+construct_design <- function(design_opt) {
 
     rules <- design_opt$rules
     actions <- design_opt$actions
@@ -51,50 +51,50 @@ construct_ra_mat <- function(design_opt) {
     iter_counter <- 1
     while (any(design_conditions == FALSE)) {
         #   Randomly generate a design matrix
-        ra_mat <- action_mat[sample(rows, size = rules - design_opt$obligatory,
+        design <- action_mat[sample(rows, size = rules - design_opt$obligatory,
                                     replace = FALSE), ]
         
         #   Check if we are enforcing obligatory rules.
         if (design_opt$obligatory > 0) {
-            ra_mat_oblig <- obligatory_mat[sample(actions,
+            design_oblig <- obligatory_mat[sample(actions,
                                                   size = design_opt$obligatory,
                                                   replace = FALSE), ]
-            ra_mat <- rbind(ra_mat, ra_mat_oblig)
+            design <- rbind(design, design_oblig)
         }
 
-        ra_mat <- ra_mat[sample(nrow(ra_mat)), ]
+        design <- design[sample(nrow(design)), ]
         
         #   Condition 1 - The considered rule cannot have an obligated action
-        design_conditions[1L] <- ifelse(any(ra_mat[c_rule, ] == 1), FALSE, TRUE)
+        design_conditions[1L] <- ifelse(any(design[c_rule, ] == 1), FALSE, TRUE)
         
         #   Condition 2 - No action can be forbidden by every rule
-        tmp <- abs(Rfast::colsums(ra_mat)) == rules
+        tmp <- abs(Rfast::colsums(design)) == rules
         design_conditions[2L] <- ifelse(any(tmp), FALSE, TRUE)
         
         #   Condition 3 - Allowable actions need to fit a min_fit rules
-        tmp <- which(ra_mat[c_rule, ] == 0)
+        tmp <- which(design[c_rule, ] == 0)
         if (length(tmp) == 0) {
             design_conditions[3L] <- FALSE
         } else {
             #   rules - forbidden = allowed < min_allowed
-            tmp <- (rules - Rfast::colsums(ra_mat[, tmp, drop = FALSE] == -1)) < design_opt$min_fit
+            tmp <- (rules - Rfast::colsums(design[, tmp, drop = FALSE] == -1)) < design_opt$min_fit
             design_conditions[3L] <- ifelse(any(tmp), FALSE, TRUE)
         }
         
         #   Condition 4 - No duplicate actions allowed
-        design_conditions[4L] <- ifelse(anyDuplicated(ra_mat, MARGIN = 2),
+        design_conditions[4L] <- ifelse(anyDuplicated(design, MARGIN = 2),
                                         FALSE, TRUE)
         
         #   Conditions 5 - 7 iff Condition 2 holds
         if (design_conditions[2L]) {
             #   Calculate the entropy
-            entropy <- calc_entropy(ra_mat)
+            entropy <- calc_entropy(design)
             i_max <- which(entropy == max(entropy))
             
             #   Cannot have more than one entropy max action
             if (length(i_max) == 1) {
                 #   Condition 5 - max(entropy) must be permitted by c_rule
-                design_conditions[5L] <- ifelse(ra_mat[c_rule, i_max] == -1,
+                design_conditions[5L] <- ifelse(design[c_rule, i_max] == -1,
                                                 FALSE, TRUE)
                 
                 #   Condition 6 - the max entropy action has min pr_rk_aj
@@ -124,12 +124,12 @@ construct_ra_mat <- function(design_opt) {
         }
     }
     
-    #   Add row- and colnames prior to returning ra_mat
-    ra_mat <- structure(ra_mat,
+    #   Add row- and colnames prior to returning design
+    design <- structure(design,
                         dimnames = list(paste0("R", seq_len(rules)),
                                         paste0("A", seq_len(actions))),
                         iter = iter_counter,
                         design_conditions = design_conditions,
                         c_rule = c_rule)
-    return(ra_mat)
+    return(design)
 }
