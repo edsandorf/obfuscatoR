@@ -6,10 +6,12 @@ author:
   - Sander van Cranenburgh^[Delft University of Technology, Department of Engineering Systems and Services]
 package: obfuscatoR
 abstract: >
-  Chorus et al. (2019) puts forward the idea that sometimes when people make choices  they wish to hide their true motivation from a potential onlooker. The obfuscatoR  package allows researchers to easily create and customize "obfuscation" games to test  the obfuscation hypothesis.
+  @Chorus2019 puts forward the idea that sometimes when people make choices  they wish to hide their true motivation from a potential onlooker. The obfuscatoR  package allows researchers to easily create and customize "obfuscation" games to test  the obfuscation hypothesis.
 output: 
   pdf_document:
     toc: true
+bibliography: ref.bib
+link-citations: yes
 vignette: >
   %\VignetteIndexEntry{vignette-obfuscatoR}
   %\VignetteEngine{knitr::rmarkdown}
@@ -25,13 +27,20 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-Chorus et al. (2019) puts forward the idea that sometimes when people make choices they wish to hide their true motivation from a potential onlooker. The obfuscatoR package allows researchers to easily create and customize "obfuscation" games to test  the obfuscation hypothesis. 
+@Chorus2019 puts forward the idea that sometimes when people make choices they wish to hide their true motivation from a potential onlooker. The obfuscatoR package allows researchers to easily create and customize "obfuscation" games. These games are specifically designed to test the obfuscation hypothesis, i.e. when properly incentivized are people able to obfuscate.
+
+Let us consider a decision maker who has to decide on a course of action, but he is being observed by an onlooker[^1]. The decison maker seeks to choose an action that is in line with his underlying motivation or preferences[^2], but at the same time, he does not want the onlooker to know his true motivation for the course of action he chose. Instead, he seeks to take a course of action that is in line with his motivation, but leaves the onlooker as clueless as possible as to what that motivation might be - he obfuscates. For a full discussion of the technical details of the model and more detailed examples, we refer to @Chorus2019. 
+
+[^1]: As in @Chorus2019, we refer to the decision maker as he and the observer/onlooker as she. 
+[^2]: Note, that when we discuss the game, we refer to these motivations and preferences as rules.
+
+Let us assume that the set of rules (motivations above), $R$, and the set of possible actions, $A$, are known to both the decision maker and the observer. Using the notions of information entropy [@Shannon1948] and Bayesian updating, we can formulate the observers best guess as to what motivates the decison maker as the posterior probability in \autoref{eqn-posterior}. This is the probability of a rule conditional on having observed an action. 
 
 \begin{equation}\label{eqn-posterior}
   \Pr(r_k|a_j) = \frac{\Pr(a_j|r_k)\Pr(r_k)}{\sum_{k=1}^{K}\left[\Pr(a_j|r_k)\Pr(r_k)\right]}
 \end{equation} 
 
-where the vector of prior probabilities $\Pr(r_k)$ are assume flat and equal to $1/\mathrm{K}$ with $\mathrm{K}$ being equal to the number of rules. $\Pr(a_j|r_k)$ is calculated differently depending on whether an action is obligated under a given rule or simply permitted. These are sometimes referred to as strong and weak rules and are calculated as in \autoref{eqn-strong-rule} and \autoref{eqn-weak-rule} respectively. 
+where the vector of prior probabilities $\Pr(r_k)$ are assume flat and equal to $1/\mathrm{K}$ with $\mathrm{K}$ being equal to the number of rules. In a situation where the observer can observe multiple actions by the same individual, then these prior probabilities are no longer equal. For example, if she observes two actions by the same decision maker, then the posterior after the first action becomes the prior when calculating the entropy of the second action. $\Pr(a_j|r_k)$ is calculated differently depending on whether an action is obligated under a given rule or simply permitted. These are sometimes referred to as strong and weak rules and are calculated as in \autoref{eqn-strong-rule} and \autoref{eqn-weak-rule} respectively. 
 
 \begin{equation}\label{eqn-strong-rule}
   \Pr(a_j|r_k) = \left\{\begin{array}{cl}
@@ -123,7 +132,7 @@ print_entropy(entropy, print_all = TRUE)
 
 ### When priors are not flat 
 
-It is possible to supply a vector of prior probabilities when calculating the entropy measure. If no vector of priors are supplied, we assume flat priors, i.e. $1/R$, where $R$ is the number of rules. 
+It is possible to supply a vector of prior probabilities when calculating the entropy measure. If no vector of priors is supplied, we assume flat priors, i.e. $1/R$, where $R$ is the number of rules. 
 
 ```{r}
 prior_probs <- c(0.2, 0.3, 0.15, 0.35)
@@ -251,6 +260,8 @@ print_entropy(entropy, print_all = TRUE)
 
 ## List of design options {#design-options}
 
+We provide the full list of design options and defaults in the table below. 
+
 | Option | Description | Default | Must be specified |
 |--------|-------------|---------| ------------------|
 | [rules](#simple-design)  | The number of rules | NULL | Yes |
@@ -280,7 +291,7 @@ save_design(design, "my_designs")
 
 # Calculating the payouts {#payout}
 
-The obfuscatoR package also contains a set of functions that can aid the analyst in determining the expected payout to observers and decision makers from any given design. 
+The obfuscatoR package also contains a set of functions that can aid the analyst in determining the expected payout to observers and decision makers from any given design. The participants are incentivized such that it is always in the best interest of the decision maker to choose the entropy maximizing action, and if succeeding in doing so, the observer should avoid guessing the rule. 
 
 ## Payout to the observer
 The expected payout to the observer consists of two parts: i) The expected payout from guessing, and ii) the expected payout from not guessing. The first expectation depends on the posterior probabilities calculated in \autoref{eqn-posterior}, and is calculated using \autoref{eqn-payout-obs}:
@@ -289,10 +300,10 @@ The expected payout to the observer consists of two parts: i) The expected payou
   \mathrm{E}\left[P\right] = \mathrm{argmax}\left\{\Pr(r_k|a_j)\right\}\pi
 \end{equation}
 
-where $\mathrm{argmax}\left\{\Pr(r_k|a_j)\right\}$ is the maximum posterior probability that a specific rule underlies a decision maker's action, and $\pi^\mathrm{G}$ is the payout from guessing correctly. If the observer refrains from guessing, she will receive $\pi^\mathrm{NG}$ with certainty.
+where $\mathrm{argmax}\left\{\Pr(r_k|a_j)\right\}$ is the maximum posterior probability that a specific rule underlies a decision maker's action, and $\pi^\mathrm{G}$ is the payout from guessing correctly. If the observer guesses incorrectly, she receives nothing. If the observer refrains from guessing, she will receive $\pi^\mathrm{NG}$ with certainty.
 
 ## Payout to the decision maker
-The expected payout to the decision maker depends on whether or not the observer chooses to guess. If the decision maker is successful in keeping the observer as clueless as possible as to which rule governs his actions, i.e. the observer refrains from guessing, then the decision maker receives $\phi$. 
+The expected payout to the decision maker depends on whether or not the observer chooses to guess. If the decision maker is successful in keeping the observer as clueless as possible as to which rule governs his actions, i.e. the observer refrains from guessing, then the decision maker receives $\phi$. If the observer decides to guess, the decision maker receives nothing.
 
 The probability that an observer tries to guess is a function of the difference between the expected payout from guessing, i.e. \autoref{eqn-payout-obs}, and the payout if she refrains from guessing as in \autoref{eqn-probabilistic}. 
 
@@ -340,3 +351,5 @@ The expected payout to the observer from guessing is calculated for every action
 ```{r}
 print_payout(payout, print_all = TRUE)
 ```
+
+# References
