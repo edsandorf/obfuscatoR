@@ -65,7 +65,8 @@ where $\mathrm{L}$ is the size of the subset of permitted actions under $r_k$. A
 The rest of this vignette sets out to describe how to use the package to generate simple and more complex versions of the obfuscation game. Once we have grasped the simple mechanics of the package, we will show you how to introduce additional restrictions that are useful to raise or lower the difficulty of the game for both decision makers and observers. 
 
 ## Installing the package
-If you have not already installed the package, the newest version is available from GitHub.
+
+You can install the most recent version of the package from [GitHub](https://github.com/edsandorf/obfuscatoR). 
 
 ```{r, eval = FALSE}
 devtools::install_github('edsandorf/obfuscatoR')
