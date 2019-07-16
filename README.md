@@ -1,3 +1,10 @@
+<!-- badges: start -->
+[![Travis build status](https://travis-ci.org/edsandorf/obfuscatoR.svg?branch=master)](https://travis-ci.org/edsandorf/obfuscatoR)
+
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version-last-release/obfuscatoR)](https://cran.r-project.org/package=obfuscatoR)
+[![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/obfuscatoR)](http://www.r-pkg.org/pkg/obfuscatoR)
+<!-- badges: end -->
+
 # obfuscatoR
 Chorus et al. 2019 put forward the idea that sometimes when people make choices they wish to hide their true motivation from a potential onlooker. The obfuscatoR package allows researchers to easily create and customize "obfuscation" games. These games are specifically designed to test the obfuscation hypothesis, i.e. when properly incentivized are people able to obfuscate.
 
@@ -18,6 +25,4 @@ This list is based on a great post on [how to contribute](https://akrabat.com/th
 
 In order keep everything readable and maintainable, please adhere to the code style. For details, please see the [R chapter](http://r-pkgs.had.co.nz/r.html) of 'R packages' by Hadley Wickham.
 
-<!-- badges: start -->
-[![Travis build status](https://travis-ci.org/edsandorf/obfuscatoR.svg?branch=master)](https://travis-ci.org/edsandorf/obfuscatoR)
-<!-- badges: end -->
+
