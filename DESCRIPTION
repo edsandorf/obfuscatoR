@@ -1,7 +1,7 @@
 Package: obfuscatoR
 Type: Package
-Title: Designs and analysis of the obfuscation game
-Version: 0.1.3.9002
+Title: Design and Analysis of the Obfuscation Game
+Version: 0.2.0
 Author: Erlend Dancke Sandorf [aut, cre],
     Caspar Chorus [aut],
     Sander van Cranenburgh [aut]
