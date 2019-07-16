@@ -7,4 +7,5 @@ warnings_are_errors: true
 addons:
   apt:
     packages:
+      - libgsl2
       - libgsl-dev
