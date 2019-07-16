@@ -8,7 +8,7 @@ package: obfuscatoR
 abstract: >
   @Chorus2019 puts forward the idea that sometimes when people make choices  they wish to hide their true motivation from a potential onlooker. The obfuscatoR  package allows researchers to easily create and customize "obfuscation" games to test  the obfuscation hypothesis.
 output: 
-  pdf_document:
+  rmarkdown::html_vignette:
     toc: true
 bibliography: ref.bib
 link-citations: yes
