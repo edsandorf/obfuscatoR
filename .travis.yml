@@ -1,8 +1,9 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-language: R
+language: r
+sudo: false
 cache: packages
-warnings_are_errors: true
+
 
 addons:
   apt:
@@ -18,3 +19,4 @@ before_install: |
   cat <<EOF > ~/.R/Makevars
   CXX1X=g++-4.9
   CXX1XSTD=-std=c++11
+  R -e 'source("https://install-github.me/r-lib/remotes")'
