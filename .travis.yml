@@ -7,5 +7,6 @@ warnings_are_errors: true
 addons:
   apt:
     packages:
-      - libgsl2
+      - libgslcblas0
+      - libgslcblas0:i386
       - libgsl-dev
