@@ -1,6 +1,6 @@
 Package: obfuscatoR
 Type: Package
-Title: Design and Analysis of the Obfuscation Game
+Title: An R Package for the Obfuscation Game
 Version: 0.2.0
 Author: Erlend Dancke Sandorf [aut, cre],
     Caspar Chorus [aut],

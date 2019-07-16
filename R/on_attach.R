@@ -24,11 +24,11 @@
         remote_version <- gsub("Version:\\s*", "", description[grep('Version:', description)])
     }
     
-    packageStartupMessage("Welcome to obfuscatoR! \n\n",
+    packageStartupMessage("Welcome to obfuscatoR: An R Package for the Obfuscation Game \n\n",
                           "You are currently using version: ",
                           installed_version, "\n\n",
                           "The latest version is: ", remote_version, "\n\n",
                           "To access the latest version, please run \n",
                           "devtools::install_github('edsandorf/obfuscatoR') \n\n",
-                          "To cite this package:\n")
+                          "To cite this package: Sandorf, E. D., Chorus, C. & van Cranenburgh, S., 2019, obfuscatoR: An R Package for the Obfuscation Game, https://CRAN.R-project.org/package=obfuscatoR \n")
 }

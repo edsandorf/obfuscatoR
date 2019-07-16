@@ -77,7 +77,12 @@ Once you have installed the package, go ahead and load it using the standard lib
 ```{r setup}
 library(obfuscatoR)
 ```
-  
+
+## Citing the package
+To cite this package: 
+
+Sandorf, E. D., Chorus, C. & van Cranenburgh, S., 2019, obfuscatoR: An R Package for the Obfuscation Game, https://CRAN.R-project.org/package=obfuscatoR
+
 # Simple obfuscation designs {#simple-design}
 
 ## Generating a design
