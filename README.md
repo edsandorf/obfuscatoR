@@ -17,3 +17,7 @@ The package can be install from Github `devtools::install_github("edsandorf/obfu
 This list is based on a great post on [how to contribute](https://akrabat.com/the-beginners-guide-to-contributing-to-a-github-project/) to a github project. 
 
 In order keep everything readable and maintainable, please adhere to the code style. For details, please see the [R chapter](http://r-pkgs.had.co.nz/r.html) of 'R packages' by Hadley Wickham.
+
+<!-- badges: start -->
+[![Travis build status](https://travis-ci.org/edsandorf/obfuscatoR.svg?branch=master)](https://travis-ci.org/edsandorf/obfuscatoR)
+<!-- badges: end -->
