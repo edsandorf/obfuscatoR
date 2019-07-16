@@ -14,6 +14,6 @@ print_payout(payout, digits = 3, print_all = FALSE)
 \item{print_all}{If TRUE will print the probabilities of guessing}
 }
 \description{
-The function formats and prints the payout to the observer and deicison
+The function formats and prints the payout to the observer and decision
 maker.
 }

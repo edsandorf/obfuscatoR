@@ -129,7 +129,7 @@ print_entropy <- function(entropy, digits = 3, print_all = FALSE) {
  
 #' Print the payouts
 #'
-#' The function formats and prints the payout to the observer and deicison
+#' The function formats and prints the payout to the observer and decision
 #' maker. 
 #' 
 #' @param payout A list of calculated payouts

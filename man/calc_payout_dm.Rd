@@ -7,7 +7,7 @@
 calc_payout_dm(pr_guess, pay_dm)
 }
 \arguments{
-\item{pr_guess}{A vector of prababilities that the observer will guess.}
+\item{pr_guess}{A vector of probabilities that the observer will guess.}
 
 \item{pay_dm}{The pay to the decision maker if the observer does not guess.}
 }

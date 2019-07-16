@@ -354,7 +354,7 @@ print_payout(payout, print_all = TRUE)
 ```
 
 
-# Acknowledgements
-This research has received funding from the European Research Council by means of ERC-Consolidator grant 724431-BEHAVE. Erlend Dancke Sandorf acknowledges funding from the European Union's Horizon 2020 research and innovation programme under the Marie Sklodowska-Curie grant agreement 793163-INSPiRE. We are grateful to Teodora Szep for testing and commenting on earlier versions of the package. Any remaining errors are the sole responsibility of the authors. 
+# Acknowledgments
+This research has received funding from the European Research Council by means of ERC-Consolidator grant 724431-BEHAVE. Erlend Dancke Sandorf acknowledges funding from the European Union's Horizon 2020 research and innovation program under the Marie Sklodowska-Curie grant agreement 793163-INSPiRE. We are grateful to Teodora Szep for testing and commenting on earlier versions of the package. Any remaining errors are the sole responsibility of the authors. 
 
 # References

@@ -11,8 +11,8 @@ Chorus et al. 2019 put forward the idea that sometimes when people make choices 
 The package can be install from Github `devtools::install_github("edsandorf/obfuscatoR")`
 
 # How to contribute to obfuscatoR?
-1. Go to Github and create an account if you don't have one.
-2. Fork the project and clone it locally on your computer. Make sure that the repositoroy is synced remotely before you move on to the next step.
+1. Go to GitHub and create an account if you don't have one.
+2. Fork the project and clone it locally on your computer. Make sure that the repository is synced remotely before you move on to the next step.
 3. Create a new branch for each bug fix or new feature you want to add.
 4. Do the work and write a descriptive commit message. If you have added a new feature, please contribute documentation and tests. 
 5. Push the changes to your remote repository.

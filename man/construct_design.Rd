@@ -16,7 +16,7 @@ A rules-action matrix
 The function creates a rule-action matrix (i.e. an obfuscation design)
 subject to a list of pre-programmed restrictions. These restrictions are in
 place to ensure that no invalid designs are created. Some of these restrictions
-can be changed by the user by appropriately specificying the 
+can be changed by the user by appropriately specifying the 
 \code{design_opt_input}. Each matrix is a design for one period of the 
 the obfuscation game. This function is for internal use only. To create
 an obfuscation design, the user should use \code{\link{generate_designs}}.

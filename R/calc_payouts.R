@@ -27,7 +27,7 @@ calc_payout_obs <- function(pr_rk_aj, pay_obs) {
 #' function is meant for internal use only. To calculate the payout to the 
 #' decision maker, use the wrapper function \code{\link{calculate_payouts}}. 
 #' 
-#' @param pr_guess A vector of prababilities that the observer will guess.
+#' @param pr_guess A vector of probabilities that the observer will guess.
 #' @param pay_dm The pay to the decision maker if the observer does not guess.
 #' 
 #' @return A vector of expected payouts for each possible guess made by the
