@@ -1,6 +1,5 @@
 <!-- badges: start -->
 [![Travis build status](https://travis-ci.org/edsandorf/obfuscatoR.svg?branch=master)](https://travis-ci.org/edsandorf/obfuscatoR)
-
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version-last-release/obfuscatoR)](https://cran.r-project.org/package=obfuscatoR)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/obfuscatoR)](http://www.r-pkg.org/pkg/obfuscatoR)
 <!-- badges: end -->
