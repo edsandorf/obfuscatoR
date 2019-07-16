@@ -29,12 +29,12 @@ knitr::opts_chunk$set(
 
 @Chorus2019 puts forward the idea that sometimes when people make choices they wish to hide their true motivation from a potential onlooker. The obfuscatoR package allows researchers to easily create and customize "obfuscation" games. These games are specifically designed to test the obfuscation hypothesis, i.e. when properly incentivized are people able to obfuscate.
 
-Let us consider a decision maker who has to decide on a course of action, but he is being observed by an onlooker[^1]. The decison maker seeks to choose an action that is in line with his underlying motivation or preferences[^2], but at the same time, he does not want the onlooker to know his true motivation for the course of action he chose. Instead, he seeks to take a course of action that is in line with his motivation, but leaves the onlooker as clueless as possible as to what that motivation might be - he obfuscates. For a full discussion of the technical details of the model and more detailed examples, we refer to @Chorus2019. 
+Let us consider a decision maker who has to decide on a course of action, but he is being observed by an onlooker[^1]. The decision maker seeks to choose an action that is in line with his underlying motivation or preferences[^2], but at the same time, he does not want the onlooker to know his true motivation for the course of action he chose. Instead, he seeks to take a course of action that is in line with his motivation, but leaves the onlooker as clueless as possible as to what that motivation might be - he obfuscates. For a full discussion of the technical details of the model and more detailed examples, we refer to @Chorus2019. 
 
 [^1]: As in @Chorus2019, we refer to the decision maker as he and the observer/onlooker as she. 
 [^2]: Note, that when we discuss the game, we refer to these motivations and preferences as rules.
 
-Let us assume that the set of rules (motivations above), $R$, and the set of possible actions, $A$, are known to both the decision maker and the observer. Using the notions of information entropy [@Shannon1948] and Bayesian updating, we can formulate the observers best guess as to what motivates the decison maker as the posterior probability in \autoref{eqn-posterior}. This is the probability of a rule conditional on having observed an action. 
+Let us assume that the set of rules (motivations above), $R$, and the set of possible actions, $A$, are known to both the decision maker and the observer. We define $r_k$ as the $k^{\mathrm{th}}$ element in $R$ and $a_j$ as the $j^{\mathrm{th}}$ element in $A$. Using the notions of information entropy [@Shannon1948] and Bayesian updating, we can formulate the observer's best guess as to what motivates the decision maker as the posterior probability in \autoref{eqn-posterior}. This is the probability of a rule conditional on having observed an action. 
 
 \begin{equation}\label{eqn-posterior}
   \Pr(r_k|a_j) = \frac{\Pr(a_j|r_k)\Pr(r_k)}{\sum_{k=1}^{K}\left[\Pr(a_j|r_k)\Pr(r_k)\right]}
@@ -56,7 +56,7 @@ where the vector of prior probabilities $\Pr(r_k)$ are assume flat and equal to 
   \end{array}\right.
 \end{equation}
 
-where $\mathrm{L}$ is the size of the subset of permitted actions under $r_k$. As such, according to \autoref{eqn-posterior} the observer is updating her beliefs about which rule governs a decision maker's actions each time she observe an action being taken. An obfuscating decision maker seeks to take an action, consistent with his rule, to leave the observer as clueless as possible as to which rule governs his actions. This is quantified in terms of Shannon's entropy. Specifically, the decision maker seeks to maximize \autoref{eqn-entropy}: 
+where $\mathrm{L}$ is the size of the subset of permitted actions under $r_k$. As such, according to \autoref{eqn-posterior} the observer is updating her beliefs about which rule governs a decision maker's actions each time she observes an action. An obfuscating decision maker seeks to take an action, consistent with his rule, to leave the observer as clueless as possible as to which rule governs his actions. This is quantified in terms of Shannon's entropy. Specifically, the decision maker seeks to maximize \autoref{eqn-entropy}: 
 
 \begin{equation}\label{eqn-entropy}
   \mathrm{H}_j = -\sum_{k=1}^{K}\left[\Pr(r_k|a_j)\log(\Pr(r_k|a_j))\right]
