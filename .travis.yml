@@ -4,19 +4,9 @@ language: r
 sudo: false
 cache: packages
 
-
+before_install:
+  - sudo apt-get install -y libxml2-dev
+  - sudo apt-get install -y libgsl-dev
 addons:
   apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - libgsl-dev
-      - gcc-4.9
-      - g++-4.9
-
-before_install: |
-  mkdir ~/.R
-  cat <<EOF > ~/.R/Makevars
-  CXX1X=g++-4.9
-  CXX1XSTD=-std=c++11
-  R -e 'source("https://install-github.me/r-lib/remotes")'
+    update: true
