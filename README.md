@@ -5,7 +5,7 @@
 <!-- badges: end -->
 
 # obfuscatoR
-Chorus et al. 2019 put forward the idea that sometimes when people make choices they wish to hide their true motivation from a potential onlooker. The obfuscatoR package allows researchers to easily create and customize "obfuscation" games. These games are specifically designed to test the obfuscation hypothesis, i.e. when properly incentivized are people able to obfuscate.
+Chorus et al. 2019 put forward the hypothesis that sometimes when people make choices they wish to hide their true motivation from a potential onlooker. The obfuscatoR package allows researchers to easily create experimental designs to test the obfuscation hypothesis, i.e. when properly incentivized are people able to obfuscate?
 
 #   Installing obfuscatoR
 The package can be install from Github `devtools::install_github("edsandorf/obfuscatoR")`
