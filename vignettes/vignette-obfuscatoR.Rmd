@@ -6,7 +6,7 @@ author:
   - Sander van Cranenburgh^[Delft University of Technology, Department of Engineering Systems and Services]
 package: obfuscatoR
 abstract: >
-  @Chorus2019 puts forward the idea that sometimes when people make choices  they wish to hide their true motivation from a potential onlooker. The obfuscatoR  package allows researchers to easily create and customize "obfuscation" games to test  the obfuscation hypothesis.
+  @Chorus2019 puts forward the hypothesis that sometimes when people make choices they wish to hide their true motivation from a potential onlooker. The obfuscatoR  package allows researchers to easily create experimental designs to test the obfuscation hypothesis.
 output: 
   rmarkdown::html_vignette:
     toc: true
@@ -40,7 +40,7 @@ Let us assume that the set of rules (motivations above), $R$, and the set of pos
   \Pr(r_k|a_j) = \frac{\Pr(a_j|r_k)\Pr(r_k)}{\sum_{k=1}^{K}\left[\Pr(a_j|r_k)\Pr(r_k)\right]}
 \end{equation} 
 
-where the vector of prior probabilities $\Pr(r_k)$ are assume flat and equal to $1/\mathrm{K}$ with $\mathrm{K}$ being equal to the number of rules. In a situation where the observer can observe multiple actions by the same individual, then these prior probabilities are no longer equal. For example, if she observes two actions by the same decision maker, then the posterior after the first action becomes the prior when calculating the entropy of the second action. $\Pr(a_j|r_k)$ is calculated differently depending on whether an action is obligated under a given rule or simply permitted. These are sometimes referred to as strong and weak rules and are calculated as in \autoref{eqn-strong-rule} and \autoref{eqn-weak-rule} respectively. 
+where the vector of prior probabilities $\Pr(r_k)$ are assume flat and equal to $1/K$ with $K$ being equal to the number of rules. In a situation where the observer can observe multiple actions by the same individual, then these prior probabilities are no longer equal. For example, if she observes two actions by the same decision maker, then the posterior after the first action becomes the prior when calculating the entropy of the second action. $\Pr(a_j|r_k)$ is calculated differently depending on whether an action is obligated under a given rule or simply permitted. These are sometimes referred to as strong and weak rules and are calculated as in \autoref{eqn-strong-rule} and \autoref{eqn-weak-rule} respectively. 
 
 \begin{equation}\label{eqn-strong-rule}
   \Pr(a_j|r_k) = \left\{\begin{array}{cl}
@@ -51,12 +51,12 @@ where the vector of prior probabilities $\Pr(r_k)$ are assume flat and equal to 
 
 \begin{equation}\label{eqn-weak-rule}
   \Pr(a_j|r_k) = \left\{\begin{array}{cl}
-  1/\mathrm{L} & \text{if } a_j \text{is permitted under } r_k\\
+  1/L & \text{if } a_j \text{is permitted under } r_k\\
   0 & \text{otherwise} \\
   \end{array}\right.
 \end{equation}
 
-where $\mathrm{L}$ is the size of the subset of permitted actions under $r_k$. As such, according to \autoref{eqn-posterior} the observer is updating her beliefs about which rule governs a decision maker's actions each time she observes an action. An obfuscating decision maker seeks to take an action, consistent with his rule, to leave the observer as clueless as possible as to which rule governs his actions. This is quantified in terms of Shannon's entropy. Specifically, the decision maker seeks to maximize \autoref{eqn-entropy}: 
+where $L$ is the size of the subset of permitted actions under $r_k$. As such, according to \autoref{eqn-posterior} the observer is updating her beliefs about which rule governs a decision maker's actions each time she observes an action. An obfuscating decision maker seeks to take an action, consistent with his rule, to leave the observer as clueless as possible as to which rule governs his actions. This is quantified in terms of Shannon's entropy. Specifically, the decision maker seeks to maximize \autoref{eqn-entropy}: 
 
 \begin{equation}\label{eqn-entropy}
   \mathrm{H}_j = -\sum_{k=1}^{K}\left[\Pr(r_k|a_j)\log(\Pr(r_k|a_j))\right]
@@ -66,13 +66,19 @@ The rest of this vignette sets out to describe how to use the package to generat
 
 ## Installing the package
 
+The package is available from CRAN.
+
+```{r, eval = FALSE}
+install.packages("obfuscatoR")
+```
+
 You can install the most recent version of the package from [GitHub](https://github.com/edsandorf/obfuscatoR). 
 
 ```{r, eval = FALSE}
 devtools::install_github('edsandorf/obfuscatoR')
 ```
 
-Once you have installed the package, go ahead and load it using the standard library function in R. 
+Once you have installed the package using either of the approaches above, go ahead and load it using the standard library function in R. 
 
 ```{r setup}
 library(obfuscatoR)
