@@ -87,7 +87,10 @@ library(obfuscatoR)
 ## Citing the package
 To cite this package: 
 
-Sandorf, E. D., Chorus, C. & van Cranenburgh, S., 2019, obfuscatoR: Obfuscation Game Designs, v0.2.1, URL: https://cran.r-project.org/package=obfuscatoR
+```{r}
+citation("obfuscatoR")
+```
+
 
 # Simple obfuscation designs {#simple-design}
 

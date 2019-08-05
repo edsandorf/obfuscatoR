@@ -1,0 +1,12 @@
+#year <- sub("-.*", "", meta$Date)
+year <- 2019
+note <- sprintf("R package version %s", meta$Version)
+
+bibentry(bibtype = "Manual",
+         title = "{obfuscatoR}: Obfuscation Game Designs",
+         author = c(person(c("Erlend", "Dancke"), "Sandorf"),
+    person("Caspar", "Chorus"),
+    person("Sander", "van Cranenburgh")),
+         year = year,
+         note = note,
+         url = "https://CRAN.R-project.org/package=obfuscatoR")
