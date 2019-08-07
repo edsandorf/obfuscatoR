@@ -8,7 +8,9 @@
 Chorus et al. 2019 put forward the hypothesis that sometimes when people make choices they wish to hide their true motivation from a potential onlooker. The obfuscatoR package allows researchers to easily create experimental designs to test the obfuscation hypothesis, i.e. when properly incentivized are people able to obfuscate?
 
 #   Installing obfuscatoR
-The package can be install from Github `devtools::install_github("edsandorf/obfuscatoR")`
+The package can be installed from CRAN `install.packages("obfuscatoR")`
+
+Alternatively, if you want to install the development version, feel free to do so from Github `devtools::install_github("edsandorf/obfuscatoR")`
 
 # How to contribute to obfuscatoR?
 1. Go to GitHub and create an account if you don't have one.
