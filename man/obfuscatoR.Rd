@@ -3,7 +3,6 @@
 \docType{package}
 \name{obfuscatoR}
 \alias{obfuscatoR}
-\alias{obfuscatoR-package}
 \title{obfuscatoR: Designs and analysis of the obfuscation game}
 \description{
 When people make decisions, they may do so using a wide variety of decision 

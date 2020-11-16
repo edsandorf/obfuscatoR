@@ -4,8 +4,13 @@
 \alias{calculate_payouts}
 \title{Calculate payouts}
 \usage{
-calculate_payouts(entropy, pay_obs, pay_dm, pay_no_guess,
-  deterministic = FALSE)
+calculate_payouts(
+  entropy,
+  pay_obs,
+  pay_dm,
+  pay_no_guess,
+  deterministic = FALSE
+)
 }
 \arguments{
 \item{entropy}{A list containing the entropy}
