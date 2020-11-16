@@ -1,0 +1,15 @@
+authors:
+  Erlend Dancke Sandorf:
+    href: https://edsandorf.me
+  Caspar Chorus:
+    href: https://www.tudelft.nl/en/tpm/about-the-faculty/departments/engineering-systems-and-services/people/full-professors/profdrir-cg-caspar-chorus/
+  Sander van Cranenburgh:
+    href: https://www.tudelft.nl/en/tpm/about-the-faculty/departments/engineering-systems-and-services/people/assistant-professors/drir-s-sander-van-cranenburgh/
+navbar:
+  structure:
+    left:  [home, intro, articles, tutorials, news, reference]
+    right: [github]
+url: https://obfuscator.edsandorf.me
+template:
+  params:
+    bootswatch: cerulean
