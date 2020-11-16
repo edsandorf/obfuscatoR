@@ -5,8 +5,6 @@ author:
   - Caspar Chorus^[Delft University of Technology, Department of Engineering Systems and Services]
   - Sander van Cranenburgh^[Delft University of Technology, Department of Engineering Systems and Services]
 package: obfuscatoR
-abstract: >
-  @Chorus2019 puts forward the hypothesis that sometimes when people make choices they wish to hide their true motivation from a potential onlooker. The obfuscatoR  package allows researchers to easily create experimental designs to test the obfuscation hypothesis.
 output: 
   rmarkdown::html_vignette:
     toc: true
@@ -23,15 +21,16 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+library(obfuscatoR)
 ```
 
 # Introduction
 
-@Chorus2019 puts forward the idea that sometimes when people make choices they wish to hide their true motivation from a potential onlooker. The obfuscatoR package allows researchers to easily create and customize "obfuscation" games. These games are specifically designed to test the obfuscation hypothesis, i.e. when properly incentivized are people able to obfuscate.
+@CHORUS202128 puts forward the idea that sometimes when people make choices they wish to hide their true motivation from a potential onlooker. The obfuscatoR package allows researchers to easily create and customize "obfuscation" games. These games are specifically designed to test the obfuscation hypothesis, i.e. when properly incentivized are people able to obfuscate.
 
-Let us consider a decision maker who has to decide on a course of action, but he is being observed by an onlooker[^1]. The decision maker seeks to choose an action that is in line with his underlying motivation or preferences[^2], but at the same time, he does not want the onlooker to know his true motivation for the course of action he chose. Instead, he seeks to take a course of action that is in line with his motivation, but leaves the onlooker as clueless as possible as to what that motivation might be - he obfuscates. For a full discussion of the technical details of the model and more detailed examples, we refer to @Chorus2019. 
+Let us consider a decision maker who has to decide on a course of action, but he is being observed by an onlooker[^1]. The decision maker seeks to choose an action that is in line with his underlying motivation or preferences[^2], but at the same time, he does not want the onlooker to know his true motivation for the course of action he chose. Instead, he seeks to take a course of action that is in line with his motivation, but leaves the onlooker as clueless as possible as to what that motivation might be - he obfuscates. For a full discussion of the technical details of the model and more detailed examples, we refer to @CHORUS202128. 
 
-[^1]: As in @Chorus2019, we refer to the decision maker as he and the observer/onlooker as she. 
+[^1]: As in @CHORUS202128, we refer to the decision maker as he and the observer/onlooker as she. 
 [^2]: Note, that when we discuss the game, we refer to these motivations and preferences as rules.
 
 Let us assume that the set of rules (motivations above), $R$, and the set of possible actions, $A$, are known to both the decision maker and the observer. We define $r_k$ as the $k^{\mathrm{th}}$ element in $R$ and $a_j$ as the $j^{\mathrm{th}}$ element in $A$. Using the notions of information entropy [@Shannon1948] and Bayesian updating, we can formulate the observer's best guess as to what motivates the decision maker as the posterior probability in \autoref{eqn-posterior}. This is the probability of a rule conditional on having observed an action. 
@@ -63,34 +62,6 @@ where $L$ is the size of the subset of permitted actions under $r_k$. As such, a
 \end{equation}
 
 The rest of this vignette sets out to describe how to use the package to generate simple and more complex versions of the obfuscation game. Once we have grasped the simple mechanics of the package, we will show you how to introduce additional restrictions that are useful to raise or lower the difficulty of the game for both decision makers and observers. 
-
-## Installing the package
-
-The package is available from CRAN.
-
-```{r, eval = FALSE}
-install.packages("obfuscatoR")
-```
-
-You can install the most recent version of the package from [GitHub](https://github.com/edsandorf/obfuscatoR). 
-
-```{r, eval = FALSE}
-devtools::install_github('edsandorf/obfuscatoR')
-```
-
-Once you have installed the package using either of the approaches above, go ahead and load it using the standard library function in R. 
-
-```{r setup}
-library(obfuscatoR)
-```
-
-## Citing the package
-To cite this package: 
-
-```{r}
-citation("obfuscatoR")
-```
-
 
 # Simple obfuscation designs {#simple-design}
 
@@ -366,9 +337,5 @@ The expected payout to the observer from guessing is calculated for every action
 ```{r}
 print_payout(payout, print_all = TRUE)
 ```
-
-
-# Acknowledgments
-This research has received funding from the European Research Council by means of ERC-Consolidator grant 724431-BEHAVE. Erlend Dancke Sandorf acknowledges funding from the European Union's Horizon 2020 research and innovation program under the Marie Sklodowska-Curie grant agreement 793163-INSPiRE. We are grateful to Teodora Szep for testing and commenting on earlier versions of the package. Any remaining errors are the sole responsibility of the authors. 
-
 # References
+

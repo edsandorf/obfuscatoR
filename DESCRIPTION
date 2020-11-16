@@ -1,7 +1,7 @@
 Package: obfuscatoR
 Type: Package
 Title: Obfuscation Game Designs
-Version: 0.2.0.9001
+Version: 0.2.0.9002
 Author: Erlend Dancke Sandorf [aut, cre],
     Caspar Chorus [aut],
     Sander van Cranenburgh [aut]
@@ -10,6 +10,7 @@ Description: When people make decisions, they may do so using a wide variety of 
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+URL: https://obfuscator.edsandorf.me, https://github.com/edsandorf/obfuscatoR
 Depends: R (>= 3.1.0)
 Imports:
     Rfast,

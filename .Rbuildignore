@@ -5,3 +5,6 @@
 ^README\.md$
 ^CRAN-RELEASE$
 ^LICENSE$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

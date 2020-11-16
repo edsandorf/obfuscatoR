@@ -7,10 +7,35 @@
 # obfuscatoR
 Chorus et al. 2019 put forward the hypothesis that sometimes when people make choices they wish to hide their true motivation from a potential onlooker. The obfuscatoR package allows researchers to easily create experimental designs to test the obfuscation hypothesis, i.e. when properly incentivized are people able to obfuscate?
 
-#   Installing obfuscatoR
-The package can be installed from CRAN `install.packages("obfuscatoR")`
+*References*: [Chorus et al., 2021, Obfuscation maximization-based decision-making: Theory, methodology and first empirical evicence, Mathematical Social Sciences, 109, 28-44](https://www.sciencedirect.com/science/article/pii/S0165489620300913)
 
-Alternatively, if you want to install the development version, feel free to do so from Github `devtools::install_github("edsandorf/obfuscatoR")`
+
+# Installing the package
+
+The package is available from CRAN.
+
+```
+install.packages("obfuscatoR")
+```
+
+You can install the most recent version of the package from [GitHub](https://github.com/edsandorf/obfuscatoR). 
+
+```
+devtools::install_github('edsandorf/obfuscatoR')
+```
+
+Once you have installed the package using either of the approaches above, go ahead and load it using the standard library function in R. 
+
+```
+library(obfuscatoR)
+```
+
+# Citing the package
+To cite this package: 
+
+```
+citation("obfuscatoR")
+```
 
 # How to contribute to obfuscatoR?
 1. Go to GitHub and create an account if you don't have one.
@@ -26,4 +51,5 @@ This list is based on a great post on [how to contribute](https://akrabat.com/th
 
 In order keep everything readable and maintainable, please adhere to the code style. For details, please see the [R chapter](http://r-pkgs.had.co.nz/r.html) of 'R packages' by Hadley Wickham.
 
-
+# Acknowledgments
+This research has received funding from the European Research Council by means of ERC-Consolidator grant 724431-BEHAVE. Erlend Dancke Sandorf acknowledges funding from the the Jan Wallander and Tom Hedelius foundation, and the Tore Browaldh foundation, Sweden (Grant No. B2015-0490:1) and the European Union's Horizon 2020 research and innovation program under the Marie Sklodowska-Curie grant agreement 793163-INSPiRE. We are grateful to Teodora Szep for testing and commenting on earlier versions of the package. Any remaining errors are the sole responsibility of the authors. 
