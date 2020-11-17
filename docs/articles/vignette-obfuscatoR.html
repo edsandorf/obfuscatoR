@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">obfuscatoR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -149,12 +149,12 @@
 <span class="co">#&gt; Columns: Actions </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    A1 A2 A3 A4 A5</span>
-<span class="co">#&gt; R1 -1  0 -1  0 -1</span>
-<span class="co">#&gt; R2  0  0  0  0  0</span>
-<span class="co">#&gt; R3  0  0 -1  0  0</span>
-<span class="co">#&gt; R4  0 -1  0  0 -1</span>
+<span class="co">#&gt; R1 -1  0 -1 -1  0</span>
+<span class="co">#&gt; R2  0  0 -1 -1  0</span>
+<span class="co">#&gt; R3  0 -1  0  0  0</span>
+<span class="co">#&gt; R4 -1 -1  0 -1  0</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; The considered rule is 4.</span></code></pre></div>
+<span class="co">#&gt; The considered rule is 1.</span></code></pre></div>
 <p>The design is generated conditional on a given rule referred to as the considered rule. The considered rule is selected as part of the design generation process, and cannot be set by the analyst. It is possible to print additional information about the design generation process by setting <code>print_all = TRUE</code>. This will provide information on the number of iterations and whether all design conditions were met.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/print_design.html">print_design</a></span><span class="op">(</span><span class="va">design</span>, print_all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
@@ -164,14 +164,14 @@
 <span class="co">#&gt; Columns: Actions </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    A1 A2 A3 A4 A5</span>
-<span class="co">#&gt; R1 -1  0 -1  0 -1</span>
-<span class="co">#&gt; R2  0  0  0  0  0</span>
-<span class="co">#&gt; R3  0  0 -1  0  0</span>
-<span class="co">#&gt; R4  0 -1  0  0 -1</span>
+<span class="co">#&gt; R1 -1  0 -1 -1  0</span>
+<span class="co">#&gt; R2  0  0 -1 -1  0</span>
+<span class="co">#&gt; R3  0 -1  0  0  0</span>
+<span class="co">#&gt; R4 -1 -1  0 -1  0</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; The considered rule is 4.</span>
+<span class="co">#&gt; The considered rule is 1.</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; The design was found in 2 iterations. </span>
+<span class="co">#&gt; The design was found in 3 iterations. </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; All the design conditions were met: TRUE</span></code></pre></div>
 <p>Note: It is possible to extract the vector of design conditions with <code><a href="../reference/extract_attr.html">extract_attr(design, "design_conditions")</a></code>.</p>
@@ -193,14 +193,14 @@
 <span class="co">#&gt; Shannon's entropy -- Design  1 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    A1    A2    A3    A4    A5 </span>
-<span class="co">#&gt; 0.468 0.442 0.287 0.576 0.298</span></code></pre></div>
+<span class="co">#&gt; 0.297 0.292 0.276 0.000 0.585</span></code></pre></div>
 <p>To calculate the entropy of the action we also need to calculate the probability of an action conditional on a rule and the probability of a rule conditional on an action. We can print the results of these calculations by setting <code>print_all = TRUE</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/print_entropy.html">print_entropy</a></span><span class="op">(</span><span class="va">entropy</span>, print_all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; Shannon's entropy -- Design  1 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    A1    A2    A3    A4    A5 </span>
-<span class="co">#&gt; 0.468 0.442 0.287 0.576 0.298 </span>
+<span class="co">#&gt; 0.297 0.292 0.276 0.000 0.585 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; The rules-action matrix </span>
@@ -209,12 +209,12 @@
 <span class="co">#&gt; Columns: Actions </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    A1 A2 A3 A4 A5</span>
-<span class="co">#&gt; R1 -1  0 -1  0 -1</span>
-<span class="co">#&gt; R2  0  0  0  0  0</span>
-<span class="co">#&gt; R3  0  0 -1  0  0</span>
-<span class="co">#&gt; R4  0 -1  0  0 -1</span>
+<span class="co">#&gt; R1 -1  0 -1 -1  0</span>
+<span class="co">#&gt; R2  0  0 -1 -1  0</span>
+<span class="co">#&gt; R3  0 -1  0  0  0</span>
+<span class="co">#&gt; R4 -1 -1  0 -1  0</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; The considered rule is 4.</span>
+<span class="co">#&gt; The considered rule is 1.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; The vector of prior probabilities </span>
 <span class="co">#&gt; </span>
@@ -223,19 +223,19 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; The probability of an action conditional on a rule </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;       A1   A2    A3    A4   A5</span>
-<span class="co">#&gt; R1 0.000 0.50 0.000 0.500 0.00</span>
-<span class="co">#&gt; R2 0.200 0.20 0.200 0.200 0.20</span>
-<span class="co">#&gt; R3 0.250 0.25 0.000 0.250 0.25</span>
-<span class="co">#&gt; R4 0.333 0.00 0.333 0.333 0.00</span>
+<span class="co">#&gt;       A1    A2   A3   A4    A5</span>
+<span class="co">#&gt; R1 0.000 0.500 0.00 0.00 0.500</span>
+<span class="co">#&gt; R2 0.333 0.333 0.00 0.00 0.333</span>
+<span class="co">#&gt; R3 0.250 0.000 0.25 0.25 0.250</span>
+<span class="co">#&gt; R4 0.000 0.000 0.50 0.00 0.500</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; The probability of a rule conditional on observing an action, i.e. the posterior </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;       A1    A2    A3    A4    A5</span>
-<span class="co">#&gt; R1 0.000 0.526 0.000 0.390 0.000</span>
-<span class="co">#&gt; R2 0.255 0.211 0.375 0.156 0.444</span>
-<span class="co">#&gt; R3 0.319 0.263 0.000 0.195 0.556</span>
-<span class="co">#&gt; R4 0.426 0.000 0.625 0.260 0.000</span></code></pre></div>
+<span class="co">#&gt;       A1  A2    A3 A4    A5</span>
+<span class="co">#&gt; R1 0.000 0.6 0.000  0 0.316</span>
+<span class="co">#&gt; R2 0.571 0.4 0.000  0 0.211</span>
+<span class="co">#&gt; R3 0.429 0.0 0.333  1 0.158</span>
+<span class="co">#&gt; R4 0.000 0.0 0.667  0 0.316</span></code></pre></div>
 <div id="when-priors-are-not-flat" class="section level3">
 <h3 class="hasAnchor">
 <a href="#when-priors-are-not-flat" class="anchor"></a>When priors are not flat</h3>
@@ -247,7 +247,7 @@
 <span class="co">#&gt; Shannon's entropy -- Design  1 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    A1    A2    A3    A4    A5 </span>
-<span class="co">#&gt; 0.431 0.444 0.278 0.566 0.289 </span>
+<span class="co">#&gt; 0.254 0.301 0.202 0.000 0.551 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; The rules-action matrix </span>
@@ -256,12 +256,12 @@
 <span class="co">#&gt; Columns: Actions </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    A1 A2 A3 A4 A5</span>
-<span class="co">#&gt; R1 -1  0 -1  0 -1</span>
-<span class="co">#&gt; R2  0  0  0  0  0</span>
-<span class="co">#&gt; R3  0  0 -1  0  0</span>
-<span class="co">#&gt; R4  0 -1  0  0 -1</span>
+<span class="co">#&gt; R1 -1  0 -1 -1  0</span>
+<span class="co">#&gt; R2  0  0 -1 -1  0</span>
+<span class="co">#&gt; R3  0 -1  0  0  0</span>
+<span class="co">#&gt; R4 -1 -1  0 -1  0</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; The considered rule is 4.</span>
+<span class="co">#&gt; The considered rule is 1.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; The vector of prior probabilities </span>
 <span class="co">#&gt; </span>
@@ -270,19 +270,19 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; The probability of an action conditional on a rule </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;       A1   A2    A3    A4   A5</span>
-<span class="co">#&gt; R1 0.000 0.50 0.000 0.500 0.00</span>
-<span class="co">#&gt; R2 0.200 0.20 0.200 0.200 0.20</span>
-<span class="co">#&gt; R3 0.250 0.25 0.000 0.250 0.25</span>
-<span class="co">#&gt; R4 0.333 0.00 0.333 0.333 0.00</span>
+<span class="co">#&gt;       A1    A2   A3   A4    A5</span>
+<span class="co">#&gt; R1 0.000 0.500 0.00 0.00 0.500</span>
+<span class="co">#&gt; R2 0.333 0.333 0.00 0.00 0.333</span>
+<span class="co">#&gt; R3 0.250 0.000 0.25 0.25 0.250</span>
+<span class="co">#&gt; R4 0.000 0.000 0.50 0.00 0.500</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; The probability of a rule conditional on observing an action, i.e. the posterior </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;       A1    A2   A3    A4    A5</span>
-<span class="co">#&gt; R1 0.000 0.506 0.00 0.318 0.000</span>
-<span class="co">#&gt; R2 0.280 0.304 0.34 0.191 0.615</span>
-<span class="co">#&gt; R3 0.175 0.190 0.00 0.119 0.385</span>
-<span class="co">#&gt; R4 0.545 0.000 0.66 0.371 0.000</span></code></pre></div>
+<span class="co">#&gt;       A1  A2    A3 A4     A5</span>
+<span class="co">#&gt; R1 0.000 0.5 0.000  0 0.2424</span>
+<span class="co">#&gt; R2 0.727 0.5 0.000  0 0.2424</span>
+<span class="co">#&gt; R3 0.273 0.0 0.176  1 0.0909</span>
+<span class="co">#&gt; R4 0.000 0.0 0.824  0 0.4242</span></code></pre></div>
 </div>
 </div>
 <div id="restricted-designs" class="section level2">
@@ -326,12 +326,12 @@
 <span class="co">#&gt; Columns: Actions </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    A1 A2 A3 A4 A5</span>
-<span class="co">#&gt; R1 -1  0  0 -1  0</span>
-<span class="co">#&gt; R2  0  0 -1 -1 -1</span>
-<span class="co">#&gt; R3 -1 -1  0  0 -1</span>
-<span class="co">#&gt; R4 -1  1 -1 -1 -1</span>
+<span class="co">#&gt; R1 -1  0 -1 -1  0</span>
+<span class="co">#&gt; R2 -1 -1  0  0  0</span>
+<span class="co">#&gt; R3 -1 -1 -1  1 -1</span>
+<span class="co">#&gt; R4  0 -1 -1  0 -1</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; The considered rule is 1.</span></code></pre></div>
+<span class="co">#&gt; The considered rule is 4.</span></code></pre></div>
 <p>The rule with an obligatory action is the row with only -1 and 1 in the matrix above.</p>
 </div>
 <div id="min-max" class="section level2">
@@ -354,12 +354,12 @@
 <span class="co">#&gt; Columns: Actions </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    A1 A2 A3 A4 A5</span>
-<span class="co">#&gt; R1 -1  0 -1  0  0</span>
-<span class="co">#&gt; R2  0  0  0 -1 -1</span>
-<span class="co">#&gt; R3  1 -1 -1 -1 -1</span>
-<span class="co">#&gt; R4  0  0 -1 -1  0</span>
+<span class="co">#&gt; R1  0 -1  0  0 -1</span>
+<span class="co">#&gt; R2  0  0 -1 -1  0</span>
+<span class="co">#&gt; R3  0 -1  0 -1  0</span>
+<span class="co">#&gt; R4 -1 -1 -1 -1  1</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; The considered rule is 1.</span></code></pre></div>
+<span class="co">#&gt; The considered rule is 2.</span></code></pre></div>
 </div>
 <div id="min-fit" class="section level2">
 <h2 class="hasAnchor">
@@ -380,12 +380,12 @@
 <span class="co">#&gt; Columns: Actions </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    A1 A2 A3 A4 A5</span>
-<span class="co">#&gt; R1  0 -1 -1  0  0</span>
-<span class="co">#&gt; R2 -1 -1  1 -1 -1</span>
-<span class="co">#&gt; R3  0 -1  0  0 -1</span>
-<span class="co">#&gt; R4  0  0  0 -1  0</span>
+<span class="co">#&gt; R1 -1 -1  0  0  0</span>
+<span class="co">#&gt; R2  0  0 -1  0  0</span>
+<span class="co">#&gt; R3 -1  1 -1 -1 -1</span>
+<span class="co">#&gt; R4  0  0 -1 -1  0</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; The considered rule is 1.</span></code></pre></div>
+<span class="co">#&gt; The considered rule is 4.</span></code></pre></div>
 </div>
 <div id="spread-entropy" class="section level2">
 <h2 class="hasAnchor">
@@ -406,12 +406,12 @@
 <span class="co">#&gt; Columns: Actions </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    A1 A2 A3 A4 A5</span>
-<span class="co">#&gt; R1 -1  0 -1  0  0</span>
-<span class="co">#&gt; R2  0 -1  0 -1  0</span>
-<span class="co">#&gt; R3 -1 -1  0 -1  0</span>
-<span class="co">#&gt; R4 -1 -1 -1  0 -1</span>
+<span class="co">#&gt; R1  0 -1 -1  0  0</span>
+<span class="co">#&gt; R2  0  0  0 -1  0</span>
+<span class="co">#&gt; R3 -1 -1 -1  0 -1</span>
+<span class="co">#&gt; R4 -1  0 -1  0  0</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; The considered rule is 2.</span></code></pre></div>
+<span class="co">#&gt; The considered rule is 4.</span></code></pre></div>
 <p>Compared to the designs above, we see that we have a much larger spread of entropy for each action.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">entropy</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_entropy.html">calculate_entropy</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span>
@@ -420,7 +420,7 @@
 <span class="co">#&gt; Shannon's entropy -- Design  1 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    A1    A2    A3    A4    A5 </span>
-<span class="co">#&gt; 0.000 0.000 0.292 0.244 0.469</span></code></pre></div>
+<span class="co">#&gt; 0.297 0.297 0.000 0.413 0.473</span></code></pre></div>
 </div>
 <div id="multiple-designs" class="section level2">
 <h2 class="hasAnchor">
@@ -441,26 +441,26 @@
 <span class="co">#&gt; Columns: Actions </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    A1 A2 A3 A4 A5</span>
-<span class="co">#&gt; R1 -1  0  0 -1  0</span>
-<span class="co">#&gt; R2  0  0 -1 -1 -1</span>
-<span class="co">#&gt; R3 -1  0 -1 -1  0</span>
-<span class="co">#&gt; R4  0 -1  0  0 -1</span>
+<span class="co">#&gt; R1 -1  0 -1  0  0</span>
+<span class="co">#&gt; R2 -1  0  0 -1 -1</span>
+<span class="co">#&gt; R3  0 -1  0  0  0</span>
+<span class="co">#&gt; R4  0 -1 -1 -1  0</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; The considered rule is 1.</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; The design was found in 2 iterations. </span>
+<span class="co">#&gt; The design was found in 8 iterations. </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; All the design conditions were met: TRUE</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    A1 A2 A3 A4 A5</span>
-<span class="co">#&gt; R1  0  0 -1 -1 -1</span>
-<span class="co">#&gt; R2  0  0 -1  0 -1</span>
-<span class="co">#&gt; R3 -1  0 -1  0  0</span>
-<span class="co">#&gt; R4  0  0  0  0  0</span>
+<span class="co">#&gt; R1 -1 -1  0 -1 -1</span>
+<span class="co">#&gt; R2  0 -1 -1  0  0</span>
+<span class="co">#&gt; R3  0  0  0 -1  0</span>
+<span class="co">#&gt; R4 -1  0 -1 -1  0</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; The considered rule is 3.</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; The design was found in 8 iterations. </span>
+<span class="co">#&gt; The design was found in 2 iterations. </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; All the design conditions were met: TRUE</span></code></pre></div>
 <p>To calculate the entropy associated with each action in the designs, we can run the calculate entropy function, but this time we supply a list of designs.</p>
@@ -471,13 +471,13 @@
 <span class="co">#&gt; Shannon's entropy -- Design  1 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    A1    A2    A3    A4    A5 </span>
-<span class="co">#&gt; 0.292 0.470 0.301 0.000 0.292 </span>
+<span class="co">#&gt; 0.276 0.292 0.276 0.297 0.459 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Shannon's entropy -- Design  2 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    A1    A2    A3    A4    A5 </span>
-<span class="co">#&gt; 0.449 0.581 0.000 0.466 0.287</span></code></pre></div>
+<span class="co">#&gt; 0.297 0.276 0.217 0.000 0.459</span></code></pre></div>
 <p>If you wish to print all the information about all designs, as above, you can set <code>print_all = TRUE</code> as shown below. We leave the user to run that code on their own machine given the rather large output.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/print_entropy.html">print_entropy</a></span><span class="op">(</span><span class="va">entropy</span>, print_all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
@@ -633,19 +633,19 @@
 <span class="co">#&gt; Payout to the observer -- Design  1 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; E[Pay|1] E[Pay|2] E[Pay|3] E[Pay|4] E[Pay|5] </span>
-<span class="co">#&gt;    10.00     6.32    10.00     4.62     6.67 </span>
+<span class="co">#&gt;     6.00    10.00     4.29    10.00     7.50 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Payout to the decision maker -- Design  1 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; E[Pay|1] E[Pay|2] E[Pay|3] E[Pay|4] E[Pay|5] </span>
-<span class="co">#&gt;   0.0000   1.0576   0.0335   2.9749   0.0000 </span>
+<span class="co">#&gt;   1.3447   0.0000   3.3567   0.0335   0.0000 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Probabilities of guessing -- Design  1 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Pr[G|1] Pr[G|2] Pr[G|3] Pr[G|4] Pr[G|5] </span>
-<span class="co">#&gt;   0.993   0.788   0.993   0.405   0.841</span></code></pre></div>
+<span class="co">#&gt;   0.731   0.993   0.329   0.993   0.924</span></code></pre></div>
 </div>
 </div>
 <div id="references" class="section level1 unnumbered">
@@ -683,7 +683,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Erlend Dancke Sandorf.</p>
+  <p>Developed by <a href="https://edsandorf.me">Erlend Dancke Sandorf</a>, <a href="https://www.tudelft.nl/en/tpm/about-the-faculty/departments/engineering-systems-and-services/people/full-professors/profdrir-cg-caspar-chorus/">Caspar Chorus</a>, <a href="https://www.tudelft.nl/en/tpm/about-the-faculty/departments/engineering-systems-and-services/people/assistant-professors/drir-s-sander-van-cranenburgh/">Sander van Cranenburgh</a>.</p>
 </div>
 
 <div class="pkgdown">

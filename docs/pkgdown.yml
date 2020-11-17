@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   vignette-obfuscatoR: vignette-obfuscatoR.html
-last_built: 2020-11-16T13:44Z
+last_built: 2020-11-17T06:37Z
 urls:
   reference: https://obfuscator.edsandorf.me/reference
   article: https://obfuscator.edsandorf.me/articles

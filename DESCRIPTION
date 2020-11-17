@@ -1,11 +1,12 @@
 Package: obfuscatoR
 Type: Package
 Title: Obfuscation Game Designs
-Version: 0.2.0.9002
-Author: Erlend Dancke Sandorf [aut, cre],
-    Caspar Chorus [aut],
-    Sander van Cranenburgh [aut]
-Maintainer: Erlend Dancke Sandorf <esandorf@gmail.com>
+Version: 0.2.1
+Authors@R: c(
+    person("Erlend Dancke", "Sandorf", email="erlend.dancke.sandorf@nmbu.no", role = c("aut", "cre")),
+    person("Caspar", "Chorus", role = c("aut")),
+    person("Sander", "van Cranenburgh", role = c("aut")))
+Maintainer: Erlend Dancke Sandorf <erlend.dancke.sancorf@nmbu.no>
 Description: When people make decisions, they may do so using a wide variety of decision rules. The package allows users to easily create obfuscation games to test the obfuscation hypothesis. It provides an easy to use interface and multiple options designed to vary the difficulty of the game and tailor it to the user's needs. For more detail: Chorus et al., 2021, Obfuscation maximization-based decision-making: Theory, methodology and first empirical evicence, Mathematical Social Sciences, 109, 28-44. 
 License: GPL-3
 Encoding: UTF-8
