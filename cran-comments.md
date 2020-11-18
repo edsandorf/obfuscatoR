@@ -9,5 +9,9 @@ This version adds reference to the published research that the package serves as
 ## R CMD check results
 There were no ERRORs or WARNINGs
 
+There were 2 NOTES:
+* New e-mail address for maintainer. 
+* 'et al.' in reference in DESCRIPTION is flagged as possibly mis-spelled
+
 ## Downstream dependencies
 There are currently no downstream dependencies for this package
