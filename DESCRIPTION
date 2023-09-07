@@ -1,7 +1,7 @@
 Package: obfuscatoR
 Type: Package
 Title: Obfuscation Game Designs
-Version: 0.2.1
+Version: 0.2.2
 Authors@R: c(
     person("Erlend Dancke", "Sandorf", email="erlend.dancke.sandorf@nmbu.no", role = c("aut", "cre")),
     person("Caspar", "Chorus", role = c("aut")),
